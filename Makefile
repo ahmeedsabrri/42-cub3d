@@ -6,14 +6,14 @@
 #    By: asabri <asabri@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/16 20:35:38 by asabri            #+#    #+#              #
-#    Updated: 2023/10/16 20:54:15 by asabri           ###   ########.fr        #
+#    Updated: 2023/10/16 22:30:00 by asabri           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = cub3d
-CC   = gcc -Wall -Wextra -Werror 
+CC   = gcc -Wall -Wextra -Werror -fsanitize=address -g
 RM   = rm -f
-SRCS = src/main.c src/ray_casting.c
+SRCS = src/main.c src/ray_casting.c 
 OBJ  = $(SRCS:.c=.o)
 INC  = include/cub3d.h
 

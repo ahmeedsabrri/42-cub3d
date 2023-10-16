@@ -1,35 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   ft_malloc.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/14 22:54:35 by asabri            #+#    #+#             */
-/*   Updated: 2023/10/16 22:03:34 by asabri           ###   ########.fr       */
+/*   Created: 2023/05/03 21:49:58 by asabri            #+#    #+#             */
+/*   Updated: 2023/05/08 18:53:46 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-#define CUB3D_H
+#ifndef FT_MALLOC_H
+# define FT_MALLOC_H
 
-# include <unistd.h>
-# include <stdio.h>
-# include <fcntl.h>
-# include <errno.h>
-# include <string.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <MLX42.h>
-# include "../gc/ft_malloc.h"
- 
-typedef struct	s_data
+# include<stdlib.h>
+
+typedef struct s_malloc
 {
-	mlx_t			*mlx;
-	mlx_image_t		*image_win;
-	int				width;
-	int				height;
-	char			**map;
-}				t_data;
+	void			*data;
+	struct s_malloc	*next;
+}				t_malloc;
 
+t_malloc	*newmalloc(void *data);
+void		addfront(t_malloc **head, t_malloc *new);
+void		listclear(t_malloc **head);
+void		*ft_malloc(size_t size, int mode);
 #endif

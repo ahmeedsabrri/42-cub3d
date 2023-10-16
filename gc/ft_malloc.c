@@ -1,35 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   ft_malloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/14 22:54:35 by asabri            #+#    #+#             */
-/*   Updated: 2023/10/16 22:03:34 by asabri           ###   ########.fr       */
+/*   Created: 2023/05/03 21:48:47 by asabri            #+#    #+#             */
+/*   Updated: 2023/05/08 18:45:17 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-#define CUB3D_H
+#include"ft_malloc.h"
 
-# include <unistd.h>
-# include <stdio.h>
-# include <fcntl.h>
-# include <errno.h>
-# include <string.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <MLX42.h>
-# include "../gc/ft_malloc.h"
- 
-typedef struct	s_data
+void	*ft_malloc(size_t size, int mode)
 {
-	mlx_t			*mlx;
-	mlx_image_t		*image_win;
-	int				width;
-	int				height;
-	char			**map;
-}				t_data;
+	static t_malloc	*head;
+	void			*data;
 
-#endif
+	if (mode == 1)
+	{
+		data = malloc(size);
+		if (!data)
+			return (exit(1), data);
+		addfront(&head, newmalloc(data));
+		return (data);
+	}
+	if (!mode)
+		return (listclear(&head), exit(1), NULL);
+	if (mode == 2)
+		return (listclear(&head), exit(0), NULL);
+	return (NULL);
+}
