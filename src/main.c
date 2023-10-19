@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 20:55:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/10/19 10:46:37 by asabri           ###   ########.fr       */
+/*   Updated: 2023/10/19 12:07:31 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,21 @@ int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
 void    draw_line(t_data *data, int lenght, double angle)
 {
     int i;
+    int j;
     i = 0;
+    j = 0;
     double x ;
-    double y; 
-    while(i < lenght)
+    double y;
+    while (j <= 60)
     {
-       x = sin(angle *(PI / 180)) * i + (data->player.px + 5);    
-       y = cos(angle *(PI / 180)) * i + (data->player.py + 5);
-       mlx_put_pixel(data->image_win, x, y, 0xFFFFFF);
-       i++;
+        while(i <= lenght)
+        {
+            x = sin((angle) *(PI / 180)) * i + (data->player.px + 5);    
+            y = cos((angle) *(PI / 180)) * i + (data->player.py + 5);
+            mlx_put_pixel(data->image_win, x + j, y + j, 0xFFFFFF);
+            i++;
+        }
+        j++;
     }
 }
 void draw_player(t_data *data, uint32_t color)
@@ -79,20 +85,63 @@ void draw_map(t_data *data)
         data->height++;
     }
 }
+////////////////////////////////////////////////////
+void move_right(t_data *data,float *x,float *y)
+{
+    *x = ((cos(data->player.rotationAngle) * (PI /180)) * 5);
+    *y = ((sin(data->player.rotationAngle) * (PI /180)) * 5);
+
+    data->player.px += *x;
+    data->player.py -= *y;
+}
+void move_left(t_data *data,float *x,float *y)
+{
+    *x = ((cos(data->player.rotationAngle) * (PI /180)) * 5);
+    *y = ((sin(data->player.rotationAngle) * (PI /180)) * 5);
+
+    data->player.px += *x;
+    data->player.py -= *y;
+}
+void move_down(t_data *data,float *x,float *y)
+{
+    *x = ((cos(data->player.rotationAngle) - 90 * (PI /180)) * 5);
+    *y = ((sin(data->player.rotationAngle) - 90 * (PI /180)) * 5);
+
+    data->player.px += *x;
+    data->player.py -= *y;
+}
+void move_up(t_data *data,float *x,float *y)
+{
+    *x = ((cos(data->player.rotationAngle) - 90 * (PI /180)) * 5);
+    *y = ((sin(data->player.rotationAngle) - 90 * (PI /180)) * 5);
+
+    data->player.px += *x;
+    data->player.py -= *y;
+}
+////////////////////////////////////////////////////
 void ft_hook(void *param)
 {
     t_data *data = param;
-	if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
-		mlx_close_window(data->mlx);
-    const int y = mlx_is_key_down(data->mlx, MLX_KEY_UP) * -4 +
-        mlx_is_key_down(data->mlx, MLX_KEY_DOWN) * 4;
-    const int x = mlx_is_key_down(data->mlx, MLX_KEY_LEFT) * -4 +
-        mlx_is_key_down(data->mlx, MLX_KEY_RIGHT) * 4;
-    if (data->map[(((int)data->player.py + y) / Tile_size)][((int)(data->player.px + x) / Tile_size)] != '1')
+    float x;
+    float y;
+
+    x = 0;
+    y = 0;
+    if (data->map[(((int)data->player.py + (int)y) / Tile_size)][((int)(data->player.px + (int)x) / Tile_size)] != '1')
     {
-        data->player.px += x;
-        data->player.py += y;
+        if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
+            mlx_close_window(data->mlx);
+        if (mlx_is_key_down(data->mlx, MLX_KEY_UP))
+            move_up(data,&x,&y);
+        else if (mlx_is_key_down(data->mlx, MLX_KEY_DOWN))
+            move_down(data,&x,&y);
+        else if (mlx_is_key_down(data->mlx, MLX_KEY_LEFT))
+            move_left(data,&x,&y);
+        else if (mlx_is_key_down(data->mlx, MLX_KEY_RIGHT))
+            move_right(data,&x,&y);
     }
+    if (mlx_is_key_down(data->mlx,MLX_KEY_W))
+        data->player.rotationAngle += 5;
     mlx_delete_image(data->mlx,data->image_win);
     if (!(data->image_win = mlx_new_image(data->mlx, 1027, 720)))
 	{
@@ -148,7 +197,6 @@ void init(t_data *data)
     mlx_image_to_window(data->mlx, data->image_win, 0, 0);
     mlx_loop_hook(data->mlx,ft_hook,data);
 
-    
     mlx_loop(data->mlx);
     mlx_terminate(data->mlx);
 }
