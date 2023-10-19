@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 20:55:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/10/19 10:46:37 by asabri           ###   ########.fr       */
+/*   Updated: 2023/10/19 15:34:21 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void    draw_line(t_data *data, int lenght, double angle)
     double y; 
     while(i < lenght)
     {
-       x = sin(angle *(PI / 180)) * i + (data->player.px + 5);    
-       y = cos(angle *(PI / 180)) * i + (data->player.py + 5);
+       x = sin(angle *(PI / 180)) * i + (data->player->px + 5);    
+       y = cos(angle *(PI / 180)) * i + (data->player->py + 5);
        mlx_put_pixel(data->image_win, x, y, 0xFFFFFF);
        i++;
     }
@@ -43,10 +43,11 @@ void draw_player(t_data *data, uint32_t color)
     {
         for (int j = 0; j < 10; j++)
         {
-                mlx_put_pixel(data->image_win, (data->player.px + i) * MINI_MAP_SCALE,(data->player.py + j) * MINI_MAP_SCALE, ft_pixel(255,255,255,255));
+                mlx_put_pixel(data->image_win, (data->player->px + i) * MINI_MAP_SCALE,(data->player->py + j) * MINI_MAP_SCALE, ft_pixel(255,255,255,255));
+                printf("here\n");
         }
     }
-    draw_line(data,50 ,data->player.rotationAngle);
+    draw_line(data,50 ,data->player->rotationAngle);
 }
 void draw_square(t_data *data, int y,int x, uint32_t color)
 {
@@ -79,20 +80,32 @@ void draw_map(t_data *data)
         data->height++;
     }
 }
+
+void ft_renderplayer1(t_data *data)
+{
+    float mv;
+
+    mv = data->player->side_direction * data->player->walkspeed;
+    data->player->rotationAngle += data->player->turnDirection * data->player->turnspeed;
+    data->player->px += cos(data->player->rotationAngle + M_PI_2)  * mv;
+    data->player->py += sin(data->player->rotationAngle + M_PI_2) * mv;
+}
+void ft_renderplayer(t_data *data)
+{
+    float mv;
+
+    mv = data->player->walkDirection * data->player->walkspeed;
+    data->player->rotationAngle += data->player->turnDirection * data->player->turnspeed;
+    data->player->px += cos(data->player->rotationAngle) * mv;
+    data->player->py += sin(data->player->rotationAngle) * mv;
+}
 void ft_hook(void *param)
 {
     t_data *data = param;
-	if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
-		mlx_close_window(data->mlx);
-    const int y = mlx_is_key_down(data->mlx, MLX_KEY_UP) * -4 +
-        mlx_is_key_down(data->mlx, MLX_KEY_DOWN) * 4;
-    const int x = mlx_is_key_down(data->mlx, MLX_KEY_LEFT) * -4 +
-        mlx_is_key_down(data->mlx, MLX_KEY_RIGHT) * 4;
-    if (data->map[(((int)data->player.py + y) / Tile_size)][((int)(data->player.px + x) / Tile_size)] != '1')
-    {
-        data->player.px += x;
-        data->player.py += y;
-    }
+    if (data->player->walkDirection != 0 || data->player->turnDirection != 0)
+        ft_renderplayer(data);
+   else if (data->player->side_direction != 0)
+        ft_renderplayer1(data);
     mlx_delete_image(data->mlx,data->image_win);
     if (!(data->image_win = mlx_new_image(data->mlx, 1027, 720)))
 	{
@@ -115,21 +128,50 @@ void    get_player_pos(t_data *data)
         x = -1;
         while (data->map[y][++x]){
             if (strchr("NEWS", data->map[y][x])){
-                data->player.px = ((x * Tile_size) + (Tile_size /2));
-                data->player.py = ((y * Tile_size) + (Tile_size / 2));
+                data->player->px = ((x * Tile_size) + (Tile_size /2));
+                data->player->py = ((y * Tile_size) + (Tile_size / 2));
             }
         }
     }
-    data->player.height = 5;
-    data->player.width = 5;
-    data->player.rotationAngle = PI / 2;
-    data->player.walkDirection = 0;
-    data->player.turnDirection = 0;
-    data->player.turnDirection = 0;
-    data->player.walkspeed = 100;
-    data->player.turnspeed = 45 * (PI / 180);
+   
 }
+void ft_keyfunc_relesed(mlx_key_data_t keypress, t_data *data)
+{
+    if (keypress.key == MLX_KEY_W && keypress.action == MLX_RELEASE)
+        data->player->walkDirection = 0;
+     if (keypress.key == MLX_KEY_S && keypress.action == MLX_RELEASE)
+        data->player->walkDirection = 0;
+     if (keypress.key == MLX_KEY_A && keypress.action == MLX_RELEASE)
+        data->player->side_direction = 0;
+     if (keypress.key == MLX_KEY_D && keypress.action == MLX_RELEASE)
+        data->player->side_direction = 0;
+     if (keypress.key == MLX_KEY_LEFT && keypress.action == MLX_RELEASE)
+        data->player->turnDirection = 0;
+     if (keypress.key == MLX_KEY_RIGHT && keypress.action == MLX_RELEASE)
+        data->player->turnDirection = 0;
+    
+}
+void ft_keyfunc_pressed(mlx_key_data_t keypress, void *param)
+{
+    t_data *data;
 
+    data = param;
+    if (keypress.key == MLX_KEY_ESCAPE && keypress.action == MLX_PRESS)
+        exit(0);
+     if (keypress.key == MLX_KEY_W && keypress.action == MLX_PRESS)
+        data->player->walkDirection = -1;
+     if (keypress.key == MLX_KEY_S && keypress.action == MLX_PRESS)
+        data->player->walkDirection = 1;
+     if (keypress.key == MLX_KEY_A && keypress.action == MLX_PRESS)
+        data->player->side_direction = -1;
+     if (keypress.key == MLX_KEY_D && keypress.action == MLX_PRESS)
+        data->player->side_direction = 1;
+     if (keypress.key == MLX_KEY_LEFT && keypress.action == MLX_PRESS)
+        data->player->turnDirection = -1;
+     if (keypress.key == MLX_KEY_RIGHT && keypress.action == MLX_PRESS)
+        data->player->turnDirection = 1;
+    ft_keyfunc_relesed(keypress,data);
+}
 void init(t_data *data)
 {
     mlx_set_setting(MLX_STRETCH_IMAGE, true);
@@ -146,9 +188,8 @@ void init(t_data *data)
     draw_map(data);
     draw_player(data,0xFFFF50);
     mlx_image_to_window(data->mlx, data->image_win, 0, 0);
+    mlx_key_hook(data->mlx,ft_keyfunc_pressed,data);
     mlx_loop_hook(data->mlx,ft_hook,data);
-
-    
     mlx_loop(data->mlx);
     mlx_terminate(data->mlx);
 }
@@ -156,7 +197,8 @@ void init(t_data *data)
 int main()
 {
     t_data data;
-
+    t_player player;
+    
     memset(&data, 0, sizeof(t_data));
     char *map[] = {
         "111111111111",
@@ -168,7 +210,16 @@ int main()
         "111111111111",
         NULL
     };
+    player.height = 5;
+    player.width = 5;
+    player.rotationAngle = PI / 2;
+    player.side_direction = 0;
+    player.walkDirection = 0; // up or down
+    player.turnDirection = 0; // angle rotation 
+    player.walkspeed = 5;
+    player.turnspeed = 45 * (PI / 180);
     data.map = map;
+    data.player = &player;
     init(&data);
     return (0);
 }

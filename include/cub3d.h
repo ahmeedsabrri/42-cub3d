@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 22:54:35 by asabri            #+#    #+#             */
-/*   Updated: 2023/10/19 10:07:51 by asabri           ###   ########.fr       */
+/*   Updated: 2023/10/19 15:31:56 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct s_player
 	float	rotationAngle;
 	float	walkspeed;
 	float	turnspeed;
+	float	side_direction;
 	
 }t_player;
 typedef struct	s_data
@@ -63,7 +64,7 @@ typedef struct	s_data
 	int				height;
 	
 	char			**map;
-	struct s_player player;
+	t_player		*player;
 }				t_data;
 
 #endif

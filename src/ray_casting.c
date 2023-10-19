@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 21:47:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/10/19 10:30:27 by asabri           ###   ########.fr       */
+/*   Updated: 2023/10/19 15:25:15 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@
 // 	double	yinc;
 // 	int		step;
 
-// 	dx = data->player.px - p.x;
-// 	dy = data->player.py - p.y;
+// 	dx = player.px - p.x;
+// 	dy = player.py - p.y;
 // 	step = ft_fabs(dx, dy);
 // 	xinc = dx / step;
 // 	yinc = dy / step;
