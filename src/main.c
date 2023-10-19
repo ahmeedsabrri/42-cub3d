@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 20:55:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/10/19 15:38:22 by asabri           ###   ########.fr       */
+/*   Updated: 2023/10/19 16:23:37 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,6 @@ int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
 {
     return (r << 24 | g << 16 | b << 8 | a);
 }
-
-
-
-
 void    draw_line(t_data *data, int lenght, double angle)
 {
     int i;
@@ -32,8 +28,8 @@ void    draw_line(t_data *data, int lenght, double angle)
     double y; 
     while(i < lenght)
     {
-       x = sin(angle *(PI / 180)) * i + (data->player.px + 5);    
-       y = cos(angle *(PI / 180)) * i + (data->player.py + 5);
+       x = cos(angle * (PI / 180)) * i + (data->player->px + 5);    
+       y = sin(angle * (PI / 180)) * i + (data->player->py + 5);
        mlx_put_pixel(data->image_win, x, y, 0xFFFFFF);
        i++;
     }
@@ -42,14 +38,9 @@ void draw_player(t_data *data, uint32_t color)
 {
     (void)color;
     for (int i = 0; i < 10; i++)
-    {
         for (int j = 0; j < 10; j++)
-        {
                 mlx_put_pixel(data->image_win, (data->player->px + i) * MINI_MAP_SCALE,(data->player->py + j) * MINI_MAP_SCALE, ft_pixel(255,255,255,255));
-                printf("here\n");
-        }
-    }
-    draw_line(data,50 ,data->player->rotationAngle);
+    dda(data,data->player->px + 5,data->player->py+ 5,data->player->px + (cos(data->player->rotationAngle) * 50),data->player->py + (sin(data->player->rotationAngle) * 50));
 }
 void draw_square(t_data *data, int y,int x, uint32_t color)
 {
@@ -82,31 +73,27 @@ void draw_map(t_data *data)
         data->height++;
     }
 }
-void ft_hook(void *param)
+
+void ft_renderplayer1(t_data *data)
 {
-    t_data *data = param;
-	if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
-		mlx_close_window(data->mlx);
-    const int y = mlx_is_key_down(data->mlx, MLX_KEY_UP) * -4 +
-        mlx_is_key_down(data->mlx, MLX_KEY_DOWN) * 4;
-    const int x = mlx_is_key_down(data->mlx, MLX_KEY_LEFT) * -4 +
-        mlx_is_key_down(data->mlx, MLX_KEY_RIGHT) * 4;
-    if (data->map[(((int)data->player.py + y) / Tile_size)][((int)(data->player.px + x) / Tile_size)] != '1')
-    {
-        data->player.px += x;
-        data->player.py += y;
-    }
-    mlx_delete_image(data->mlx,data->image_win);
-    if (!(data->image_win = mlx_new_image(data->mlx, 1027, 720)))
-	{
-		mlx_close_window(data->mlx);
-		puts(mlx_strerror(mlx_errno));
-		return((void)EXIT_FAILURE);
-	}
-    mlx_image_to_window(data->mlx, data->image_win, 0, 0);
-    draw_map(data);
-    draw_player(data,0xFFFF50);
+    double mv;
+
+    mv = data->player->side_direction * data->player->walkspeed;
+    data->player->rotationAngle += data->player->turnDirection * data->player->turnspeed;
+    data->player->px += cos(data->player->rotationAngle + M_PI_2)  * mv;
+    data->player->py += sin(data->player->rotationAngle + M_PI_2) * mv;
 }
+void ft_renderplayer(t_data *data)
+{
+    double mv;
+
+    mv = data->player->walkDirection * data->player->walkspeed;
+    data->player->rotationAngle += data->player->turnDirection * data->player->turnspeed;
+    data->player->px += cos(data->player->rotationAngle) * mv;
+    data->player->py += sin(data->player->rotationAngle) * mv;
+}
+
+
 
 void    get_player_pos(t_data *data)
 {
@@ -125,6 +112,7 @@ void    get_player_pos(t_data *data)
     }
    
 }
+
 void ft_keyfunc_relesed(mlx_key_data_t keypress, t_data *data)
 {
     if (keypress.key == MLX_KEY_W && keypress.action == MLX_RELEASE)
@@ -153,14 +141,34 @@ void ft_keyfunc_pressed(mlx_key_data_t keypress, void *param)
      if (keypress.key == MLX_KEY_S && keypress.action == MLX_PRESS)
         data->player->walkDirection = 1;
      if (keypress.key == MLX_KEY_A && keypress.action == MLX_PRESS)
-        data->player->side_direction = -1;
-     if (keypress.key == MLX_KEY_D && keypress.action == MLX_PRESS)
         data->player->side_direction = 1;
+     if (keypress.key == MLX_KEY_D && keypress.action == MLX_PRESS)
+        data->player->side_direction = -1;
      if (keypress.key == MLX_KEY_LEFT && keypress.action == MLX_PRESS)
         data->player->turnDirection = -1;
      if (keypress.key == MLX_KEY_RIGHT && keypress.action == MLX_PRESS)
         data->player->turnDirection = 1;
     ft_keyfunc_relesed(keypress,data);
+}
+void ft_hook(void *param)
+{
+    t_data *data = param;
+    // if (data->player->walkDirection != 0 || data->player->rotationAngle != 0)
+    if (data->player->walkDirection != 0 || data->player->turnDirection != 0)
+        ft_renderplayer(data);
+    if (data->player->side_direction != 0)
+        ft_renderplayer1(data);
+        
+    mlx_delete_image(data->mlx,data->image_win);
+    if (!(data->image_win = mlx_new_image(data->mlx, 1027, 720)))
+	{
+		mlx_close_window(data->mlx);
+		puts(mlx_strerror(mlx_errno));
+		return((void)EXIT_FAILURE);
+	}
+    mlx_image_to_window(data->mlx, data->image_win, 0, 0);
+    draw_map(data);
+    draw_player(data,0xFFFF50);
 }
 void init(t_data *data)
 {
@@ -209,7 +217,7 @@ int main()
     player.walkDirection = 0; // up or down
     player.turnDirection = 0; // angle rotation 
     player.walkspeed = 5;
-    player.turnspeed = 45 * (PI / 180);
+    player.turnspeed = 3.00 * (M_PI / 180.0);
     data.map = map;
     data.player = &player;
     init(&data);

@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 22:54:35 by asabri            #+#    #+#             */
-/*   Updated: 2023/10/19 15:31:56 by asabri           ###   ########.fr       */
+/*   Updated: 2023/10/19 16:21:21 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,16 @@
 #define MINI_MAP_SCALE 1.0
 #define PI 3.14159265 
 #define TOW_PI 6.28318530
+
+
+
+
 typedef struct s_ray
 {
-	float	ray_angal; 	
-	float	wall_hit_x; 	
-	float	wall_hit_y;
-	float	distance;
+	double	ray_angal; 	
+	double	wall_hit_x; 	
+	double	wall_hit_y;
+	double	distance;
 	bool	was_hit;
 	bool	up;
 	bool	down;
@@ -44,16 +48,16 @@ typedef struct s_ray
 }t_ray; 
 typedef struct s_player
 {
-	float	px;
-	float	py;
-	float	width;
-	float	height;
+	double	px;
+	double	py;
+	double	width;
+	double	height;
 	int		walkDirection;
 	int		turnDirection; // 	-1 for left and +1 to right 
-	float	rotationAngle;
-	float	walkspeed;
-	float	turnspeed;
-	float	side_direction;
+	double	rotationAngle;
+	double	walkspeed;
+	double	turnspeed;
+	double	side_direction;
 	
 }t_player;
 typedef struct	s_data
@@ -62,9 +66,8 @@ typedef struct	s_data
 	mlx_image_t		*image_win;
 	int				width;
 	int				height;
-	
 	char			**map;
 	t_player		*player;
 }				t_data;
-
+void	dda(t_data *data,double xstart, double ystart,double xend, double yend);
 #endif
