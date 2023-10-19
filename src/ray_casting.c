@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 21:47:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/10/19 16:23:11 by asabri           ###   ########.fr       */
+/*   Updated: 2023/10/19 17:43:17 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,10 @@ void	dda(t_data *data,double xstart, double ystart,double xend, double yend)
 	yinc = dy / step;
 	while (step--)
 	{
+        if (data->player->px < 12 * Tile_size && data->player->px>=0 && data->player->py >= 0 && data->player->py < data->height * Tile_size)
 			mlx_put_pixel(data->image_win, xstart, ystart,255);
-			xstart = xstart + xinc;
-			ystart = ystart + yinc;
+		xstart = xstart + xinc;
+		ystart = ystart + yinc;
 	}
 }
 

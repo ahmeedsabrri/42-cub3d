@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 22:54:35 by asabri            #+#    #+#             */
-/*   Updated: 2023/10/19 16:21:21 by asabri           ###   ########.fr       */
+/*   Updated: 2023/10/19 18:35:17 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ typedef struct	s_data
 	mlx_image_t		*image_win;
 	int				width;
 	int				height;
-	char			**map;
 	t_player		*player;
+	char			**map;
 }				t_data;
 void	dda(t_data *data,double xstart, double ystart,double xend, double yend);
 #endif
