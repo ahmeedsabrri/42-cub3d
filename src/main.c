@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 20:55:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/10/19 15:34:21 by asabri           ###   ########.fr       */
+/*   Updated: 2023/10/19 15:38:22 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,15 @@ int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
 void    draw_line(t_data *data, int lenght, double angle)
 {
     int i;
+    int j;
     i = 0;
+    j = 0;
     double x ;
     double y; 
     while(i < lenght)
     {
-       x = sin(angle *(PI / 180)) * i + (data->player->px + 5);    
-       y = cos(angle *(PI / 180)) * i + (data->player->py + 5);
+       x = sin(angle *(PI / 180)) * i + (data->player.px + 5);    
+       y = cos(angle *(PI / 180)) * i + (data->player.py + 5);
        mlx_put_pixel(data->image_win, x, y, 0xFFFFFF);
        i++;
     }
@@ -80,32 +82,20 @@ void draw_map(t_data *data)
         data->height++;
     }
 }
-
-void ft_renderplayer1(t_data *data)
-{
-    float mv;
-
-    mv = data->player->side_direction * data->player->walkspeed;
-    data->player->rotationAngle += data->player->turnDirection * data->player->turnspeed;
-    data->player->px += cos(data->player->rotationAngle + M_PI_2)  * mv;
-    data->player->py += sin(data->player->rotationAngle + M_PI_2) * mv;
-}
-void ft_renderplayer(t_data *data)
-{
-    float mv;
-
-    mv = data->player->walkDirection * data->player->walkspeed;
-    data->player->rotationAngle += data->player->turnDirection * data->player->turnspeed;
-    data->player->px += cos(data->player->rotationAngle) * mv;
-    data->player->py += sin(data->player->rotationAngle) * mv;
-}
 void ft_hook(void *param)
 {
     t_data *data = param;
-    if (data->player->walkDirection != 0 || data->player->turnDirection != 0)
-        ft_renderplayer(data);
-   else if (data->player->side_direction != 0)
-        ft_renderplayer1(data);
+	if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
+		mlx_close_window(data->mlx);
+    const int y = mlx_is_key_down(data->mlx, MLX_KEY_UP) * -4 +
+        mlx_is_key_down(data->mlx, MLX_KEY_DOWN) * 4;
+    const int x = mlx_is_key_down(data->mlx, MLX_KEY_LEFT) * -4 +
+        mlx_is_key_down(data->mlx, MLX_KEY_RIGHT) * 4;
+    if (data->map[(((int)data->player.py + y) / Tile_size)][((int)(data->player.px + x) / Tile_size)] != '1')
+    {
+        data->player.px += x;
+        data->player.py += y;
+    }
     mlx_delete_image(data->mlx,data->image_win);
     if (!(data->image_win = mlx_new_image(data->mlx, 1027, 720)))
 	{
@@ -190,6 +180,8 @@ void init(t_data *data)
     mlx_image_to_window(data->mlx, data->image_win, 0, 0);
     mlx_key_hook(data->mlx,ft_keyfunc_pressed,data);
     mlx_loop_hook(data->mlx,ft_hook,data);
+
+    
     mlx_loop(data->mlx);
     mlx_terminate(data->mlx);
 }
