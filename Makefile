@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: asabri <asabri@student.42.fr>              +#+  +:+       +#+         #
+#    By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/16 20:35:38 by asabri            #+#    #+#              #
-#    Updated: 2023/10/19 17:36:31 by asabri           ###   ########.fr        #
+#    Updated: 2023/10/21 03:00:00 by abberkac         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,9 +17,9 @@ SRCS = src/main.c src/ray_casting.c
 OBJ  = $(SRCS:.c=.o)
 INC  = include/cub3d.h
 
-LIBMLX = /Users/asabri/MLX42/build/libmlx42.a
-LIBMLX_INC = -I /Users/asabri/MLX42/include/MLX42 -I ./include/
-MLXFLG = -Iinclude -lglfw -L"/Users/$(USER)/.brew/opt/glfw/lib/" -framework Cocoa -framework OpenGL -framework IOKit
+LIBMLX = ../MLX42/build/libmlx42.a
+LIBMLX_INC = -I ../MLX42/include/MLX42 -I ./include/
+MLXFLG = -Iinclude -lglfw $(GFLW) -framework Cocoa -framework OpenGL -framework IOKit
 
 all: $(NAME)
 
