@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 22:54:35 by asabri            #+#    #+#             */
-/*   Updated: 2023/10/19 18:35:17 by asabri           ###   ########.fr       */
+/*   Updated: 2023/10/24 13:13:38 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,11 @@
 
 typedef struct s_ray
 {
-	double	ray_angal; 	
-	double	wall_hit_x; 	
-	double	wall_hit_y;
+	double	ray_angal;
+	double	ax; 	
+	double	ay;
+	double	dx;
+	double	dy;
 	double	distance;
 	bool	was_hit;
 	bool	up;
@@ -69,5 +71,6 @@ typedef struct	s_data
 	t_player		*player;
 	char			**map;
 }				t_data;
-void	dda(t_data *data,double xstart, double ystart,double xend, double yend);
+void	dda(t_data *data,double xstart, double ystart,double xend, double yend,int color);
+int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
 #endif
