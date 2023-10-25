@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 22:54:35 by asabri            #+#    #+#             */
-/*   Updated: 2023/10/24 13:13:38 by asabri           ###   ########.fr       */
+/*   Updated: 2023/10/25 15:41:50 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,14 @@
 #include <stdbool.h>
 #include <MLX42.h>
 #include <math.h>
+#include <limits.h>
 # include "../gc/ft_malloc.h"
   
-#define FOV (60 * PI / 180)
+#define PI 3.14159265 
+#define FOV (60 * (M_PI / 180))
 #define wallAngle 90
 #define Tile_size 64
 #define MINI_MAP_SCALE 1.0
-#define PI 3.14159265 
 #define TOW_PI 6.28318530
 
 
@@ -37,16 +38,14 @@
 typedef struct s_ray
 {
 	double	ray_angal;
-	double	ax; 	
-	double	ay;
-	double	dx;
-	double	dy;
-	double	distance;
-	bool	was_hit;
-	bool	up;
-	bool	down;
-	bool	left;
-	bool	right;
+	double	vax; 	
+	double	vay;
+	double	hax;
+	double	hay;
+	bool	horzhit;
+	bool	verthit;
+	double	distancev;
+	double	distanceh;
 }t_ray; 
 typedef struct s_player
 {
@@ -73,4 +72,5 @@ typedef struct	s_data
 }				t_data;
 void	dda(t_data *data,double xstart, double ystart,double xend, double yend,int color);
 int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
+void castallrays(t_data *data);
 #endif

@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 20:55:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/10/24 13:16:19 by asabri           ###   ########.fr       */
+/*   Updated: 2023/10/25 18:38:32 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void draw_player(t_data *data, uint32_t color)
 {
     (void)color;
     for (int i = 0; i < 360; i++)
-                dda(data,data->player->px ,data->player->py ,data->player->px + (cos(i * PI/180) * 10),data->player->py + (sin(i * PI/180) * 10),ft_pixel(255,0,0,255));     
-    dda(data,data->player->px,data->player->py,data->player->px + (cos(data->player->rotationAngle) * 30),data->player->py + (sin(data->player->rotationAngle) * 30),ft_pixel(0,255,0,255));
+        dda(data,data->player->px ,data->player->py ,data->player->px + (cos(i * PI/180) * 10),data->player->py + (sin(i * PI/180) * 10),ft_pixel(255,0,0,255));
+    dda(data,data->player->px,data->player->py,data->player->px + (cos(data->player->rotationAngle) * 30),data->player->py + (sin(data->player->rotationAngle) * 30),ft_pixel(255,0,0,255));
 }
 void draw_square(t_data *data, int y,int x, uint32_t color)
 {
@@ -70,6 +70,7 @@ int hit_the_wall(double x,double y,t_data *data)
         return (1);
     return (0);
 }
+
 void ft_renderplayer1(t_data *data)
 {
     double mv;
@@ -106,8 +107,6 @@ void ft_renderplayer(t_data *data)
     }
 }
 
-
-
 void    get_player_pos(t_data *data)
 {
     int x;
@@ -123,7 +122,6 @@ void    get_player_pos(t_data *data)
             }
         }
     }
-   
 }
 
 void ft_keyfunc_relesed(mlx_key_data_t keypress, t_data *data)
@@ -150,13 +148,13 @@ void ft_keyfunc_pressed(mlx_key_data_t keypress, void *param)
     if (keypress.key == MLX_KEY_ESCAPE && keypress.action == MLX_PRESS)
         exit(0);
      if (keypress.key == MLX_KEY_W && keypress.action == MLX_PRESS)
-        data->player->walkDirection = -1;
-     if (keypress.key == MLX_KEY_S && keypress.action == MLX_PRESS)
         data->player->walkDirection = 1;
+     if (keypress.key == MLX_KEY_S && keypress.action == MLX_PRESS)
+        data->player->walkDirection = -1;
      if (keypress.key == MLX_KEY_A && keypress.action == MLX_PRESS)
-        data->player->side_direction = 1;
-     if (keypress.key == MLX_KEY_D && keypress.action == MLX_PRESS)
         data->player->side_direction = -1;
+     if (keypress.key == MLX_KEY_D && keypress.action == MLX_PRESS)
+        data->player->side_direction = 1;
      if (keypress.key == MLX_KEY_LEFT && keypress.action == MLX_PRESS)
         data->player->turnDirection = -1;
      if (keypress.key == MLX_KEY_RIGHT && keypress.action == MLX_PRESS)
@@ -181,7 +179,9 @@ void ft_hook(void *param)
 	}
     mlx_image_to_window(data->mlx, data->image_win, 0, 0);
     draw_map(data);
+     printf("angle : %lf",data->player->rotationAngle);
     draw_player(data,0xFFFF50);
+    castallrays(data);
 }
 void init(t_data *data)
 {
@@ -226,16 +226,16 @@ int main()
     char *map[] = {
         "111111111111",
         "100000000001",
-        "100000000001",
-        "100000000001",
-        "10000000N001",
+        "100001000001",
+        "100001000001",
+        "10000110N001",
         "100000000001",
         "111111111111",
         NULL
     };
     player.height = 5;
     player.width = 5;
-    player.rotationAngle = PI / 2;
+    player.rotationAngle = M_PI;
     player.side_direction = 0;
     player.walkDirection = 0; // up or down
     player.turnDirection = 0; // angle rotation 
