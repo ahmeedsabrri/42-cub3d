@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 22:54:35 by asabri            #+#    #+#             */
-/*   Updated: 2023/10/25 15:41:50 by asabri           ###   ########.fr       */
+/*   Updated: 2023/10/31 11:41:33 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <MLX42.h>
+#include "../../MLX42/include/MLX42/MLX42.h"
 #include <math.h>
 #include <limits.h>
 # include "../gc/ft_malloc.h"

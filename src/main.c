@@ -6,12 +6,41 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 20:55:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/10/25 18:38:32 by asabri           ###   ########.fr       */
+/*   Updated: 2023/10/31 13:14:08 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cub3d.h>
+#include "../include/cub3d.h"
 
+// void dda(t_data *data, double x1, double y1, double x2, double y2, int color)
+// {
+//     int i;
+//     double steps;
+// 	double dx;
+// 	double dy;
+// 	double xIncrement, yIncrement;
+
+//     dx = x2 - x1;
+//     dy = y2 - y1;
+//     i = 0;
+//     steps = fmax(fabs(dx), fabs(dy));
+//     if (steps == 0)
+//     {
+//         mlx_put_pixel(data->image_win, round(x1), round(y1), color);
+//         return;
+//     }
+//     xIncrement = dx / steps;
+//     yIncrement = dy / steps;
+//     while (i <= steps)
+//     {
+//         if ((x1) > 1027 || (x1) < 0 || (y1) < 0 || (y1) > 720)
+//             return;
+//         mlx_put_pixel(data->image_win, round(x1), round(y1), color);
+//         x1 += xIncrement;
+//         y1 += yIncrement;
+//         i++;
+//     }
+// }
 void init(t_data *data);
 //(255,255,0)yellow color
 int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
@@ -29,8 +58,8 @@ void draw_player(t_data *data, uint32_t color)
 void draw_square(t_data *data, int y,int x, uint32_t color)
 {
     (void)color;
-    for (int i = 0; i < Tile_size - 1; i++)
-        for (int j = 0; j < Tile_size - 1; j++)
+    for (int i = 0; i < Tile_size; i++)
+        for (int j = 0; j < Tile_size; j++)
         {
             mlx_put_pixel(data->image_win, (x + i) * MINI_MAP_SCALE, (y + j) * MINI_MAP_SCALE, ft_pixel(color,color,color,color));
         }
@@ -179,7 +208,7 @@ void ft_hook(void *param)
 	}
     mlx_image_to_window(data->mlx, data->image_win, 0, 0);
     draw_map(data);
-     printf("angle : %lf",data->player->rotationAngle);
+    //  printf("angle : %lf",data->player->rotationAngle);
     draw_player(data,0xFFFF50);
     castallrays(data);
 }
