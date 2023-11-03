@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 21:47:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/10/31 13:22:21 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/03 21:51:47 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,12 @@ void castallrays(t_data *data)
 {
 	int colum;
 	t_ray *ray;
+	double project_plan;
+	double project_dist;
+	double ystart;
+	double yend;
 	double ray_start;
+	double player_ray_dist;
 	double ray_inc;
 
 	ray_inc = FOV / 768.0;
@@ -191,7 +196,7 @@ void castallrays(t_data *data)
 	ray = malloc(sizeof(t_ray));
 	colum = 0;
 	
-	while (colum < 1024)
+	while (colum < 1027)
 	{
 		
 		ray->horzhit = 0;
@@ -206,12 +211,21 @@ void castallrays(t_data *data)
 		if(ray->verthit)
 			ray->distancev = sqrt(pow((ray->vax -data->player->px),2) + pow((ray->vay - data->player->py),2));
 		if ((ray->distanceh < ray->distancev ) && ray->horzhit)
-			dda(data,data->player->px,data->player->py,ray->hax,ray->hay,ft_pixel(0,255,0,255));
+		{
+			player_ray_dist = ray->distanceh * cos(data->player->rotationAngle - ray_start);
+			// dda(data,data->player->px,data->player->py,ray->hax,ray->hay,ft_pixel(0,255,0,255));
+		}
 		else
-			dda(data,data->player->px,data->player->py,ray->vax,ray->vay,ft_pixel(0,255,0,255));
-		// if(ray->verthit)
-		ray_start +=ray_inc;
-		// printf("ray_start:%lf col:%d\n",ray_start,colum);
+		{
+			player_ray_dist = ray->distancev * cos(data->player->rotationAngle - ray_start);
+			// dda(data,data->player->px,data->player->py,ray->vax,ray->vay,ft_pixel(0,255,0,255));
+		}
+		project_dist = (1027 / 2)/tan(FOV / 2);
+		project_plan = (project_dist / player_ray_dist) * Tile_size;
+		ystart = (720 / 2) - (project_plan / 2);
+		yend = (720 / 2) + (project_plan / 2);
+		dda(data, colum, ystart, colum, yend, ft_pixel(0xfffffff,0xfffffff,0xfffffff,255));
+		ray_start += ray_inc;
 		colum++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 20:55:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/10/31 13:14:08 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/03 21:52:26 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,29 @@ void ft_keyfunc_pressed(mlx_key_data_t keypress, void *param)
         data->player->turnDirection = 1;
     ft_keyfunc_relesed(keypress,data);
 }
+
+void fill_window(t_data *data)
+{
+    int i =0 ;
+    int j;
+
+    while (i < 720)
+    {
+        j = 0;
+        while (j < 1027)
+        {
+            if (i > 720 / 2)
+                 mlx_put_pixel(data->image_win, j, i, ft_pixel(0, 0,0,255));
+            else
+                 mlx_put_pixel(data->image_win, j, i, ft_pixel(0, 255,0,255));
+                 
+
+                 j++;
+        }
+        i++;
+    }
+}
+
 void ft_hook(void *param)
 {
     t_data *data = param;
@@ -208,8 +231,9 @@ void ft_hook(void *param)
 	}
     mlx_image_to_window(data->mlx, data->image_win, 0, 0);
     draw_map(data);
+    fill_window(data);
     //  printf("angle : %lf",data->player->rotationAngle);
-    draw_player(data,0xFFFF50);
+    // draw_player(data,0xFFFF50);
     castallrays(data);
 }
 void init(t_data *data)
@@ -225,8 +249,8 @@ void init(t_data *data)
 		return((void)EXIT_FAILURE);
 	}
     get_player_pos(data);
-    draw_map(data);
-    draw_player(data,0xFFFF50);
+    // draw_map(data);
+    // draw_player(data,0xFFFF50);
     mlx_image_to_window(data->mlx, data->image_win, 0, 0);
     mlx_key_hook(data->mlx,ft_keyfunc_pressed,data);
     mlx_loop_hook(data->mlx,ft_hook,data);
@@ -236,15 +260,6 @@ void init(t_data *data)
     mlx_terminate(data->mlx);
 }
 
-char **allocate()
-{
-    char **str = malloc(sizeof(char *) * 4);
-    str[0] = strdup("111111111111");
-    str[1] = strdup("100000N00001");
-    str[2] = strdup("111111111111");
-    str[3] = NULL;
-    return str;
-}
 
 int main()
 {
