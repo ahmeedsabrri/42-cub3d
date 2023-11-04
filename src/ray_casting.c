@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 21:47:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/03 21:51:47 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/04 11:26:13 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,7 +191,7 @@ void castallrays(t_data *data)
 	double player_ray_dist;
 	double ray_inc;
 
-	ray_inc = FOV / 768.0;
+	ray_inc = FOV / 1027;
 	ray_start = data->player->rotationAngle - (FOV / 2.0);
 	ray = malloc(sizeof(t_ray));
 	colum = 0;
@@ -218,13 +218,22 @@ void castallrays(t_data *data)
 		else
 		{
 			player_ray_dist = ray->distancev * cos(data->player->rotationAngle - ray_start);
-			// dda(data,data->player->px,data->player->py,ray->vax,ray->vay,ft_pixel(0,255,0,255));
+			// dda(data,data->player->px,data->player->py,ray->vax,ray->vay,ft_pixel(255,0,0,255));
 		}
 		project_dist = (1027 / 2)/tan(FOV / 2);
 		project_plan = (project_dist / player_ray_dist) * Tile_size;
 		ystart = (720 / 2) - (project_plan / 2);
 		yend = (720 / 2) + (project_plan / 2);
-		dda(data, colum, ystart, colum, yend, ft_pixel(0xfffffff,0xfffffff,0xfffffff,255));
+		// if (ystart > 720)
+		// 	ystart = 0;
+		if (ystart < 0)
+			ystart = 0;
+		// dda(data, colum, ystart, colum, yend, ft_pixel(0xfffffff,0xfffffff,0xfffffff,255));
+		while (ystart < yend && ystart < 720.0)
+		{
+			mlx_put_pixel(data->image_win,colum,ystart,ft_pixel(255,255,255,255));
+			ystart++;
+		}
 		ray_start += ray_inc;
 		colum++;
 	}

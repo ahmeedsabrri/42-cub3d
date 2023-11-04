@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 20:55:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/03 21:52:26 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/04 11:32:19 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,9 +202,9 @@ void fill_window(t_data *data)
         while (j < 1027)
         {
             if (i > 720 / 2)
-                 mlx_put_pixel(data->image_win, j, i, ft_pixel(0, 0,0,255));
+                 mlx_put_pixel(data->image_win, j, i, ft_pixel(121, 75, 38,255));
             else
-                 mlx_put_pixel(data->image_win, j, i, ft_pixel(0, 255,0,255));
+                 mlx_put_pixel(data->image_win, j, i, ft_pixel(101,134,155,255));
                  
 
                  j++;
