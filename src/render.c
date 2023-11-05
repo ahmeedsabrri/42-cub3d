@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 20:55:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/10/19 18:53:02 by asabri           ###   ########.fr       */
+/*   Updated: 2023/10/23 01:55:23 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,14 @@ void draw_square(t_data *data, int y,int x, uint32_t color)
 {
     (void)color;
     for (int i = 0; i < Tile_size - 1; i++)
+    {
         for (int j = 0; j < Tile_size - 1; j++)
         {
+            // printf("%s\n", data->map[0]);
+            // exit(0);
             mlx_put_pixel(data->image_win, (x + i) * MINI_MAP_SCALE, (y + j) * MINI_MAP_SCALE, ft_pixel(color,color,color,color));
         }
+    }
 }
 void draw_map(t_data *data)
 {
@@ -54,7 +58,7 @@ void draw_map(t_data *data)
         {
             if (data->map[i][j] == '1')
                 draw_square(data,i * Tile_size, j * Tile_size , 0x5a5a5a);
-            else 
+            else
                 draw_square(data,i * 64, j * 64, 0x808080);
             data->width++;
         }
@@ -211,43 +215,5 @@ void init(t_data *data)
     mlx_terminate(data->mlx);
 }
 
-char **allocate()
-{
-    char **str = malloc(sizeof(char *) * 4);
-    str[0] = strdup("111111111111");
-    str[1] = strdup("100000N00001");
-    str[2] = strdup("111111111111");
-    str[3] = NULL;
-    return str;
-}
 
-int main()
-{
-    t_data data;
-    t_player player;
-    
-    memset(&data, 0, sizeof(t_data));
-    char *map[] = {
-        "111111111111",
-        "100000000001",
-        "100000000001",
-        "100000000001",
-        "10000000N001",
-        "100000000001",
-        "111111111111",
-        NULL
-    };
-    player.height = 5;
-    player.width = 5;
-    player.rotationAngle = PI / 2;
-    player.side_direction = 0;
-    player.walkDirection = 0; // up or down
-    player.turnDirection = 0; // angle rotation 
-    player.walkspeed = 5;
-    player.turnspeed = 3.00 * (M_PI / 180.0);
-    data.map = map;
-    data.player = &player;
-    init(&data);
-    return (0);
-}
 

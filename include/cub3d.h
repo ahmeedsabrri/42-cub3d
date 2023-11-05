@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 22:54:35 by asabri            #+#    #+#             */
-/*   Updated: 2023/10/19 18:35:17 by asabri           ###   ########.fr       */
+/*   Updated: 2023/10/24 01:45:55 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct s_ray
 	bool	down;
 	bool	left;
 	bool	right;
-}t_ray; 
+}	t_ray; 
 typedef struct s_player
 {
 	double	px;
@@ -59,7 +59,8 @@ typedef struct s_player
 	double	turnspeed;
 	double	side_direction;
 	
-}t_player;
+}	t_player;
+
 typedef struct	s_data
 {
 	mlx_t			*mlx;
@@ -69,5 +70,44 @@ typedef struct	s_data
 	t_player		*player;
 	char			**map;
 }				t_data;
+
+
 void	dda(t_data *data,double xstart, double ystart,double xend, double yend);
+void	init(t_data *data);
+
+//-------------parsing------------//
+
+typedef enum s_type
+{
+	line,
+	n_line
+}	t_type;
+
+typedef struct s_map
+{
+	char			*line;
+	t_type			type;
+	struct s_map	*next;
+}	t_map;
+
+
+char	*ft_strrchr(const char *s, int c);
+size_t	ft_strlen(const char *s);
+int		ft_strcmp(const char *s1, const char *s2);
+void	ft_error(char *str);
+void	check_extension(char **av);
+char	*ft_strjoin(char const *s1, char const *s2);
+char	**ft_split(char *s, char c);
+char	*ft_substr(char *s, unsigned int start, size_t len);
+char	*ft_strdup(const char *s1);
+char	*ft_strndup(char *str, size_t n);
+int		parsing(int ac, char **av, t_data *data);
+
+//************linked_list***************//
+
+t_map	*ft_new_lst(char *line, t_type type);
+void	ft_add_data(t_map **head, char *line, t_type type);
+void	ft_delone(t_map *lst);
+void	ft_clear_lst(t_map **lst);
+
 #endif
