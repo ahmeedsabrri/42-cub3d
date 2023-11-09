@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 22:54:35 by asabri            #+#    #+#             */
-/*   Updated: 2023/10/24 01:45:55 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/09 03:47:11 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,32 +20,34 @@
 # include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <MLX42.h>
+#include "../../MLX42/include/MLX42/MLX42.h"
 #include <math.h>
+#include <limits.h>
 # include "../gc/ft_malloc.h"
   
-#define FOV (60 * PI / 180)
+#define PI 3.14159265 
+#define FOV (60 * (M_PI / 180))
 #define wallAngle 90
 #define Tile_size 64
 #define MINI_MAP_SCALE 1.0
-#define PI 3.14159265 
 #define TOW_PI 6.28318530
+#define BUFFER_SIZE 1
 
 
 
 
 typedef struct s_ray
 {
-	double	ray_angal; 	
-	double	wall_hit_x; 	
-	double	wall_hit_y;
-	double	distance;
-	bool	was_hit;
-	bool	up;
-	bool	down;
-	bool	left;
-	bool	right;
-}	t_ray; 
+	double	ray_angal;
+	double	vax; 	
+	double	vay;
+	double	hax;
+	double	hay;
+	bool	horzhit;
+	bool	verthit;
+	double	distancev;
+	double	distanceh;
+}t_ray; 
 typedef struct s_player
 {
 	double	px;
@@ -59,8 +61,7 @@ typedef struct s_player
 	double	turnspeed;
 	double	side_direction;
 	
-}	t_player;
-
+}t_player;
 typedef struct	s_data
 {
 	mlx_t			*mlx;
@@ -71,43 +72,43 @@ typedef struct	s_data
 	char			**map;
 }				t_data;
 
-
-void	dda(t_data *data,double xstart, double ystart,double xend, double yend);
 void	init(t_data *data);
+void	dda(t_data *data,double xstart, double ystart,double xend, double yend,int color);
+int32_t	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
+void	castallrays(t_data *data);
 
 //-------------parsing------------//
 
-typedef enum s_type
-{
-	line,
-	n_line
-}	t_type;
 
-typedef struct s_map
+typedef struct s_infos
 {
-	char			*line;
-	t_type			type;
-	struct s_map	*next;
-}	t_map;
-
+	char	*north;
+	char	*south;
+	char	*east;
+	char	*west;
+	char	*floor;
+	char	*ceiling;
+}	t_infos;
 
 char	*ft_strrchr(const char *s, int c);
 size_t	ft_strlen(const char *s);
 int		ft_strcmp(const char *s1, const char *s2);
 void	ft_error(char *str);
 void	check_extension(char **av);
-char	*ft_strjoin(char const *s1, char const *s2);
-char	**ft_split(char *s, char c);
+char	*strjoin(char *s1, char *s2);
+char	*ft_strchr(const char *s, int c);
 char	*ft_substr(char *s, unsigned int start, size_t len);
 char	*ft_strdup(const char *s1);
 char	*ft_strndup(char *str, size_t n);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+char	*get_next_line(int fd);
 int		parsing(int ac, char **av, t_data *data);
 
 //************linked_list***************//
 
-t_map	*ft_new_lst(char *line, t_type type);
-void	ft_add_data(t_map **head, char *line, t_type type);
-void	ft_delone(t_map *lst);
-void	ft_clear_lst(t_map **lst);
+// t_map	*ft_new_lst(char *line, t_type type);
+// void	ft_add_data(t_map **head, char *line, t_type type);
+// void	ft_delone(t_map *lst);
+// void	ft_clear_lst(t_map **lst);
 
 #endif

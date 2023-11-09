@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 16:36:30 by abberkac          #+#    #+#             */
-/*   Updated: 2023/10/24 02:37:37 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/09 03:50:32 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,83 +73,110 @@ void	check_extension(char **av)
 		ft_error("Error :\nExtension Error\n");
 }
 
-char	*read_map(int fd)
+int	is_space(char c)
 {
-	int		check;
-	char	*buf;
-	char	*map;
+	if (c == ' ' || c == '\t')
+		return (1);
+	return (0);
+}
 
-	map = ft_strdup("");
-	buf = NULL;
-	check = 1;
-	while (check > 0)
+int	check_infos(char **str, char *line)
+{
+	if (*str)
+		return (1);
+	*str = ft_strdup(line);
+	return (0);
+}
+
+int	get_textures(t_infos **infos, char *line)
+{
+	if (!ft_strncmp(line, "NO", 2))
 	{
-		map = ft_strjoin(map, buf);
-		buf = (char *)malloc(2);
-		if (!buf)
-			return (NULL);
-		check = read(fd, buf, 1);
-		buf[1] = '\0';
+		if (check_infos(&(*infos)->north, line))
+			return (1);
 	}
-	free(buf);
-	return (map);
+	else if (!ft_strncmp(line, "SO", 2))
+	{
+		if (check_infos(&(*infos)->south, line))
+			return (1);
+	}
+	else if (!ft_strncmp(line, "EA", 2))
+	{
+		if (check_infos(&(*infos)->east, line))
+			return (1);
+	}
+	else if (!ft_strncmp(line, "WE", 2))
+	{
+		if (check_infos(&(*infos)->west, line))
+			return (1);
+	}
+	else
+		return (1);
+	return (0);
 }
 
-int spliting(char *file, t_map **map) {
-    char *start = file;
-    char *end = file;
+int	get_infos(char	*line, t_infos **infos, int fd)
+{
 
-    while (*end) {
-        if (*end == '\n') {
-            ft_add_data(map, ft_strndup(start, end - start), line);
-
-            // Allocate memory for the newline character and add it to the linked list
-            char *newline = (char *)malloc(2);
-            if (newline) {
-                newline[0] = *end;
-                newline[1] = '\0';
-                ft_add_data(map, newline, n_line);
-            }
-
-            start = end + 1; // Move the start position to the character after the newline.
-        }
-        end++;
-    }
-
-    // Handle the last line (if any) without a trailing newline
-    if (start != end) {
-        ft_add_data(map, ft_strndup(start, end - start), line);
-    }
-
-    return 0;
+	while (line)
+	{
+		while (is_space(*line)) 
+			line++;
+		if (*line == 'F')
+		{
+			if (check_infos(&(*infos)->floor, line))
+				return (1);
+		}
+		else if (*line == 'C')
+		{
+			if (check_infos(&(*infos)->ceiling, line))
+				return (1);
+		}
+		else if (*line == 'N' || *line == 'S' || *line == 'E' || *line == 'W')
+		{
+			if (get_textures(infos, line))
+				return (1);
+		}
+		else if (*line != '\n' && (!(*infos)->floor || !(*infos)->ceiling || !(*infos)->north
+			|| !(*infos)->south || !(*infos)->east || !(*infos)->west))
+			return (1);
+		line = get_next_line(fd);
+	}
+	return (0);
 }
-
-
 
 int	parsing(int ac, char **av, t_data *data)
 {
 	int		fd;
-	char	*full_file;
-	// char	**splited;
-	t_map	*map;
+	char	*info_line;
+	t_infos	*infos;
 
-	map = NULL;
 	(void)data;
-    if (ac != 2)
-		ft_error("Error :\nShould be one argument\n");
-    check_extension(av);
-    fd = open(av[1], O_RDONLY);
+	if (ac != 2)
+		ft_error("Error:\nShould be one argument\n");
+	check_extension(av);
+	fd = open(av[1], O_RDONLY);
 	if (fd < 0)
 		return (1);
-	full_file = read_map(fd);
-	if (!full_file)
+	info_line = get_next_line(fd);
+	while (info_line && info_line[0] == '\n')
+		info_line = get_next_line(fd);
+	infos = malloc(sizeof(t_infos));
+	if (!infos)
 		return (1);
-	spliting(full_file, &map);
-	while (map)
-	{
-		printf("%s\n", map->line);
-		map = map->next;
-	}
-	
+	infos->east = NULL;
+	infos->west = NULL;
+	infos->north = NULL;
+	infos->south = NULL;
+	infos->floor = NULL;
+	infos->ceiling = NULL;
+	if (get_infos(info_line, &infos, fd))
+		return (1);
+	printf("%s", infos->floor);
+	printf("%s", infos->ceiling);
+	printf("%s", infos->north);
+	printf("%s", infos->west);
+	printf("%s", infos->east);
+	printf("%s", infos->south);
 	return (0);
 }

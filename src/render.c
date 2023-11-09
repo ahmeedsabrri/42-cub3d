@@ -6,12 +6,41 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 20:55:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/10/23 01:55:23 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/06 17:08:24 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cub3d.h>
+#include "../include/cub3d.h"
 
+// void dda(t_data *data, double x1, double y1, double x2, double y2, int color)
+// {
+//     int i;
+//     double steps;
+// 	double dx;
+// 	double dy;
+// 	double xIncrement, yIncrement;
+
+//     dx = x2 - x1;
+//     dy = y2 - y1;
+//     i = 0;
+//     steps = fmax(fabs(dx), fabs(dy));
+//     if (steps == 0)
+//     {
+//         mlx_put_pixel(data->image_win, round(x1), round(y1), color);
+//         return;
+//     }
+//     xIncrement = dx / steps;
+//     yIncrement = dy / steps;
+//     while (i <= steps)
+//     {
+//         if ((x1) > 1027 || (x1) < 0 || (y1) < 0 || (y1) > 720)
+//             return;
+//         mlx_put_pixel(data->image_win, round(x1), round(y1), color);
+//         x1 += xIncrement;
+//         y1 += yIncrement;
+//         i++;
+//     }
+// }
 void init(t_data *data);
 //(255,255,0)yellow color
 int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
@@ -22,26 +51,18 @@ int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
 void draw_player(t_data *data, uint32_t color)
 {
     (void)color;
-    for (int i = 0; i < 10; i++)
-    {
-        for (int j = 0; j < 10; j++)
-            if(data->player->px < 12 * Tile_size && data->player->px>=0 && data->player->py >= 0 && data->player->py < data->height * Tile_size)
-                mlx_put_pixel(data->image_win, (data->player->px + i),(data->player->py + j), ft_pixel(255,255,255,255));
-    }
-    dda(data,data->player->px + 5,data->player->py + 5,data->player->px + (cos(data->player->rotationAngle) * 50),data->player->py + (sin(data->player->rotationAngle) * 50));
+    for (int i = 0; i < 360; i++)
+        dda(data,data->player->px ,data->player->py ,data->player->px + (cos(i * PI/180) * 10),data->player->py + (sin(i * PI/180) * 10),ft_pixel(255,0,0,255));
+    dda(data,data->player->px,data->player->py,data->player->px + (cos(data->player->rotationAngle) * 30),data->player->py + (sin(data->player->rotationAngle) * 30),ft_pixel(255,0,0,255));
 }
 void draw_square(t_data *data, int y,int x, uint32_t color)
 {
     (void)color;
-    for (int i = 0; i < Tile_size - 1; i++)
-    {
-        for (int j = 0; j < Tile_size - 1; j++)
+    for (int i = 0; i < Tile_size; i++)
+        for (int j = 0; j < Tile_size; j++)
         {
-            // printf("%s\n", data->map[0]);
-            // exit(0);
             mlx_put_pixel(data->image_win, (x + i) * MINI_MAP_SCALE, (y + j) * MINI_MAP_SCALE, ft_pixel(color,color,color,color));
         }
-    }
 }
 void draw_map(t_data *data)
 {
@@ -58,7 +79,7 @@ void draw_map(t_data *data)
         {
             if (data->map[i][j] == '1')
                 draw_square(data,i * Tile_size, j * Tile_size , 0x5a5a5a);
-            else
+            else 
                 draw_square(data,i * 64, j * 64, 0x808080);
             data->width++;
         }
@@ -72,12 +93,13 @@ int hit_the_wall(double x,double y,t_data *data)
 
     px = x / Tile_size;
     py = y / Tile_size;
-    if (px > (int)strlen(data->map[0]) || px < 0 || py <0 || py > data->height)
+    if (px > (int)strlen(data->map[0]) || px < 0 || py < 0 || py > data->height)
         return (1);
     if ((((int)py / Tile_size) > 0) && (int)strlen(data->map[0]) > 0 && (((int)py / Tile_size) < (data->height))  &&  (((int)py / Tile_size) < (int)strlen(data->map[0])) &&  data->map[(int)py / Tile_size][(int)px / Tile_size] != '1')
         return (1);
     return (0);
 }
+
 void ft_renderplayer1(t_data *data)
 {
     double mv;
@@ -114,8 +136,6 @@ void ft_renderplayer(t_data *data)
     }
 }
 
-
-
 void    get_player_pos(t_data *data)
 {
     int x;
@@ -131,7 +151,6 @@ void    get_player_pos(t_data *data)
             }
         }
     }
-   
 }
 
 void ft_keyfunc_relesed(mlx_key_data_t keypress, t_data *data)
@@ -158,19 +177,42 @@ void ft_keyfunc_pressed(mlx_key_data_t keypress, void *param)
     if (keypress.key == MLX_KEY_ESCAPE && keypress.action == MLX_PRESS)
         exit(0);
      if (keypress.key == MLX_KEY_W && keypress.action == MLX_PRESS)
-        data->player->walkDirection = -1;
-     if (keypress.key == MLX_KEY_S && keypress.action == MLX_PRESS)
         data->player->walkDirection = 1;
+     if (keypress.key == MLX_KEY_S && keypress.action == MLX_PRESS)
+        data->player->walkDirection = -1;
      if (keypress.key == MLX_KEY_A && keypress.action == MLX_PRESS)
-        data->player->side_direction = 1;
-     if (keypress.key == MLX_KEY_D && keypress.action == MLX_PRESS)
         data->player->side_direction = -1;
+     if (keypress.key == MLX_KEY_D && keypress.action == MLX_PRESS)
+        data->player->side_direction = 1;
      if (keypress.key == MLX_KEY_LEFT && keypress.action == MLX_PRESS)
         data->player->turnDirection = -1;
      if (keypress.key == MLX_KEY_RIGHT && keypress.action == MLX_PRESS)
         data->player->turnDirection = 1;
     ft_keyfunc_relesed(keypress,data);
 }
+
+void fill_window(t_data *data)
+{
+    int i =0 ;
+    int j;
+
+    while (i < 720)
+    {
+        j = 0;
+        while (j < 1027)
+        {
+            if (i > 720 / 2)
+                 mlx_put_pixel(data->image_win, j, i, ft_pixel(121, 75, 38,255));
+            else
+                 mlx_put_pixel(data->image_win, j, i, ft_pixel(101,134,155,255));
+                 
+
+                 j++;
+        }
+        i++;
+    }
+}
+
 void ft_hook(void *param)
 {
     t_data *data = param;
@@ -189,7 +231,10 @@ void ft_hook(void *param)
 	}
     mlx_image_to_window(data->mlx, data->image_win, 0, 0);
     draw_map(data);
-    draw_player(data,0xFFFF50);
+    fill_window(data);
+    //  printf("angle : %lf",data->player->rotationAngle);
+    // draw_player(data,0xFFFF50);
+    castallrays(data);
 }
 void init(t_data *data)
 {
@@ -204,8 +249,8 @@ void init(t_data *data)
 		return((void)EXIT_FAILURE);
 	}
     get_player_pos(data);
-    draw_map(data);
-    draw_player(data,0xFFFF50);
+    // draw_map(data);
+    // draw_player(data,0xFFFF50);
     mlx_image_to_window(data->mlx, data->image_win, 0, 0);
     mlx_key_hook(data->mlx,ft_keyfunc_pressed,data);
     mlx_loop_hook(data->mlx,ft_hook,data);
