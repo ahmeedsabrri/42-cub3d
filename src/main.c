@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 20:55:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/04 11:32:19 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/10 22:52:05 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,44 +48,40 @@ int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
     return (r << 24 | g << 16 | b << 8 | a);
 }
 
-void draw_player(t_data *data, uint32_t color)
-{
-    (void)color;
-    for (int i = 0; i < 360; i++)
-        dda(data,data->player->px ,data->player->py ,data->player->px + (cos(i * PI/180) * 10),data->player->py + (sin(i * PI/180) * 10),ft_pixel(255,0,0,255));
-    dda(data,data->player->px,data->player->py,data->player->px + (cos(data->player->rotationAngle) * 30),data->player->py + (sin(data->player->rotationAngle) * 30),ft_pixel(255,0,0,255));
-}
-void draw_square(t_data *data, int y,int x, uint32_t color)
-{
-    (void)color;
-    for (int i = 0; i < Tile_size; i++)
-        for (int j = 0; j < Tile_size; j++)
-        {
-            mlx_put_pixel(data->image_win, (x + i) * MINI_MAP_SCALE, (y + j) * MINI_MAP_SCALE, ft_pixel(color,color,color,color));
-        }
-}
-void draw_map(t_data *data)
-{
-    int i;
-    int j;
+// void draw_player(t_data *data, uint32_t color)
+// {
+//     (void)color;
+//     for (int i = 0; i < 360; i++)
+//         dda(data,data->player->px ,data->player->py ,data->player->px + (cos(i * PI/180) * 10),data->player->py + (sin(i * PI/180) * 10),ft_pixel(255,0,0,255));
+//     dda(data,data->player->px,data->player->py,data->player->px + (cos(data->player->rotationAngle) * 30),data->player->py + (sin(data->player->rotationAngle) * 30),ft_pixel(255,0,0,255));
+// }
+// void draw_square(t_data *data, int y,int x, uint32_t color)
+// {
+//     (void)color;
+//     for (int i = 0; i < Tile_size; i++)
+//         for (int j = 0; j < Tile_size; j++)
+//         {
+//             mlx_put_pixel(data->image_win, (x + i) * MINI_MAP_SCALE, (y + j) * MINI_MAP_SCALE, ft_pixel(color,color,color,color));
+//         }
+// }
+// void draw_map(t_data *data)
+// {
+//     int i;
+//     int j;
 
-    i = -1;
-    data->width = 0;
-    data->height = 0;
-    while (data->map[++i])
-    {
-        j = -1;
-        while (data->map[i][++j])
-        {
-            if (data->map[i][j] == '1')
-                draw_square(data,i * Tile_size, j * Tile_size , 0x5a5a5a);
-            else 
-                draw_square(data,i * 64, j * 64, 0x808080);
-            data->width++;
-        }
-        data->height++;
-    }
-}
+//     i = -1;
+//     while (data->map[++i])
+//     {
+//         j = -1;
+//         while (data->map[i][++j])
+//         {
+//             if (data->map[i][j] == '1')
+//                 draw_square(data,i * Tile_size, j * Tile_size , 0x5a5a5a);
+//             else 
+//                 draw_square(data,i * 64, j * 64, 0x808080);
+//         }
+//     }
+// }
 int hit_the_wall(double x,double y,t_data *data)
 {
     int px;
@@ -111,7 +107,7 @@ void ft_renderplayer1(t_data *data)
     px = data->player->px + cos(data->player->rotationAngle + M_PI_2)  * mv;
     py = data->player->py + sin(data->player->rotationAngle + M_PI_2) * mv;
 
-   if ((((int)py / Tile_size) > 0) && (int)strlen(data->map[0]) > 0 && (((int)py / Tile_size) < (data->height))  &&  (((int)py / Tile_size) < (int)strlen(data->map[0])) &&  data->map[(int)py / Tile_size][(int)px / Tile_size] != '1')
+   if ((((int)py / Tile_size) > 0) && (int)strlen(data->map[0]) > 0 && (((int)py / Tile_size) < (data->height))  &&  (((int)py / Tile_size) < (int)data->width) &&  data->map[(int)py / Tile_size][(int)px / Tile_size] != '1')
     {
             data->player->px = px;
             data->player->py = py;
@@ -129,7 +125,7 @@ void ft_renderplayer(t_data *data)
    px = data->player->px + cos(data->player->rotationAngle)  * mv;
     py =data->player->py + sin(data->player->rotationAngle ) * mv;
 
-    if ((((int)py / Tile_size) > 0) && (int)strlen(data->map[0]) > 0 && (((int)py / Tile_size) < (data->height))  &&  (((int)py / Tile_size) < (int)strlen(data->map[0])) &&  data->map[(int)py / Tile_size][(int)px / Tile_size] != '1')
+    if ((((int)py / Tile_size) > 0) && (int)strlen(data->map[0]) > 0 && (((int)py / Tile_size) < (data->height))  &&  (((int)py / Tile_size) < (int)data->width) &&  data->map[(int)py / Tile_size][(int)px / Tile_size] != '1')
     {
             data->player->px = px;
             data->player->py = py;
@@ -205,8 +201,6 @@ void fill_window(t_data *data)
                  mlx_put_pixel(data->image_win, j, i, ft_pixel(121, 75, 38,255));
             else
                  mlx_put_pixel(data->image_win, j, i, ft_pixel(101,134,155,255));
-                 
-
                  j++;
         }
         i++;
@@ -230,7 +224,7 @@ void ft_hook(void *param)
 		return((void)EXIT_FAILURE);
 	}
     mlx_image_to_window(data->mlx, data->image_win, 0, 0);
-    draw_map(data);
+    //draw_map(data);
     fill_window(data);
     //  printf("angle : %lf",data->player->rotationAngle);
     // draw_player(data,0xFFFF50);
@@ -260,7 +254,23 @@ void init(t_data *data)
     mlx_terminate(data->mlx);
 }
 
+int width_size(char **str)
+{
+    int width;
 
+    width = 0;
+    while(str[0][width])
+        width++;
+    return width;
+}
+int ft_strlen(char **str)
+{
+    int i;
+
+    i = -1;
+    while(str[++i]);
+    return (i);    
+}
 int main()
 {
     t_data data;
@@ -268,15 +278,48 @@ int main()
     
     memset(&data, 0, sizeof(t_data));
     char *map[] = {
-        "111111111111",
-        "100000000001",
-        "100001000001",
-        "100001000001",
-        "10000110N001",
-        "100000000001",
-        "111111111111",
+        "1111111111111111111111111111111111",
+        "1000000000000000000000000000000001",
+        "1000010000000000000000000000000001",
+        "1000010000000000000000000000000001",
+        "10000000N0000000000000000000000001",
+        "1000010000000000000000000000000001",
+        "1000010000000000000000000000000001",
+        "1000010000000000000000000000000001",
+        "1000010000000000000000000000000001",
+        "1000010000000000000000000000000001",
+        "1000010000000100000000000000000001",
+        "1000010000000000000000000000000001",
+        "1000010000000000000000000000000001",
+        "1000010000000000000000000000000001",
+        "1000010000000000000000000000000001",
+        "1000010000000000000000000000000001",
+        "1000010000000000000000000000000001",
+        "1000010000000000000000000000000001",
+        "1000010000000100000000000000000001",
+        "1000010000000000000000000000000001",
+        "1000010000000000000000000000000001",
+        "1000010000000000000000000000000001",
+        "1000010000000000000000000000000001",
+        "1000010000000000000000000000000001",
+        "1000010000000000000000000000000001",
+        "1000010000000000000000000000000001",
+        "1000010000000100000000000000000001",
+        "1000010000000000000000000000000001",
+        "1000010000000000000000000000000001",
+        "1000010000000000000000000000000001",
+        "1000010000000000000000000000000001",
+        "1000010000000000000000000000000001",
+        "1000010000000000000000000000000001",
+        "1000010000000000000000000000000001",
+        "1000010000000000000000000000000001",
+        "1111111111111111111111111111111111",
         NULL
     };
+    data.width = width_size(map);
+    printf("width => %d",data.width);
+    data.height = ft_strlen(map);
+    printf("height => %d",data.height);
     player.height = 5;
     player.width = 5;
     player.rotationAngle = M_PI;
@@ -291,4 +334,3 @@ int main()
     
     return (0);
 }
-
