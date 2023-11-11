@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 22:54:35 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/09 03:47:11 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/11 01:14:20 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct s_ray
 	bool	verthit;
 	double	distancev;
 	double	distanceh;
-}t_ray; 
+}	t_ray; 
 typedef struct s_player
 {
 	double	px;
@@ -61,7 +61,7 @@ typedef struct s_player
 	double	turnspeed;
 	double	side_direction;
 	
-}t_player;
+}	t_player;
 typedef struct	s_data
 {
 	mlx_t			*mlx;
@@ -70,7 +70,7 @@ typedef struct	s_data
 	int				height;
 	t_player		*player;
 	char			**map;
-}				t_data;
+}	t_data;
 
 void	init(t_data *data);
 void	dda(t_data *data,double xstart, double ystart,double xend, double yend,int color);
@@ -90,6 +90,31 @@ typedef struct s_infos
 	char	*ceiling;
 }	t_infos;
 
+typedef struct s_text
+{
+	char	*no;
+	char	*so;
+	char	*ea;
+	char	*we;
+	char	*fl;
+	char	*ce;
+}	t_text;
+
+typedef struct s_floor
+{
+	int	r;
+	int	g;
+	int	b;
+}	t_floor;
+
+typedef struct s_ceiling
+{
+	int	r;
+	int	g;
+	int	b;
+}	t_ceiling;
+
+
 char	*ft_strrchr(const char *s, int c);
 size_t	ft_strlen(const char *s);
 int		ft_strcmp(const char *s1, const char *s2);
@@ -100,8 +125,12 @@ char	*ft_strchr(const char *s, int c);
 char	*ft_substr(char *s, unsigned int start, size_t len);
 char	*ft_strdup(const char *s1);
 char	*ft_strndup(char *str, size_t n);
+int		is_space(char c);
+int     ft_isdigit(int c);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*get_next_line(int fd);
+int		check_infos(t_infos **infos);
+int     ft_atoi(const char *str);
 int		parsing(int ac, char **av, t_data *data);
 
 //************linked_list***************//

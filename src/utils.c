@@ -6,11 +6,70 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 16:42:41 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/09 03:46:46 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/11 06:38:32 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cub3d.h>
+#include "../include/cub3d.h"
+
+
+int	is_space(char c)
+{
+	if (c == ' ' || c == '\t')
+		return (1);
+	return (0);
+}
+
+int     ft_isdigit(int c)
+{
+        if (c >= '0' && c <= '9')
+                return (1);
+        return (0);
+}
+
+char    *ft_strrchr(const char *s, int c)
+{
+        unsigned int    i;
+
+        i = ft_strlen(s);
+        while (i)
+                if (s[i--] == (char)c)
+                        return (&((char *)s)[i + 1]);
+        if (s[i] == (char)c)
+                return (&((char *)s)[i]);
+        return (NULL);
+}
+
+void	ft_error(char *str)
+{
+	write(2, str, ft_strlen(str));
+	return ;
+}
+
+size_t	ft_strlen(const char *s)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
+}
+
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	size_t				i;
+	size_t				j;
+
+	i = 0;
+	j = 0;
+	while (s1[i] && s2[j] && s1[i] == s2[j])
+	{
+		i++;
+		j++;
+	}
+	return ((unsigned char)s1[i] - (unsigned char)s2[j]);
+}
 
 char	*ft_strdup(const char *s1)
 {
@@ -121,4 +180,27 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		new[i++] = *s2++;
 	new[i] = '\0';
 	return (new);
+}
+
+int     ft_atoi(const char *str)
+{
+	int result;
+
+    result = 0;
+	while (is_space(*str))
+		str++;
+    while (*str >= '0' && *str <= '9')
+    {
+        result = (result * 10) + (*str - '0');
+        str++;
+    }
+	while (*str && *str != ',')
+	{
+		if (!is_space(*str) && *str != '\n')
+			return (-1);
+		str++;
+	}
+	if (result > 255)
+		return (-1);
+    return (result);
 }
