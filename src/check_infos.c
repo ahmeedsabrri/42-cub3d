@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 23:49:40 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/11 06:35:07 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/12 01:12:22 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int store_valid_infos(char **str)
 {
     char *tmp;
 
+    if (!*str)
+        return (1);
     while (*str && !is_space(**str))
         (*str)++;
     while (*str && is_space(**str))

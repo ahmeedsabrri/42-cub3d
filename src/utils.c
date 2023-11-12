@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 16:42:41 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/11 06:38:32 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/12 03:02:14 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char    *ft_strrchr(const char *s, int c)
 void	ft_error(char *str)
 {
 	write(2, str, ft_strlen(str));
-	return ;
+	exit (1);
 }
 
 size_t	ft_strlen(const char *s)
@@ -81,6 +81,21 @@ char	*ft_strdup(const char *s1)
 	if (!new)
 		return (NULL);
 	while (*s1)
+		new[i++] = *s1++;
+	new[i] = '\0';
+	return (new);
+}
+
+char	*ft_strdup_n(const char *s1)
+{
+	char	*new;
+	int		i;
+
+	i = 0;
+	new = (char *)malloc(sizeof(char) * ft_strlen(s1) + 1);
+	if (!new)
+		return (NULL);
+	while (*s1 != '\0' && *s1 != '\n')
 		new[i++] = *s1++;
 	new[i] = '\0';
 	return (new);

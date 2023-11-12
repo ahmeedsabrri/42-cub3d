@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 22:54:35 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/11 01:14:20 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/12 04:53:53 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@
 #define PI 3.14159265 
 #define FOV (60 * (M_PI / 180))
 #define wallAngle 90
+#define HEIGHT 720
+#define WIDTH 1027
 #define Tile_size 64
 #define MINI_MAP_SCALE 1.0
 #define TOW_PI 6.28318530
@@ -76,6 +78,8 @@ void	init(t_data *data);
 void	dda(t_data *data,double xstart, double ystart,double xend, double yend,int color);
 int32_t	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
 void	castallrays(t_data *data);
+int		get_height(char **str);
+int		width_size(char **str);
 
 //-------------parsing------------//
 
@@ -125,6 +129,7 @@ char	*ft_strchr(const char *s, int c);
 char	*ft_substr(char *s, unsigned int start, size_t len);
 char	*ft_strdup(const char *s1);
 char	*ft_strndup(char *str, size_t n);
+char	*ft_strdup_n(const char *s1);
 int		is_space(char c);
 int     ft_isdigit(int c);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
