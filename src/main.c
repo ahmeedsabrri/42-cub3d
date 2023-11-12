@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 20:55:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/10 22:52:05 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/12 04:32:54 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,13 @@ int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
     return (r << 24 | g << 16 | b << 8 | a);
 }
 
-// void draw_player(t_data *data, uint32_t color)
-// {
-//     (void)color;
-//     for (int i = 0; i < 360; i++)
-//         dda(data,data->player->px ,data->player->py ,data->player->px + (cos(i * PI/180) * 10),data->player->py + (sin(i * PI/180) * 10),ft_pixel(255,0,0,255));
-//     dda(data,data->player->px,data->player->py,data->player->px + (cos(data->player->rotationAngle) * 30),data->player->py + (sin(data->player->rotationAngle) * 30),ft_pixel(255,0,0,255));
-// }
+void draw_player(t_data *data, uint32_t color)
+{
+    (void)color;
+    for (int i = 0; i < 360; i++)
+        dda(data,(WIDTH / 2) * MINI_MAP_SCALE ,(HEIGHT / 2) * MINI_MAP_SCALE ,(WIDTH / 2) * MINI_MAP_SCALE + (cos(i * PI/180) * 10),(HEIGHT / 2) * MINI_MAP_SCALE + (sin(i * PI/180) * 10),ft_pixel(255,0,0,255));
+    dda(data,(WIDTH / 2) * MINI_MAP_SCALE ,(HEIGHT / 2) * MINI_MAP_SCALE,(WIDTH / 2) * MINI_MAP_SCALE + (cos(data->player->rotationAngle) * 30),(HEIGHT / 2) * MINI_MAP_SCALE + (sin(data->player->rotationAngle) * 30),ft_pixel(255,0,0,255));
+}
 // void draw_square(t_data *data, int y,int x, uint32_t color)
 // {
 //     (void)color;
@@ -82,6 +82,67 @@ int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
 //         }
 //     }
 // }
+void draw_minimap(t_data *data, double xstart,double ystart,int i,int j)
+{
+    (void)i;
+    (void)j;
+    xstart = (int)(xstart / Tile_size);
+    ystart = (int)(ystart / Tile_size);
+    if (ystart < 0|| xstart < 0 ||  ystart > (HEIGHT) * MINI_MAP_SCALE || xstart > (HEIGHT) * MINI_MAP_SCALE)
+    {
+        mlx_put_pixel(data->image_win,i,j,ft_pixel(0,0,0,255));
+        return ;
+    }
+    if (data->map[(int)ystart][(int)(xstart)] == '1')
+        mlx_put_pixel(data->image_win,j  ,i ,ft_pixel(255,255,255,255));
+    else
+        mlx_put_pixel(data->image_win,j ,i,ft_pixel(0,0,0,255));
+}
+void renderminimap(t_data *data)
+{
+    // t_data *data;
+    // data = param;
+    double xstart;
+    double ystart;
+    int i;
+    int j;
+
+    xstart = (data->player->px) - ((WIDTH)  * MINI_MAP_SCALE);
+    ystart = (data->player->py) - ((HEIGHT) * MINI_MAP_SCALE);
+    i = 0;
+    while (i < HEIGHT * MINI_MAP_SCALE)
+    {
+        xstart = (data->player->px) - ((WIDTH)  * MINI_MAP_SCALE);
+        j = 0;
+        while (j < WIDTH * MINI_MAP_SCALE)
+        {
+            draw_minimap(data,xstart,ystart,i,j);
+            j++;
+            xstart++;
+        }
+        i++;
+        ystart++;
+    }
+    draw_player(data,ft_pixel(255,0,0,255));
+}
+
+int width_size(char **str)
+{
+    int width;
+
+    width = 0;
+    while(str[0][width])
+        width++;
+    return width;
+}
+int ft_strlen(char **str)
+{
+    int i;
+
+    i = -1;
+    while(str[++i]);
+    return (i);    
+}
 int hit_the_wall(double x,double y,t_data *data)
 {
     int px;
@@ -107,7 +168,7 @@ void ft_renderplayer1(t_data *data)
     px = data->player->px + cos(data->player->rotationAngle + M_PI_2)  * mv;
     py = data->player->py + sin(data->player->rotationAngle + M_PI_2) * mv;
 
-   if ((((int)py / Tile_size) > 0) && (int)strlen(data->map[0]) > 0 && (((int)py / Tile_size) < (data->height))  &&  (((int)py / Tile_size) < (int)data->width) &&  data->map[(int)py / Tile_size][(int)px / Tile_size] != '1')
+   if ((((int)py / Tile_size) > 0) && (int)strlen(data->map[0]) > 0 && ((((int)py / Tile_size) < (data->height))  ||  (((int)py / Tile_size) < (int)data->width)) &&  data->map[(int)py / Tile_size][(int)px / Tile_size] != '1')
     {
             data->player->px = px;
             data->player->py = py;
@@ -125,28 +186,45 @@ void ft_renderplayer(t_data *data)
    px = data->player->px + cos(data->player->rotationAngle)  * mv;
     py =data->player->py + sin(data->player->rotationAngle ) * mv;
 
-    if ((((int)py / Tile_size) > 0) && (int)strlen(data->map[0]) > 0 && (((int)py / Tile_size) < (data->height))  &&  (((int)py / Tile_size) < (int)data->width) &&  data->map[(int)py / Tile_size][(int)px / Tile_size] != '1')
+    if ((((int)py / Tile_size) > 0) && (int)strlen(data->map[0]) > 0 && ((((int)py / Tile_size) < (data->height))  ||  (((int)py / Tile_size) < (int)data->width) )&&  data->map[(int)py / Tile_size][(int)px / Tile_size] != '1')
     {
             data->player->px = px;
             data->player->py = py;
     }
 }
-
+double check_angle(char c)
+{
+    if (c == 'N')
+        return (3 * M_PI / 2);
+    if (c == 'S')
+        return (M_PI / 2);
+    if (c == 'E')
+        return (0);
+    if (c == 'W')
+        return (M_PI);
+    return (0);
+}
 void    get_player_pos(t_data *data)
 {
     int x;
     int y;
 
     y = -1;
-    while (data->map[++y]){
+    while (data->map[++y])
+    {
         x = -1;
-        while (data->map[y][++x]){
-            if (strchr("NEWS", data->map[y][x])){
+        while (data->map[y][++x])
+        {
+            if (strchr("NEWS", data->map[y][x]))
+            {
                 data->player->px = ((x * Tile_size) + (Tile_size /2));
                 data->player->py = ((y * Tile_size) + (Tile_size / 2));
+                data->player->rotationAngle = check_angle(data->map[y][x]);
             }
         }
     }
+    // printf("%f\n",data->player->px);
+    // printf("%f\n",data->player->py);
 }
 
 void ft_keyfunc_relesed(mlx_key_data_t keypress, t_data *data)
@@ -206,11 +284,23 @@ void fill_window(t_data *data)
         i++;
     }
 }
+void mouse_move(t_data *data)
+{
+    int x;
+    int y;
+
+    mlx_get_mouse_pos(data->mlx,&x,&y);
+    mlx_set_mouse_pos(data->mlx,1027/2,720/2);
+
+    if (x > 1027/2)
+        data->player->rotationAngle += 0.025;
+    if (x < 1027/2)
+        data->player->rotationAngle -= 0.025;
+}
 
 void ft_hook(void *param)
 {
     t_data *data = param;
-    // if (data->player->walkDirection != 0 || data->player->rotationAngle != 0)
     if (data->player->walkDirection != 0 || data->player->turnDirection != 0)
         ft_renderplayer(data);
     if (data->player->side_direction != 0)
@@ -224,11 +314,10 @@ void ft_hook(void *param)
 		return((void)EXIT_FAILURE);
 	}
     mlx_image_to_window(data->mlx, data->image_win, 0, 0);
-    //draw_map(data);
     fill_window(data);
-    //  printf("angle : %lf",data->player->rotationAngle);
-    // draw_player(data,0xFFFF50);
+    mouse_move(data);
     castallrays(data);
+    renderminimap(data);
 }
 void init(t_data *data)
 {
@@ -242,35 +331,26 @@ void init(t_data *data)
 		puts(mlx_strerror(mlx_errno));
 		return((void)EXIT_FAILURE);
 	}
+    // if (!(data->minimap_win = mlx_new_image(data->mlx,WIDTH * MINI_MAP_SCALE , HEIGHT * MINI_MAP_SCALE)))
+	// {
+	// 	mlx_close_window(data->mlx);
+	// 	puts(mlx_strerror(mlx_errno));
+	// 	return((void)EXIT_FAILURE);
+	// }
+    mlx_set_cursor_mode(data->mlx,MLX_MOUSE_HIDDEN);
     get_player_pos(data);
-    // draw_map(data);
-    // draw_player(data,0xFFFF50);
     mlx_image_to_window(data->mlx, data->image_win, 0, 0);
+    // mlx_image_to_window(data->mlx, data->minimap_win, 30, 20);
     mlx_key_hook(data->mlx,ft_keyfunc_pressed,data);
     mlx_loop_hook(data->mlx,ft_hook,data);
+    // mlx_loop_hook(data->mlx,renderminimap,data);
 
     
     mlx_loop(data->mlx);
     mlx_terminate(data->mlx);
 }
 
-int width_size(char **str)
-{
-    int width;
 
-    width = 0;
-    while(str[0][width])
-        width++;
-    return width;
-}
-int ft_strlen(char **str)
-{
-    int i;
-
-    i = -1;
-    while(str[++i]);
-    return (i);    
-}
 int main()
 {
     t_data data;
@@ -279,10 +359,10 @@ int main()
     memset(&data, 0, sizeof(t_data));
     char *map[] = {
         "1111111111111111111111111111111111",
+        "10E0000000000000000000000000000001",
+        "1000010000000000000000000000000001",
+        "1000010000000000000000000000000001",
         "1000000000000000000000000000000001",
-        "1000010000000000000000000000000001",
-        "1000010000000000000000000000000001",
-        "10000000N0000000000000000000000001",
         "1000010000000000000000000000000001",
         "1000010000000000000000000000000001",
         "1000010000000000000000000000000001",
@@ -291,9 +371,9 @@ int main()
         "1000010000000100000000000000000001",
         "1000010000000000000000000000000001",
         "1000010000000000000000000000000001",
-        "1000010000000000000000000000000001",
-        "1000010000000000000000000000000001",
-        "1000010000000000000000000000000001",
+        "1000010000000000000000000001111111",
+        "1000010000000000000000000001     1",
+        "1000010000000000000000000001111111",
         "1000010000000000000000000000000001",
         "1000010000000000000000000000000001",
         "1000010000000100000000000000000001",
@@ -317,12 +397,10 @@ int main()
         NULL
     };
     data.width = width_size(map);
-    printf("width => %d",data.width);
     data.height = ft_strlen(map);
-    printf("height => %d",data.height);
     player.height = 5;
     player.width = 5;
-    player.rotationAngle = M_PI;
+    player.rotationAngle = 0;
     player.side_direction = 0;
     player.walkDirection = 0; // up or down
     player.turnDirection = 0; // angle rotation 
@@ -331,6 +409,5 @@ int main()
     data.map = map;
     data.player = &player;
     init(&data);
-    
     return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 22:54:35 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/10 01:59:58 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/12 03:55:14 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,12 @@
 #define PI 3.14159265 
 #define FOV (60 * (M_PI / 180))
 #define wallAngle 90
+#define HEIGHT 720
+#define WIDTH 1027
 #define Tile_size 64
-#define MINI_MAP_SCALE 1.0
+#define MINI_MAP_SCALE 0.2
 #define TOW_PI 6.28318530
+
 
 
 
@@ -65,6 +68,7 @@ typedef struct	s_data
 {
 	mlx_t			*mlx;
 	mlx_image_t		*image_win;
+	mlx_image_t		*minimap_win;
 	int				width;
 	int				height;
 	t_player		*player;
