@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 20:55:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/12 04:32:54 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/12 05:38:53 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,6 @@ void draw_player(t_data *data, uint32_t color)
 // }
 void draw_minimap(t_data *data, double xstart,double ystart,int i,int j)
 {
-    (void)i;
-    (void)j;
     xstart = (int)(xstart / Tile_size);
     ystart = (int)(ystart / Tile_size);
     if (ystart < 0|| xstart < 0 ||  ystart > (HEIGHT) * MINI_MAP_SCALE || xstart > (HEIGHT) * MINI_MAP_SCALE)
@@ -93,15 +91,13 @@ void draw_minimap(t_data *data, double xstart,double ystart,int i,int j)
         mlx_put_pixel(data->image_win,i,j,ft_pixel(0,0,0,255));
         return ;
     }
-    if (data->map[(int)ystart][(int)(xstart)] == '1')
+    if (wall_hit(xstart,ystart,data->map))
         mlx_put_pixel(data->image_win,j  ,i ,ft_pixel(255,255,255,255));
     else
         mlx_put_pixel(data->image_win,j ,i,ft_pixel(0,0,0,255));
 }
 void renderminimap(t_data *data)
 {
-    // t_data *data;
-    // data = param;
     double xstart;
     double ystart;
     int i;
@@ -112,7 +108,7 @@ void renderminimap(t_data *data)
     i = 0;
     while (i < HEIGHT * MINI_MAP_SCALE)
     {
-        xstart = (data->player->px) - ((WIDTH)  * MINI_MAP_SCALE);
+        xstart = (data->player->px) - ((WIDTH) * MINI_MAP_SCALE);
         j = 0;
         while (j < WIDTH * MINI_MAP_SCALE)
         {
@@ -128,14 +124,19 @@ void renderminimap(t_data *data)
 
 int width_size(char **str)
 {
-    int width;
+    size_t width;
+    int i;
 
-    width = 0;
-    while(str[0][width])
-        width++;
-    return width;
+    (i = 1, width = ft_strlen(str[0]));
+    while(str[i])
+    {
+        if (ft_strlen(str[i]) > width)
+            width = ft_strlen(str[i]);
+        i++;
+    }
+    return ((int)width);
 }
-int ft_strlen(char **str)
+int get_height(char **str)
 {
     int i;
 
@@ -350,64 +351,3 @@ void init(t_data *data)
     mlx_terminate(data->mlx);
 }
 
-
-int main()
-{
-    t_data data;
-    t_player player;
-    
-    memset(&data, 0, sizeof(t_data));
-    char *map[] = {
-        "1111111111111111111111111111111111",
-        "10E0000000000000000000000000000001",
-        "1000010000000000000000000000000001",
-        "1000010000000000000000000000000001",
-        "1000000000000000000000000000000001",
-        "1000010000000000000000000000000001",
-        "1000010000000000000000000000000001",
-        "1000010000000000000000000000000001",
-        "1000010000000000000000000000000001",
-        "1000010000000000000000000000000001",
-        "1000010000000100000000000000000001",
-        "1000010000000000000000000000000001",
-        "1000010000000000000000000000000001",
-        "1000010000000000000000000001111111",
-        "1000010000000000000000000001     1",
-        "1000010000000000000000000001111111",
-        "1000010000000000000000000000000001",
-        "1000010000000000000000000000000001",
-        "1000010000000100000000000000000001",
-        "1000010000000000000000000000000001",
-        "1000010000000000000000000000000001",
-        "1000010000000000000000000000000001",
-        "1000010000000000000000000000000001",
-        "1000010000000000000000000000000001",
-        "1000010000000000000000000000000001",
-        "1000010000000000000000000000000001",
-        "1000010000000100000000000000000001",
-        "1000010000000000000000000000000001",
-        "1000010000000000000000000000000001",
-        "1000010000000000000000000000000001",
-        "1000010000000000000000000000000001",
-        "1000010000000000000000000000000001",
-        "1000010000000000000000000000000001",
-        "1000010000000000000000000000000001",
-        "1000010000000000000000000000000001",
-        "1111111111111111111111111111111111",
-        NULL
-    };
-    data.width = width_size(map);
-    data.height = ft_strlen(map);
-    player.height = 5;
-    player.width = 5;
-    player.rotationAngle = 0;
-    player.side_direction = 0;
-    player.walkDirection = 0; // up or down
-    player.turnDirection = 0; // angle rotation 
-    player.walkspeed = 5;
-    player.turnspeed = 3.00 * (M_PI / 180.0);
-    data.map = map;
-    data.player = &player;
-    init(&data);
-    return (0);
-}

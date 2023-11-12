@@ -6,14 +6,15 @@
 #    By: asabri <asabri@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/16 20:35:38 by asabri            #+#    #+#              #
-#    Updated: 2023/11/12 02:41:17 by asabri           ###   ########.fr        #
+#    Updated: 2023/11/12 05:17:19 by asabri           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = cub3d
-CC   = gcc -Wall -Wextra -Werror -g -fsanitize=address 
+CC   = gcc
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
 RM   = rm -f
-SRCS = src/main.c src/ray_casting.c 
+SRCS = main.c src/render.c src/ray_casting.c src/parsing.c src/utils.c src/get_next_line.c src/get_next_line_utils.c src/check_infos.c
 OBJ  = $(SRCS:.c=.o)
 INC  = include/cub3d.h
 
@@ -24,10 +25,10 @@ MLXFLG = -Iinclude -lglfw $(GFLW) -framework Cocoa -framework OpenGL -framework 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(MLXFLG) $(LIBMLX)  $^ -o $@
+	$(CC) $(CFLAGS) $(MLXFLG) $(LIBMLX)  $^ -o $@
 
 %.o: %.c $(INC)
-	$(CC) -c $< -o $@ $(LIBMLX_INC)
+	$(CC) $(CFLAGS) -c $< -o $@ $(LIBMLX_INC)
 
 clean:
 	$(RM) $(OBJ)

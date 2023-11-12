@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 21:47:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/10 02:47:16 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/12 05:35:24 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,47 @@ int angle_up_or_down(double angle)
 		return 1;
     return 0; // Angle is facing up
 }
+int	ft_strlen2(const char *str)
+{
+	int	length;
+
+	length = 0;
+	if (!str || !*str)
+		return (0);
+	while (str[length])
+		length++;
+	return (length);
+}
+int	get_grid_height(char **grid)
+{
+	int		j;
+	char	**tmp;
+
+	tmp = grid;
+	j = 0;
+	while (*tmp)
+	{
+		j++;
+		tmp++;
+	}
+	return (j);
+}
+int	wall_hit(double posx, double posy, char **map)
+{
+	int	x;
+	int	y;
+
+	x = (posx / Tile_size);
+	y = (posy / Tile_size);
+	if (x > ft_strlen2(map[0]) || x < 0 || y < 0 || y > get_grid_height(map))
+		return (1);
+	if (x < ft_strlen2(map[0]) && x >= 0
+		&& y >= 0 && y < get_grid_height(map) && map[y][x] == '1')
+		return (1);
+	else
+		return (0);
+}
+
 
 void castrayhorz(t_data *data, t_ray *ray,double ax, double ay,double dx,double dy, double angle)
 {
@@ -95,7 +136,7 @@ void castrayhorz(t_data *data, t_ray *ray,double ax, double ay,double dx,double 
 			y = ay - 1;
 		else
 			y = ay;
-		if (data->map[(int)(y / 64.0)][(int)(ax / 64.0)] == '1')
+		if (wall_hit(ax,y,data->map))
 		{
 			ray->hax = ax;
 			ray->hay = ay;
@@ -138,7 +179,7 @@ void castrayvert(t_data *data, t_ray *ray,double ax, double ay,double dx,double 
 			x = ax - 1;
 		else 
 			x = ax;
-		if (data->map[(int)(ay / 64.0)][(int)(x / 64.0)] == '1')
+		if (wall_hit(x,ay,data->map))
 		{
 			ray->vax = ax;
 			ray->vay = ay;
