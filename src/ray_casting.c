@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 21:47:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/12 05:35:24 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/13 04:02:01 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void dda(t_data *data, double x1, double y1, double x2, double y2, int color)
     yIncrement = dy / steps;
     while (i <= steps)
     {
-        if ((x1) > 1027 || (x1) < 0 || (y1) < 0 || (y1) > 720)
+        if ((x1) > WIDTH || (x1) < 0 || (y1) < 0 || (y1) > HEIGHT)
             return;
         mlx_put_pixel(data->image_win, round(x1), round(y1), color);
         x1 += xIncrement;
@@ -65,7 +65,7 @@ void dda(t_data *data, double x1, double y1, double x2, double y2, int color)
 // 	yinc = dy / step;
 // 	while (step--)
 // 	{
-// 		if(xstart >=0 && xstart < 1027 && ystart >=0 && ystart < 720)
+// 		if(xstart >=0 && xstart < WIDTH && ystart >=0 && ystart < HEIGHT)
 // 			mlx_put_pixel(data->image_win, xstart, ystart,color);
 // 		xstart = xstart + xinc;
 // 		ystart = ystart + yinc;
@@ -85,42 +85,18 @@ int angle_up_or_down(double angle)
 		return 1;
     return 0; // Angle is facing up
 }
-int	ft_strlen2(const char *str)
-{
-	int	length;
 
-	length = 0;
-	if (!str || !*str)
-		return (0);
-	while (str[length])
-		length++;
-	return (length);
-}
-int	get_grid_height(char **grid)
-{
-	int		j;
-	char	**tmp;
-
-	tmp = grid;
-	j = 0;
-	while (*tmp)
-	{
-		j++;
-		tmp++;
-	}
-	return (j);
-}
-int	wall_hit(double posx, double posy, char **map)
+int	wall_hit(double px, double py, t_data *data)
 {
 	int	x;
 	int	y;
 
-	x = (posx / Tile_size);
-	y = (posy / Tile_size);
-	if (x > ft_strlen2(map[0]) || x < 0 || y < 0 || y > get_grid_height(map))
+	x = (px / Tile_size);
+	y = (py / Tile_size);
+	if (x > data->width || x < 0 || y < 0 || y > data->HEIGHTt)
 		return (1);
-	if (x < ft_strlen2(map[0]) && x >= 0
-		&& y >= 0 && y < get_grid_height(map) && map[y][x] == '1')
+	if (x < data->width && x >= 0
+		&& y >= 0 && y < data->HEIGHTt && data->map[y][x] == '1')
 		return (1);
 	else
 		return (0);
@@ -130,13 +106,13 @@ int	wall_hit(double posx, double posy, char **map)
 void castrayhorz(t_data *data, t_ray *ray,double ax, double ay,double dx,double dy, double angle)
 {
 	double y;
-	while (ax >= 0 && ay >= 0 && ax <= ((data->width) * Tile_size) && ay <= (data->height) * Tile_size)
+	while (ax >= 0 && ay >= 0 && ax <= ((data->width) * Tile_size) && ay <= (data->HEIGHTt) * Tile_size)
 	{
 		if (!angle_up_or_down(angle))
 			y = ay - 1;
 		else
 			y = ay;
-		if (wall_hit(ax,y,data->map))
+		if (wall_hit(ax,y,data))
 		{
 			ray->hax = ax;
 			ray->hay = ay;
@@ -173,13 +149,13 @@ void horizontal(t_data *data, t_ray *ray, double angle)
 void castrayvert(t_data *data, t_ray *ray,double ax, double ay,double dx,double dy,double angle)
 {
 	double x;
-	while (ax >= 0 && ay >= 0 && ax <= ((data->width) * Tile_size) && ay <= (data->height) * Tile_size)
+	while (ax >= 0 && ay >= 0 && ax <= ((data->width) * Tile_size) && ay <= (data->HEIGHTt) * Tile_size)
 	{
 		if (!angle_left_or_right(angle))
 			x = ax - 1;
 		else 
 			x = ax;
-		if (wall_hit(x,ay,data->map))
+		if (wall_hit(x,ay,data))
 		{
 			ray->vax = ax;
 			ray->vay = ay;
@@ -232,12 +208,12 @@ void castallrays(t_data *data)
 	double player_ray_dist;
 	double ray_inc;
 
-	ray_inc = FOV / 1027;
+	ray_inc = FOV / WIDTH;
 	ray_start = data->player->rotationAngle - (FOV / 2.0);
 	ray = malloc(sizeof(t_ray));
 	colum = 0;
 	
-	while (colum < 1027)
+	while (colum < WIDTH)
 	{
 		
 		ray->horzhit = 0;
@@ -261,16 +237,16 @@ void castallrays(t_data *data)
 			player_ray_dist = ray->distancev * cos(data->player->rotationAngle - ray_start);
 			// dda(data,data->player->px,data->player->py,ray->vax,ray->vay,ft_pixel(255,0,0,255));
 		}
-		project_dist = (1027 / 2)/tan(FOV / 2);
+		project_dist = (WIDTH / 2)/tan(FOV / 2);
 		project_plan = (project_dist / player_ray_dist) * Tile_size;
-		ystart = (720 / 2) - (project_plan / 2);
-		yend = (720 / 2) + (project_plan / 2);
-		// if (ystart > 720)
+		ystart = (HEIGHT / 2) - (project_plan / 2);
+		yend = (HEIGHT / 2) + (project_plan / 2);
+		// if (ystart > HEIGHT)
 		// 	ystart = 0;
 		if (ystart < 0)
 			ystart = 0;
 		// dda(data, colum, ystart, colum, yend, ft_pixel(0xfffffff,0xfffffff,0xfffffff,255));
-		while (ystart < yend && ystart < 720.0)
+		while (ystart < yend && ystart < HEIGHT)
 		{
 				mlx_put_pixel(data->image_win,colum,ystart,ft_pixel(255,255,255,255));
 			ystart++;

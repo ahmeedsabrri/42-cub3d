@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 20:55:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/12 05:38:53 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/13 04:07:17 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 //     yIncrement = dy / steps;
 //     while (i <= steps)
 //     {
-//         if ((x1) > 1027 || (x1) < 0 || (y1) < 0 || (y1) > 720)
+//         if ((x1) > WIDTH || (x1) < 0 || (y1) < 0 || (y1) > HEIGHT)
 //             return;
 //         mlx_put_pixel(data->image_win, round(x1), round(y1), color);
 //         x1 += xIncrement;
@@ -52,8 +52,8 @@ void draw_player(t_data *data, uint32_t color)
 {
     (void)color;
     for (int i = 0; i < 360; i++)
-        dda(data,(WIDTH / 2) * MINI_MAP_SCALE ,(HEIGHT / 2) * MINI_MAP_SCALE ,(WIDTH / 2) * MINI_MAP_SCALE + (cos(i * PI/180) * 10),(HEIGHT / 2) * MINI_MAP_SCALE + (sin(i * PI/180) * 10),ft_pixel(255,0,0,255));
-    dda(data,(WIDTH / 2) * MINI_MAP_SCALE ,(HEIGHT / 2) * MINI_MAP_SCALE,(WIDTH / 2) * MINI_MAP_SCALE + (cos(data->player->rotationAngle) * 30),(HEIGHT / 2) * MINI_MAP_SCALE + (sin(data->player->rotationAngle) * 30),ft_pixel(255,0,0,255));
+        dda(data,(300 / 2) ,(200 / 2),(300 / 2) + (cos(i * PI/180) * 10),(200 / 2) + (sin(i * PI/180) * 10),ft_pixel(255,0,0,255));
+    dda(data,(300/ 2) ,(200 / 2) ,(300/ 2) + (cos(data->player->rotationAngle) * 30),(200 / 2) + (sin(data->player->rotationAngle) * 30),ft_pixel(255,0,0,255));
 }
 // void draw_square(t_data *data, int y,int x, uint32_t color)
 // {
@@ -86,12 +86,12 @@ void draw_minimap(t_data *data, double xstart,double ystart,int i,int j)
 {
     xstart = (int)(xstart / Tile_size);
     ystart = (int)(ystart / Tile_size);
-    if (ystart < 0|| xstart < 0 ||  ystart > (HEIGHT) * MINI_MAP_SCALE || xstart > (HEIGHT) * MINI_MAP_SCALE)
+    if (ystart < 0|| xstart < 0 ||  ystart > 200 || xstart > 300)
     {
         mlx_put_pixel(data->image_win,i,j,ft_pixel(0,0,0,255));
         return ;
     }
-    if (wall_hit(xstart,ystart,data->map))
+    if (wall_hit(xstart * Tile_size,ystart* Tile_size,data))
         mlx_put_pixel(data->image_win,j  ,i ,ft_pixel(255,255,255,255));
     else
         mlx_put_pixel(data->image_win,j ,i,ft_pixel(0,0,0,255));
@@ -103,14 +103,14 @@ void renderminimap(t_data *data)
     int i;
     int j;
 
-    xstart = (data->player->px) - ((WIDTH)  * MINI_MAP_SCALE);
-    ystart = (data->player->py) - ((HEIGHT) * MINI_MAP_SCALE);
+    xstart = (data->player->px) - ((300)  / 2.0);
+    ystart = (data->player->py) - ((200) / 2.0);
     i = 0;
-    while (i < HEIGHT * MINI_MAP_SCALE)
+    while (i < ((200)))
     {
-        xstart = (data->player->px) - ((WIDTH) * MINI_MAP_SCALE);
+        xstart = (data->player->px) - ((300)  / 2.0);
         j = 0;
-        while (j < WIDTH * MINI_MAP_SCALE)
+        while (j <((300)))
         {
             draw_minimap(data,xstart,ystart,i,j);
             j++;
@@ -136,7 +136,7 @@ int width_size(char **str)
     }
     return ((int)width);
 }
-int get_height(char **str)
+int get_HEIGHTt(char **str)
 {
     int i;
 
@@ -151,9 +151,9 @@ int hit_the_wall(double x,double y,t_data *data)
 
     px = x / Tile_size;
     py = y / Tile_size;
-    if (px > (int)strlen(data->map[0]) || px < 0 || py < 0 || py > data->height)
+    if (px > (int)strlen(data->map[0]) || px < 0 || py < 0 || py > data->HEIGHTt)
         return (1);
-    if ((((int)py / Tile_size) > 0) && (int)strlen(data->map[0]) > 0 && (((int)py / Tile_size) < (data->height))  &&  (((int)py / Tile_size) < (int)strlen(data->map[0])) &&  data->map[(int)py / Tile_size][(int)px / Tile_size] != '1')
+    if ((((int)py / Tile_size) > 0) && (int)strlen(data->map[0]) > 0 && (((int)py / Tile_size) < (data->HEIGHTt))  &&  (((int)py / Tile_size) < (int)strlen(data->map[0])) &&  data->map[(int)py / Tile_size][(int)px / Tile_size] != '1')
         return (1);
     return (0);
 }
@@ -169,7 +169,7 @@ void ft_renderplayer1(t_data *data)
     px = data->player->px + cos(data->player->rotationAngle + M_PI_2)  * mv;
     py = data->player->py + sin(data->player->rotationAngle + M_PI_2) * mv;
 
-   if ((((int)py / Tile_size) > 0) && (int)strlen(data->map[0]) > 0 && ((((int)py / Tile_size) < (data->height))  ||  (((int)py / Tile_size) < (int)data->width)) &&  data->map[(int)py / Tile_size][(int)px / Tile_size] != '1')
+   if ((((int)py / Tile_size) > 0) && (int)strlen(data->map[0]) > 0 && ((((int)py / Tile_size) < (data->HEIGHTt))  ||  (((int)py / Tile_size) < (int)data->width)) &&  data->map[(int)py / Tile_size][(int)px / Tile_size] != '1')
     {
             data->player->px = px;
             data->player->py = py;
@@ -187,7 +187,7 @@ void ft_renderplayer(t_data *data)
    px = data->player->px + cos(data->player->rotationAngle)  * mv;
     py =data->player->py + sin(data->player->rotationAngle ) * mv;
 
-    if ((((int)py / Tile_size) > 0) && (int)strlen(data->map[0]) > 0 && ((((int)py / Tile_size) < (data->height))  ||  (((int)py / Tile_size) < (int)data->width) )&&  data->map[(int)py / Tile_size][(int)px / Tile_size] != '1')
+    if ((((int)py / Tile_size) > 0) && (int)strlen(data->map[0]) > 0 && ((((int)py / Tile_size) < (data->HEIGHTt))  ||  (((int)py / Tile_size) < (int)data->width) )&&  data->map[(int)py / Tile_size][(int)px / Tile_size] != '1')
     {
             data->player->px = px;
             data->player->py = py;
@@ -271,12 +271,12 @@ void fill_window(t_data *data)
     int i =0 ;
     int j;
 
-    while (i < 720)
+    while (i < HEIGHT)
     {
         j = 0;
-        while (j < 1027)
+        while (j < WIDTH)
         {
-            if (i > 720 / 2)
+            if (i > HEIGHT / 2)
                  mlx_put_pixel(data->image_win, j, i, ft_pixel(121, 75, 38,255));
             else
                  mlx_put_pixel(data->image_win, j, i, ft_pixel(101,134,155,255));
@@ -291,12 +291,12 @@ void mouse_move(t_data *data)
     int y;
 
     mlx_get_mouse_pos(data->mlx,&x,&y);
-    mlx_set_mouse_pos(data->mlx,1027/2,720/2);
+    mlx_set_mouse_pos(data->mlx,WIDTH/2,HEIGHT/2);
 
-    if (x > 1027/2)
-        data->player->rotationAngle += 0.025;
-    if (x < 1027/2)
-        data->player->rotationAngle -= 0.025;
+    if (x > WIDTH/2)
+        data->player->rotationAngle += 0.03;
+    if (x < WIDTH/2)
+        data->player->rotationAngle -= 0.03;
 }
 
 void ft_hook(void *param)
@@ -306,9 +306,8 @@ void ft_hook(void *param)
         ft_renderplayer(data);
     if (data->player->side_direction != 0)
         ft_renderplayer1(data);
-        
     mlx_delete_image(data->mlx,data->image_win);
-    if (!(data->image_win = mlx_new_image(data->mlx, 1027, 720)))
+    if (!(data->image_win = mlx_new_image(data->mlx, WIDTH, HEIGHT)))
 	{
 		mlx_close_window(data->mlx);
 		puts(mlx_strerror(mlx_errno));
@@ -323,30 +322,20 @@ void ft_hook(void *param)
 void init(t_data *data)
 {
     mlx_set_setting(MLX_STRETCH_IMAGE, true);
-    data->mlx = mlx_init(1027,720,"cub3d",true);
+    data->mlx = mlx_init(WIDTH,HEIGHT,"cub3d",true);
     if (!(data->mlx))
 		return (puts(mlx_strerror(errno)),(void)EXIT_FAILURE);
-    if (!(data->image_win = mlx_new_image(data->mlx, 1027, 720)))
+    if (!(data->image_win = mlx_new_image(data->mlx, WIDTH, HEIGHT)))
 	{
 		mlx_close_window(data->mlx);
 		puts(mlx_strerror(mlx_errno));
 		return((void)EXIT_FAILURE);
 	}
-    // if (!(data->minimap_win = mlx_new_image(data->mlx,WIDTH * MINI_MAP_SCALE , HEIGHT * MINI_MAP_SCALE)))
-	// {
-	// 	mlx_close_window(data->mlx);
-	// 	puts(mlx_strerror(mlx_errno));
-	// 	return((void)EXIT_FAILURE);
-	// }
     mlx_set_cursor_mode(data->mlx,MLX_MOUSE_HIDDEN);
     get_player_pos(data);
     mlx_image_to_window(data->mlx, data->image_win, 0, 0);
-    // mlx_image_to_window(data->mlx, data->minimap_win, 30, 20);
     mlx_key_hook(data->mlx,ft_keyfunc_pressed,data);
     mlx_loop_hook(data->mlx,ft_hook,data);
-    // mlx_loop_hook(data->mlx,renderminimap,data);
-
-    
     mlx_loop(data->mlx);
     mlx_terminate(data->mlx);
 }

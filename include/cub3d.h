@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 22:54:35 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/12 05:37:20 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/13 04:05:48 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 #define FOV (60 * (M_PI / 180))
 #define wallAngle 90
 #define HEIGHT 720
-#define WIDTH 1027
+#define WIDTH 1024
 #define Tile_size 64
 #define MINI_MAP_SCALE 0.2
 #define TOW_PI 6.28318530
@@ -56,7 +56,7 @@ typedef struct s_player
 	double	px;
 	double	py;
 	double	width;
-	double	height;
+	double	HEIGHTt;
 	int		walkDirection;
 	int		turnDirection; // 	-1 for left and +1 to right 
 	double	rotationAngle;
@@ -71,7 +71,7 @@ typedef struct	s_data
 	mlx_image_t		*image_win;
 	mlx_image_t		*minimap_win;
 	int				width;
-	int				height;
+	int				HEIGHTt;
 	t_player		*player;
 	char			**map;
 }	t_data;
@@ -80,9 +80,9 @@ void	init(t_data *data);
 void	dda(t_data *data,double xstart, double ystart,double xend, double yend,int color);
 int32_t	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
 void	castallrays(t_data *data);
-int		get_height(char **str);
+int		get_HEIGHTt(char **str);
 int		width_size(char **str);
-int	wall_hit(double posx, double posy, char **map);
+int	wall_hit(double px, double py, t_data *data);
 //-------------parsing------------//
 
 
