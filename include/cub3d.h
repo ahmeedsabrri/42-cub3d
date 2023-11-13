@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 22:54:35 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/12 04:53:53 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/12 21:59:24 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*get_next_line(int fd);
 int		check_infos(t_infos **infos);
 int     ft_atoi(const char *str);
+int		check_map_valid(t_data **data);
 int		parsing(int ac, char **av, t_data *data);
 
 //************linked_list***************//

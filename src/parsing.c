@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 16:36:30 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/12 03:17:36 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/13 03:52:16 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int	store_map(int fd, t_data **data, int count, char *line)
 		i = 0;
 		while (line[i] && is_space(line[i]))
 			i++;
-		if (line[i] != '1')
+		if (line[i] != '1' && line[i] != '0')
 			line = get_next_line(fd);
 		else
 			break;
@@ -144,7 +144,7 @@ int	check_store_map(char **av, char *line, int fd, t_data **data)
 	{
 		while (line && is_space(*line))
 			(line)++;
-		if (*line && *line != '1')
+		if (*line && *line != '1' && *line != '0')
 			return (1);
 		count++;
 		line = get_next_line(fd);
@@ -158,6 +158,66 @@ int	check_store_map(char **av, char *line, int fd, t_data **data)
 	return (0);
 }
 
+void    *ft_memcpy(void *dst, const void *src, size_t n)
+{
+    size_t  i;
+    char    *src1;
+    char    *dst1;
+    i = 0;
+    if (!src && !dst)
+        return (NULL);
+    src1 = (char *)src;
+    dst1 = (char *)dst;
+    if (dst == src)
+        return (dst);
+    while (i < n)
+    {
+        dst1[i] = src1[i];
+        i++;
+    }
+    return (dst);
+}
+
+void    *ft_memset(void *b, int c, size_t len)
+{
+        size_t                  i;
+        unsigned char   *ptr;
+
+        i = 0;
+        ptr = (unsigned char *)b;
+        while (i < len)
+        {
+                ptr[i] = (unsigned char)c;
+                i++;
+        }
+        return (b);
+}
+
+int	resize_to_same_width(t_data **data)
+{
+	char	*tmp;
+	int		i = 0;
+	int width;
+
+	width = width_size((*data)->map);
+	tmp = malloc(sizeof(char) * width + 1);
+	if(!tmp)
+		return (1);
+	ft_memset(tmp, '1', width);
+	tmp[width] = '\0';
+	while ((*data)->map[i])
+	{
+		if (ft_strlen((*data)->map[i]) < (size_t)width)
+		{
+			ft_memcpy(tmp, (*data)->map[i], ft_strlen((*data)->map[i]));
+			(*data)->map[i] = ft_strdup(tmp);
+			ft_memset(tmp, '1', width);
+		}
+		i++;
+	}
+	return (0);
+}
+
 int	parsing(int ac, char **av, t_data *data)
 {
 	int		fd;
@@ -166,7 +226,7 @@ int	parsing(int ac, char **av, t_data *data)
 
 	(void)data;
 	if (ac != 2)
-		ft_error("Error:\nShould be one argument\n");
+		ft_error("Error: Should be one argument\n");
 	check_extension(av);
 	fd = open(av[1], O_RDONLY);
 	if (fd < 0)
@@ -180,8 +240,12 @@ int	parsing(int ac, char **av, t_data *data)
 	if (get_infos(&info_line, &infos, fd))
 		return (ft_error("Informations Error\n"), 1);
 	if (check_infos(&infos))
-		return (ft_error("Informations Error\n"), 1);
+		return (ft_error("Head Infos Error\n"), 1);
 	if (check_store_map(av, info_line,  fd, &data))
 		return (ft_error("Map Error\n"), 1);
+	if (check_map_valid(&data))
+		return (ft_error("Map Not valid\n"), 1);
+	if (resize_to_same_width(&data))
+		return (1);
 	return (0);
 }
