@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 22:54:35 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/13 05:43:11 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/14 00:06:53 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,15 +91,16 @@ typedef struct s_player
 
 typedef struct	s_data
 {
-	mlx_t				*mlx;
-	mlx_image_t			*image_win;
-	int					width;
+	mlx_t		*mlx;
+	mlx_image_t	*image_win;
+	int			width;
 	t_infos		*infos;
 	t_floor		*floor;
 	t_ceiling	*ceiling;
-	int					height;
-	t_player			*player;
-	char				**map;
+	char		plyr;
+	int			height;
+	t_player	*player;
+	char		**map;
 }	t_data;
 
 void	init(t_data *data);

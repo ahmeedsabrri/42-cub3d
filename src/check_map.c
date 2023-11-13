@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 21:43:51 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/13 01:36:39 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/14 00:32:39 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int check_walls(t_data **data)
     return (0);
 }
 
-int check_map_valid(t_data **data)
+int check_valid_chars(t_data **data)
 {
     int i;
     int j;
@@ -88,12 +88,73 @@ int check_map_valid(t_data **data)
                 return (1);
             if ((*data)->map[i][j] == 'N' || (*data)->map[i][j] == 'E' \
                 || (*data)->map[i][j] == 'W' || (*data)->map[i][j] == 'S')
+			{
+				(*data)->plyr = (*data)->map[i][j];
                 count++;
+			}
             j++;
         }
         i++;
     }  
     if (count != 1)
         return (1);
+    return (0);
+}
+
+int check_wall_around_chars(t_data **data)
+{
+    int i;
+    int j;
+
+    i = 0;
+	while ((*data)->map[i])
+	{
+		j = 0;
+		while ((*data)->map[i][j])
+		{
+			if ((*data)->map[i][j] == '0' || (*data)->map[i][j] == (*data)->plyr)
+			{
+				if ((*data)->map[i][j] == '0')
+				{
+					if ((*data)->map[i][j + 1] != '1' && (*data)->map[i][j + 1] != '0' \
+                        && (*data)->map[i][j + 1] != (*data)->plyr)
+                        return (1);
+					if ((*data)->map[i][j - 1] != '1' && (*data)->map[i][j - 1] != '0' \
+                        && (*data)->map[i][j - 1] != (*data)->plyr)
+                        return (1);
+					if ((*data)->map[i + 1][j] != '1' && (*data)->map[i + 1][j] != '0' \
+                        && (*data)->map[i + 1][j] != (*data)->plyr)
+                        return (1);
+					if ((*data)->map[i - 1][j] != '1' && (*data)->map[i - 1][j] != '0' \
+                        && (*data)->map[i - 1][j] != (*data)->plyr)
+                        return (1);
+                }
+				else if ((*data)->map[i][j] == (*data)->plyr)
+				{
+					if ((*data)->map[i][j + 1] != '1' && (*data)->map[i][j + 1] != '0')
+                        return (1);
+					if ((*data)->map[i][j - 1] != '1' && (*data)->map[i][j - 1] != '0')
+                        return (1);
+					if ((*data)->map[i + 1][j] != '1' && (*data)->map[i + 1][j] != '0')
+                        return (1);
+					if ((*data)->map[i - 1][j] != '1' && (*data)->map[i - 1][j] != '0')
+                        return (1);
+				}
+			}
+            j++;
+		}
+		i++;
+	}
+	return (0);
+}
+
+int check_map_valid(t_data **data)
+{
+    if (check_valid_chars(data))
+        return (1);
+    if (check_wall_around_chars(data))
+    {
+        return (1);
+    }
     return (0);
 }

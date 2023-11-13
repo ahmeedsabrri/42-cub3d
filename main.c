@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 01:33:47 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/13 05:38:43 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/14 00:15:05 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,6 @@ int main(int ac, char **av)
     player->walkspeed = 3;
     player->turnspeed = 3.00 * (M_PI / 180.0);
     data->player = player;
-    // init(data);
+    init(data);
     return (0);
 }
