@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 22:54:35 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/12 21:59:24 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/13 05:43:11 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,30 @@
 #define BUFFER_SIZE 1
 
 
+typedef struct s_infos
+{
+	char	*north;
+	char	*south;
+	char	*east;
+	char	*west;
+	char	*floor;
+	char	*ceiling;
+}	t_infos;
+
+
+typedef struct s_floor
+{
+	int	r;
+	int	g;
+	int	b;
+}	t_floor;
+
+typedef struct s_ceiling
+{
+	int	r;
+	int	g;
+	int	b;
+}	t_ceiling;
 
 
 typedef struct s_ray
@@ -64,14 +88,18 @@ typedef struct s_player
 	double	side_direction;
 	
 }	t_player;
+
 typedef struct	s_data
 {
-	mlx_t			*mlx;
-	mlx_image_t		*image_win;
-	int				width;
-	int				height;
-	t_player		*player;
-	char			**map;
+	mlx_t				*mlx;
+	mlx_image_t			*image_win;
+	int					width;
+	t_infos		*infos;
+	t_floor		*floor;
+	t_ceiling	*ceiling;
+	int					height;
+	t_player			*player;
+	char				**map;
 }	t_data;
 
 void	init(t_data *data);
@@ -80,43 +108,11 @@ int32_t	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
 void	castallrays(t_data *data);
 int		get_height(char **str);
 int		width_size(char **str);
+int		wall_hit(double px, double py, t_data *data);
 
 //-------------parsing------------//
 
 
-typedef struct s_infos
-{
-	char	*north;
-	char	*south;
-	char	*east;
-	char	*west;
-	char	*floor;
-	char	*ceiling;
-}	t_infos;
-
-typedef struct s_text
-{
-	char	*no;
-	char	*so;
-	char	*ea;
-	char	*we;
-	char	*fl;
-	char	*ce;
-}	t_text;
-
-typedef struct s_floor
-{
-	int	r;
-	int	g;
-	int	b;
-}	t_floor;
-
-typedef struct s_ceiling
-{
-	int	r;
-	int	g;
-	int	b;
-}	t_ceiling;
 
 
 char	*ft_strrchr(const char *s, int c);
@@ -134,7 +130,7 @@ int		is_space(char c);
 int     ft_isdigit(int c);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*get_next_line(int fd);
-int		check_infos(t_infos **infos);
+int		check_infos(t_infos **infos, t_data **data);
 int     ft_atoi(const char *str);
 int		check_map_valid(t_data **data);
 int		parsing(int ac, char **av, t_data *data);

@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 21:47:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/12 05:00:29 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/13 04:16:39 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void dda(t_data *data, double x1, double y1, double x2, double y2, int color)
     yIncrement = dy / steps;
     while (i <= steps)
     {
-        if ((x1) > 1027 || (x1) < 0 || (y1) < 0 || (y1) > 720)
+        if ((x1) > WIDTH || (x1) < 0 || (y1) < 0 || (y1) > HEIGHT)
             return;
         mlx_put_pixel(data->image_win, round(x1), round(y1), color);
         x1 += xIncrement;
@@ -65,7 +65,7 @@ void dda(t_data *data, double x1, double y1, double x2, double y2, int color)
 // 	yinc = dy / step;
 // 	while (step--)
 // 	{
-// 		if(xstart >=0 && xstart < 1027 && ystart >=0 && ystart < 720)
+// 		if(xstart >=0 && xstart < WIDTH && ystart >=0 && ystart < HEIGHT)
 // 			mlx_put_pixel(data->image_win, xstart, ystart,color);
 // 		xstart = xstart + xinc;
 // 		ystart = ystart + yinc;
@@ -86,6 +86,23 @@ int angle_up_or_down(double angle)
     return 0; // Angle is facing up
 }
 
+int	wall_hit(double px, double py, t_data *data)
+{
+	int	x;
+	int	y;
+
+	x = (px / Tile_size);
+	y = (py / Tile_size);
+	if (x > data->width || x < 0 || y < 0 || y > data->height)
+		return (1);
+	if (x < data->width && x >= 0
+		&& y >= 0 && y < data->height && data->map[y][x] == '1')
+		return (1);
+	else
+		return (0);
+}
+
+
 void castrayhorz(t_data *data, t_ray *ray,double ax, double ay,double dx,double dy, double angle)
 {
 	double y;
@@ -95,7 +112,7 @@ void castrayhorz(t_data *data, t_ray *ray,double ax, double ay,double dx,double 
 			y = ay - 1;
 		else
 			y = ay;
-		if ( data->map[(int)(y / 64.0)][(int)(ax / 64.0)] == '1')
+		if (wall_hit(ax,y,data))
 		{
 			ray->hax = ax;
 			ray->hay = ay;
@@ -138,7 +155,7 @@ void castrayvert(t_data *data, t_ray *ray,double ax, double ay,double dx,double 
 			x = ax - 1;
 		else 
 			x = ax;
-		if (data->map[(int)(ay / 64.0)][(int)(x / 64.0)] == '1')
+		if (wall_hit(x,ay,data))
 		{
 			ray->vax = ax;
 			ray->vay = ay;
@@ -191,12 +208,12 @@ void castallrays(t_data *data)
 	double player_ray_dist;
 	double ray_inc;
 
-	ray_inc = FOV / 1027;
+	ray_inc = FOV / WIDTH;
 	ray_start = data->player->rotationAngle - (FOV / 2.0);
 	ray = malloc(sizeof(t_ray));
 	colum = 0;
 	
-	while (colum < 1027)
+	while (colum < WIDTH)
 	{
 		
 		ray->horzhit = 0;
@@ -220,16 +237,16 @@ void castallrays(t_data *data)
 			player_ray_dist = ray->distancev * cos(data->player->rotationAngle - ray_start);
 			// dda(data,data->player->px,data->player->py,ray->vax,ray->vay,ft_pixel(255,0,0,255));
 		}
-		project_dist = (1027 / 2)/tan(FOV / 2);
+		project_dist = (WIDTH / 2)/tan(FOV / 2);
 		project_plan = (project_dist / player_ray_dist) * Tile_size;
-		ystart = (720 / 2) - (project_plan / 2);
-		yend = (720 / 2) + (project_plan / 2);
-		// if (ystart > 720)
+		ystart = (HEIGHT / 2) - (project_plan / 2);
+		yend = (HEIGHT / 2) + (project_plan / 2);
+		// if (ystart > HEIGHT)
 		// 	ystart = 0;
 		if (ystart < 0)
 			ystart = 0;
 		// dda(data, colum, ystart, colum, yend, ft_pixel(0xfffffff,0xfffffff,0xfffffff,255));
-		while (ystart < yend && ystart < 720.0)
+		while (ystart < yend && ystart < HEIGHT)
 		{
 				mlx_put_pixel(data->image_win,colum,ystart,ft_pixel(255,255,255,255));
 			ystart++;

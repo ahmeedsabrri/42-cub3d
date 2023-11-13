@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 16:36:30 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/13 03:52:16 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/13 05:48:35 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,7 +239,8 @@ int	parsing(int ac, char **av, t_data *data)
 	(infos->south = NULL, infos->floor = NULL, infos->ceiling = NULL);
 	if (get_infos(&info_line, &infos, fd))
 		return (ft_error("Informations Error\n"), 1);
-	if (check_infos(&infos))
+	(data->infos = infos);
+	if (check_infos(&infos, &data))
 		return (ft_error("Head Infos Error\n"), 1);
 	if (check_store_map(av, info_line,  fd, &data))
 		return (ft_error("Map Error\n"), 1);

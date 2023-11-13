@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 20:55:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/12 04:55:53 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/13 04:16:31 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 //     yIncrement = dy / steps;
 //     while (i <= steps)
 //     {
-//         if ((x1) > 1027 || (x1) < 0 || (y1) < 0 || (y1) > 720)
+//         if ((x1) > WIDTH || (x1) < 0 || (y1) < 0 || (y1) > HEIGHT)
 //             return;
 //         mlx_put_pixel(data->image_win, round(x1), round(y1), color);
 //         x1 += xIncrement;
@@ -52,8 +52,8 @@ void draw_player(t_data *data, uint32_t color)
 {
     (void)color;
     for (int i = 0; i < 360; i++)
-        dda(data,(WIDTH / 2) * MINI_MAP_SCALE ,(HEIGHT / 2) * MINI_MAP_SCALE ,(WIDTH / 2) * MINI_MAP_SCALE + (cos(i * PI/180) * 10),(HEIGHT / 2) * MINI_MAP_SCALE + (sin(i * PI/180) * 10),ft_pixel(255,0,0,255));
-    dda(data,(WIDTH / 2) * MINI_MAP_SCALE ,(HEIGHT / 2) * MINI_MAP_SCALE,(WIDTH / 2) * MINI_MAP_SCALE + (cos(data->player->rotationAngle) * 30),(HEIGHT / 2) * MINI_MAP_SCALE + (sin(data->player->rotationAngle) * 30),ft_pixel(255,0,0,255));
+        dda(data,(300 / 2) ,(200 / 2),(300 / 2) + (cos(i * PI/180) * 10),(200 / 2) + (sin(i * PI/180) * 10),ft_pixel(255,0,0,255));
+    dda(data,(300/ 2) ,(200 / 2) ,(300/ 2) + (cos(data->player->rotationAngle) * 30),(200 / 2) + (sin(data->player->rotationAngle) * 30),ft_pixel(255,0,0,255));
 }
 // void draw_square(t_data *data, int y,int x, uint32_t color)
 // {
@@ -84,37 +84,33 @@ void draw_player(t_data *data, uint32_t color)
 // }
 void draw_minimap(t_data *data, double xstart,double ystart,int i,int j)
 {
-    (void)i;
-    (void)j;
     xstart = (int)(xstart / Tile_size);
     ystart = (int)(ystart / Tile_size);
-    if (ystart < 0|| xstart < 0 ||  ystart > (HEIGHT) * MINI_MAP_SCALE || xstart > (HEIGHT) * MINI_MAP_SCALE)
+    if (ystart < 0|| xstart < 0 ||  ystart > 200 || xstart > 300)
     {
         mlx_put_pixel(data->image_win,i,j,ft_pixel(0,0,0,255));
         return ;
     }
-    if (data->map[(int)ystart][(int)(xstart)] == '1')
+    if (wall_hit(xstart * Tile_size,ystart* Tile_size,data))
         mlx_put_pixel(data->image_win,j  ,i ,ft_pixel(255,255,255,255));
     else
         mlx_put_pixel(data->image_win,j ,i,ft_pixel(0,0,0,255));
 }
 void renderminimap(t_data *data)
 {
-    // t_data *data;
-    // data = param;
     double xstart;
     double ystart;
     int i;
     int j;
 
-    xstart = (data->player->px) - ((WIDTH)  * MINI_MAP_SCALE);
-    ystart = (data->player->py) - ((HEIGHT) * MINI_MAP_SCALE);
+    xstart = (data->player->px) - ((300)  / 2.0);
+    ystart = (data->player->py) - ((200) / 2.0);
     i = 0;
-    while (i < HEIGHT * MINI_MAP_SCALE)
+    while (i < ((200)))
     {
-        xstart = (data->player->px) - ((WIDTH)  * MINI_MAP_SCALE);
+        xstart = (data->player->px) - ((300)  / 2.0);
         j = 0;
-        while (j < WIDTH * MINI_MAP_SCALE)
+        while (j <((300)))
         {
             draw_minimap(data,xstart,ystart,i,j);
             j++;
@@ -275,12 +271,12 @@ void fill_window(t_data *data)
     int i =0 ;
     int j;
 
-    while (i < 720)
+    while (i < HEIGHT)
     {
         j = 0;
-        while (j < 1027)
+        while (j < WIDTH)
         {
-            if (i > 720 / 2)
+            if (i > HEIGHT / 2)
                  mlx_put_pixel(data->image_win, j, i, ft_pixel(121, 75, 38,255));
             else
                  mlx_put_pixel(data->image_win, j, i, ft_pixel(101,134,155,255));
@@ -295,12 +291,12 @@ void mouse_move(t_data *data)
     int y;
 
     mlx_get_mouse_pos(data->mlx,&x,&y);
-    mlx_set_mouse_pos(data->mlx,1027/2,720/2);
+    mlx_set_mouse_pos(data->mlx,WIDTH/2,HEIGHT/2);
 
-    if (x > 1027/2)
-        data->player->rotationAngle += 0.025;
-    if (x < 1027/2)
-        data->player->rotationAngle -= 0.025;
+    if (x > WIDTH/2)
+        data->player->rotationAngle += 0.03;
+    if (x < WIDTH/2)
+        data->player->rotationAngle -= 0.03;
 }
 
 void ft_hook(void *param)
@@ -310,9 +306,8 @@ void ft_hook(void *param)
         ft_renderplayer(data);
     if (data->player->side_direction != 0)
         ft_renderplayer1(data);
-        
     mlx_delete_image(data->mlx,data->image_win);
-    if (!(data->image_win = mlx_new_image(data->mlx, 1027, 720)))
+    if (!(data->image_win = mlx_new_image(data->mlx, WIDTH, HEIGHT)))
 	{
 		mlx_close_window(data->mlx);
 		puts(mlx_strerror(mlx_errno));
@@ -322,36 +317,25 @@ void ft_hook(void *param)
     fill_window(data);
     mouse_move(data);
     castallrays(data);
-    //renderminimap(data);
+    renderminimap(data);
 }
 void init(t_data *data)
 {
     mlx_set_setting(MLX_STRETCH_IMAGE, true);
-    data->mlx = mlx_init(1027,720,"cub3d",true);
+    data->mlx = mlx_init(WIDTH,HEIGHT,"cub3d",true);
     if (!(data->mlx))
 		return (puts(mlx_strerror(errno)),(void)EXIT_FAILURE);
-    if (!(data->image_win = mlx_new_image(data->mlx, 1027, 720)))
+    if (!(data->image_win = mlx_new_image(data->mlx, WIDTH, HEIGHT)))
 	{
 		mlx_close_window(data->mlx);
 		puts(mlx_strerror(mlx_errno));
 		return((void)EXIT_FAILURE);
 	}
-    // if (!(data->minimap_win = mlx_new_image(data->mlx,WIDTH * MINI_MAP_SCALE , HEIGHT * MINI_MAP_SCALE)))
-	// {
-	// 	mlx_close_window(data->mlx);
-	// 	puts(mlx_strerror(mlx_errno));
-	// 	return((void)EXIT_FAILURE);
-	// }
     mlx_set_cursor_mode(data->mlx,MLX_MOUSE_HIDDEN);
     get_player_pos(data);
     mlx_image_to_window(data->mlx, data->image_win, 0, 0);
-    // mlx_image_to_window(data->mlx, data->minimap_win, 30, 20);
     mlx_key_hook(data->mlx,ft_keyfunc_pressed,data);
     mlx_loop_hook(data->mlx,ft_hook,data);
-    // mlx_loop_hook(data->mlx,renderminimap,data);
-
-    
     mlx_loop(data->mlx);
     mlx_terminate(data->mlx);
 }
-
