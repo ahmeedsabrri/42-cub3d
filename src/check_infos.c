@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 23:49:40 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/12 01:12:22 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/13 05:42:11 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ int fill_rgb_colors(t_floor **floor, t_ceiling **ceiling, char *fl, char *cl)
     return (0);
 }
 
-int	check_infos(t_infos **infos)
+int	check_infos(t_infos **infos, t_data **data)
 {
     t_floor *floor;
     t_ceiling *ceiling;
@@ -161,5 +161,7 @@ int	check_infos(t_infos **infos)
         return (free_struct_infos(infos), 1);
     if (fill_rgb_colors(&floor, &ceiling, (*infos)->floor, (*infos)->ceiling))
         return (1);
+    (*data)->floor = floor;
+    (*data)->ceiling = ceiling;
     return (0);
 }

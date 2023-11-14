@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 20:55:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/14 00:47:39 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/13 04:16:31 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ void draw_player(t_data *data, uint32_t color)
 {
     (void)color;
     for (int i = 0; i < 360; i++)
-        dda(data,(200 / 2) ,(200 / 2),(200 / 2) + (cos(i * PI/180) * 10),(200 / 2) + (sin(i * PI/180) * 10),ft_pixel(255,0,0,255));
-    dda(data,(200/ 2) ,(200 / 2) ,(200/ 2) + (cos(data->player->rotationAngle) * 30),(200 / 2) + (sin(data->player->rotationAngle) * 30),ft_pixel(255,0,0,255));
+        dda(data,(300 / 2) ,(200 / 2),(300 / 2) + (cos(i * PI/180) * 10),(200 / 2) + (sin(i * PI/180) * 10),ft_pixel(255,0,0,255));
+    dda(data,(300/ 2) ,(200 / 2) ,(300/ 2) + (cos(data->player->rotationAngle) * 30),(200 / 2) + (sin(data->player->rotationAngle) * 30),ft_pixel(255,0,0,255));
 }
 // void draw_square(t_data *data, int y,int x, uint32_t color)
 // {
@@ -91,14 +91,13 @@ void draw_minimap(t_data *data, double xstart,double ystart,int i,int j,double d
 {
     xstart = (int)(xstart / Tile_size);
     ystart = (int)(ystart / Tile_size);
-    if (ystart < 0|| xstart < 0 ||  ystart > 200 || xstart > 200)
+    if (ystart < 0|| xstart < 0 ||  ystart > 200 || xstart > 300)
     {
         mlx_put_pixel(data->image_win,i,j,ft_pixel(0,0,0,255));
         return ;
     }
-   
     if (wall_hit(xstart * Tile_size,ystart* Tile_size,data))
-        mlx_put_pixel(data->image_win,j  ,i ,ft_pixel(200,200,200,255));
+        mlx_put_pixel(data->image_win,j  ,i ,ft_pixel(255,255,255,255));
     else
         mlx_put_pixel(data->image_win,j ,i,ft_pixel(0,0,0,255));
     if (distance > 95)
@@ -113,15 +112,14 @@ void renderminimap(t_data *data)
     // double x;
     // double y;
 
-    xstart = (data->player->px) - ((200)  / 2.0);
+    xstart = (data->player->px) - ((300)  / 2.0);
     ystart = (data->player->py) - ((200) / 2.0);
     i = 0;
     while (i < ((200)))
     {
-        xstart = (data->player->px) - ((200)  / 2.0);
+        xstart = (data->player->px) - ((300)  / 2.0);
         j = 0;
-        double d = 0;
-        while (j <((200)))
+        while (j <((300)))
         {
             // double angle;
             // angle = (1.5 * M_PI) - data->player->rotationAngle;
@@ -296,7 +294,7 @@ void fill_window(t_data *data)
         while (j < WIDTH)
         {
             if (i > HEIGHT / 2)
-                mlx_put_pixel(data->image_win, j, i, ft_pixel(121, 75, 38,255));
+                 mlx_put_pixel(data->image_win, j, i, ft_pixel(121, 75, 38,255));
             else
                 mlx_put_pixel(data->image_win, j, i, ft_pixel(101,134,155,255));
                  j++;
@@ -350,6 +348,7 @@ void init(t_data *data)
 		puts(mlx_strerror(mlx_errno));
 		return((void)EXIT_FAILURE);
 	}
+    mlx_set_cursor_mode(data->mlx,MLX_MOUSE_HIDDEN);
     get_player_pos(data);
     mlx_set_cursor_mode(data->mlx,MLX_MOUSE_HIDDEN);
     mlx_image_to_window(data->mlx, data->image_win, 0, 0);
@@ -358,4 +357,3 @@ void init(t_data *data)
     mlx_loop(data->mlx);
     mlx_terminate(data->mlx);
 }
-

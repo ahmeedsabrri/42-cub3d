@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 21:47:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/14 02:48:21 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/13 04:16:39 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,8 +248,6 @@ void castallrays(t_data *data)
 		if (ystart < 0)
 			ystart = 0;
 		// dda(data, colum, ystart, colum, yend, ft_pixel(0xfffffff,0xfffffff,0xfffffff,255));
-		// int i = ysart;
-		//int offsety
 		while (ystart < yend && ystart < HEIGHT)
 		{
 			//offsety = (ys - i) * (ht / hwall);
