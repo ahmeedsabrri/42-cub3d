@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 21:47:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/13 04:16:39 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/14 05:02:12 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,11 +189,19 @@ void vertical(t_data *data, t_ray *ray, double angle)
 	castrayvert(data,ray,ax,ay,dx,dy,angle);
 }
 
-void norm_angle(double *angle)
+void norm_angle(double *angle, t_ray *ray)
 {
 	*angle = remainder(*angle, 2.0 * M_PI);
 	if (*angle < 0)
 		*angle = (2.0 * M_PI) + *angle;
+	if (*angle > 0 && *angle < M_PI)
+		ray->ray_face_up = 0;
+	else
+		ray->ray_face_up= 1;
+	if (*angle < (0.5 * M_PI) || *angle > (1.5 * M_PI))
+		ray->ray_face_right = 1;
+	else
+		ray->ray_face_right = 0;
 }
 
 void castallrays(t_data *data)
@@ -220,7 +228,7 @@ void castallrays(t_data *data)
 		ray->verthit = 0;
 		ray->distanceh = INT_MAX;
 		ray->distancev = INT_MAX;
-		norm_angle(&ray_start);
+		norm_angle(&ray_start, ray);
 		horizontal(data,ray,ray_start);
 		vertical(data,ray,ray_start);
 		if(ray->horzhit)
@@ -253,7 +261,7 @@ void castallrays(t_data *data)
 			//offsety = (ys - i) * (ht / hwall);
 
 			// int color = arr[offsety * ht + offsetx];
-				mlx_put_pixel(data->image_win,colum,ystart,ft_pixel(255,255,255,255));
+				mlx_put_pixel(data->image_win,colum,ystart,ft_pixel(115,125,98,255));
 			ystart++;
 			//i++;
 		}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_infos.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 23:49:40 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/13 05:42:11 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/14 04:44:33 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int store_valid_infos(char **str)
         (*str)++;
     if (**str == '\n')
         return (1);
-    tmp = strdup(*str);
+    tmp = ft_strdup_n(*str);
     if (tmp == NULL)
         return (1);
     *str = tmp;

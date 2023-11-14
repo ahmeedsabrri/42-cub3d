@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 22:54:35 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/14 00:06:53 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/14 04:55:03 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ typedef struct s_ray
 	bool	verthit;
 	double	distancev;
 	double	distanceh;
+	int ray_face_up;
+	int ray_face_right;
 }	t_ray; 
 typedef struct s_player
 {
@@ -102,13 +104,17 @@ typedef struct	s_data
 	int			height;
 	t_player	*player;
 	char		**map;
+	mlx_texture_t *north;
+	mlx_texture_t *south;
+	mlx_texture_t *east;
+	mlx_texture_t *west;
 }	t_data;
 
 void	init(t_data *data);
 void	dda(t_data *data,double xstart, double ystart,double xend, double yend,int color);
 int32_t	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
 void	castallrays(t_data *data);
-int		get_HEIGHTt(char **str);
+int		get_height(char **str);
 int		width_size(char **str);
 int		wall_hit(double px, double py, t_data *data);
 

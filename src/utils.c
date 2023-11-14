@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 16:42:41 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/12 03:02:14 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/14 04:45:46 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ size_t	ft_strlen(const char *s)
 	size_t	i;
 
 	i = 0;
-	while (s[i])
+	while (s && s[i])
 		i++;
 	return (i);
 }

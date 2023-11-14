@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 20:55:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/13 04:16:31 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/14 04:42:39 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,57 +47,25 @@ int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
 {
     return (r << 24 | g << 16 | b << 8 | a);
 }
-
 void draw_player(t_data *data, uint32_t color)
 {
     (void)color;
     for (int i = 0; i < 360; i++)
-        dda(data,(300 / 2) ,(200 / 2),(300 / 2) + (cos(i * PI/180) * 10),(200 / 2) + (sin(i * PI/180) * 10),ft_pixel(255,0,0,255));
-    dda(data,(300/ 2) ,(200 / 2) ,(300/ 2) + (cos(data->player->rotationAngle) * 30),(200 / 2) + (sin(data->player->rotationAngle) * 30),ft_pixel(255,0,0,255));
+        dda(data,(200 / 2) ,(200 / 2),(200 / 2) + (cos(i * PI/180) * 10),(200 / 2) + (sin(i * PI/180) * 10),ft_pixel(1,85,172,200));
+    dda(data,(200/ 2) ,(200 / 2) ,(200/ 2) + (cos(data->player->rotationAngle) * 30),(200 / 2) + (sin(data->player->rotationAngle) * 30),ft_pixel(1,85,172,200));
 }
-// void draw_square(t_data *data, int y,int x, uint32_t color)
-// {
-//     (void)color;
-//     for (int i = 0; i < Tile_size; i++)
-//         for (int j = 0; j < Tile_size; j++)
-//         {
-//             mlx_put_pixel(data->image_win, (x + i) * MINI_MAP_SCALE, (y + j) * MINI_MAP_SCALE, ft_pixel(color,color,color,color));
-//         }
-// }
-// void draw_map(t_data *data)
-// {
-//     int i;
-//     int j;
-
-//     i = -1;
-//     while (data->map[++i])
-//     {
-//         j = -1;
-//         while (data->map[i][++j])
-//         {
-//             if (data->map[i][j] == '1')
-//                 draw_square(data,i * Tile_size, j * Tile_size , 0x5a5a5a);
-//             else 
-//                 draw_square(data,i * 64, j * 64, 0x808080);
-//         }
-//     }
-// }
-
-// void rotation_map(double x,double y,t_data *data)
-// {
-   
-// }
 void draw_minimap(t_data *data, double xstart,double ystart,int i,int j,double distance)
 {
     xstart = (int)(xstart / Tile_size);
     ystart = (int)(ystart / Tile_size);
-    if (ystart < 0|| xstart < 0 ||  ystart > 200 || xstart > 300)
+    if (ystart < 0|| xstart < 0 ||  ystart > 200 || xstart > 200)
     {
         mlx_put_pixel(data->image_win,i,j,ft_pixel(0,0,0,255));
         return ;
     }
+   
     if (wall_hit(xstart * Tile_size,ystart* Tile_size,data))
-        mlx_put_pixel(data->image_win,j  ,i ,ft_pixel(255,255,255,255));
+        mlx_put_pixel(data->image_win,j  ,i ,ft_pixel(28,59,14,200));
     else
         mlx_put_pixel(data->image_win,j ,i,ft_pixel(0,0,0,255));
     if (distance > 95)
@@ -109,22 +77,17 @@ void renderminimap(t_data *data)
     double ystart;
     int i;
     int j;
-    // double x;
-    // double y;
 
-    xstart = (data->player->px) - ((300)  / 2.0);
+    xstart = (data->player->px) - ((200)  / 2.0);
     ystart = (data->player->py) - ((200) / 2.0);
     i = 0;
     while (i < ((200)))
     {
-        xstart = (data->player->px) - ((300)  / 2.0);
+        xstart = (data->player->px) - ((200)  / 2.0);
         j = 0;
-        while (j <((300)))
+        double d = 0;
+        while (j <((200)))
         {
-            // double angle;
-            // angle = (1.5 * M_PI) - data->player->rotationAngle;
-            // x = roundf(cos(angle) * (j - 150) - sin(angle) * (i - 150) + 150);     
-            // y = roundf(sin(angle) * (j - 150) + cos(angle) * (i - 150) + 150);
             d = sqrt(pow(j - 100, 2) +  pow(i - 100,2));
             if (d < 100)
             {
@@ -153,7 +116,7 @@ int width_size(char **str)
     }
     return ((int)width);
 }
-int get_HEIGHTt(char **str)
+int get_height(char **str)
 {
     int i;
 
@@ -294,9 +257,9 @@ void fill_window(t_data *data)
         while (j < WIDTH)
         {
             if (i > HEIGHT / 2)
-                 mlx_put_pixel(data->image_win, j, i, ft_pixel(121, 75, 38,255));
+                 mlx_put_pixel(data->image_win, j, i, ft_pixel(data->floor->r, data->floor->g,data->floor->b,255));
             else
-                mlx_put_pixel(data->image_win, j, i, ft_pixel(101,134,155,255));
+                mlx_put_pixel(data->image_win, j, i, ft_pixel(data->ceiling->r,data->ceiling->g,data->ceiling->b,200));
                  j++;
         }
         i++;
@@ -336,6 +299,22 @@ void ft_hook(void *param)
     castallrays(data);
     renderminimap(data);
 }
+int init_textures(t_data **data)
+{
+    (*data)->north = mlx_load_png((*data)->infos->north);
+    if (!(*data)->north)
+        return (printf("failed to load north texture"));
+    (*data)->south = mlx_load_png((*data)->infos->south);
+    if (!(*data)->south)
+        return (printf("failed to load south texture"));
+    (*data)->west = mlx_load_png((*data)->infos->west);
+    if (!(*data)->west)
+        return (printf("failed to load west texture"));
+    (*data)->east = mlx_load_png((*data)->infos->east);
+    if (!(*data)->east)
+        return (printf("failed to load east texture"));
+    return 0;
+}
 void init(t_data *data)
 {
     mlx_set_setting(MLX_STRETCH_IMAGE, true);
@@ -348,6 +327,8 @@ void init(t_data *data)
 		puts(mlx_strerror(mlx_errno));
 		return((void)EXIT_FAILURE);
 	}
+    if (init_textures(&data))
+        exit (1);
     mlx_set_cursor_mode(data->mlx,MLX_MOUSE_HIDDEN);
     get_player_pos(data);
     mlx_set_cursor_mode(data->mlx,MLX_MOUSE_HIDDEN);
