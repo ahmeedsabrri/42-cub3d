@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 20:55:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/13 04:07:17 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/14 00:47:39 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ void draw_player(t_data *data, uint32_t color)
 {
     (void)color;
     for (int i = 0; i < 360; i++)
-        dda(data,(300 / 2) ,(200 / 2),(300 / 2) + (cos(i * PI/180) * 10),(200 / 2) + (sin(i * PI/180) * 10),ft_pixel(255,0,0,255));
-    dda(data,(300/ 2) ,(200 / 2) ,(300/ 2) + (cos(data->player->rotationAngle) * 30),(200 / 2) + (sin(data->player->rotationAngle) * 30),ft_pixel(255,0,0,255));
+        dda(data,(200 / 2) ,(200 / 2),(200 / 2) + (cos(i * PI/180) * 10),(200 / 2) + (sin(i * PI/180) * 10),ft_pixel(255,0,0,255));
+    dda(data,(200/ 2) ,(200 / 2) ,(200/ 2) + (cos(data->player->rotationAngle) * 30),(200 / 2) + (sin(data->player->rotationAngle) * 30),ft_pixel(255,0,0,255));
 }
 // void draw_square(t_data *data, int y,int x, uint32_t color)
 // {
@@ -82,19 +82,27 @@ void draw_player(t_data *data, uint32_t color)
 //         }
 //     }
 // }
-void draw_minimap(t_data *data, double xstart,double ystart,int i,int j)
+
+// void rotation_map(double x,double y,t_data *data)
+// {
+   
+// }
+void draw_minimap(t_data *data, double xstart,double ystart,int i,int j,double distance)
 {
     xstart = (int)(xstart / Tile_size);
     ystart = (int)(ystart / Tile_size);
-    if (ystart < 0|| xstart < 0 ||  ystart > 200 || xstart > 300)
+    if (ystart < 0|| xstart < 0 ||  ystart > 200 || xstart > 200)
     {
         mlx_put_pixel(data->image_win,i,j,ft_pixel(0,0,0,255));
         return ;
     }
+   
     if (wall_hit(xstart * Tile_size,ystart* Tile_size,data))
-        mlx_put_pixel(data->image_win,j  ,i ,ft_pixel(255,255,255,255));
+        mlx_put_pixel(data->image_win,j  ,i ,ft_pixel(200,200,200,255));
     else
         mlx_put_pixel(data->image_win,j ,i,ft_pixel(0,0,0,255));
+    if (distance > 95)
+        mlx_put_pixel(data->image_win,j  ,i ,ft_pixel(120,120,120,255));
 }
 void renderminimap(t_data *data)
 {
@@ -102,17 +110,28 @@ void renderminimap(t_data *data)
     double ystart;
     int i;
     int j;
+    // double x;
+    // double y;
 
-    xstart = (data->player->px) - ((300)  / 2.0);
+    xstart = (data->player->px) - ((200)  / 2.0);
     ystart = (data->player->py) - ((200) / 2.0);
     i = 0;
     while (i < ((200)))
     {
-        xstart = (data->player->px) - ((300)  / 2.0);
+        xstart = (data->player->px) - ((200)  / 2.0);
         j = 0;
-        while (j <((300)))
+        double d = 0;
+        while (j <((200)))
         {
-            draw_minimap(data,xstart,ystart,i,j);
+            // double angle;
+            // angle = (1.5 * M_PI) - data->player->rotationAngle;
+            // x = roundf(cos(angle) * (j - 150) - sin(angle) * (i - 150) + 150);     
+            // y = roundf(sin(angle) * (j - 150) + cos(angle) * (i - 150) + 150);
+            d = sqrt(pow(j - 100, 2) +  pow(i - 100,2));
+            if (d < 100)
+            {
+                draw_minimap(data,xstart,ystart,i,j,d);
+            }
             j++;
             xstart++;
         }
@@ -151,9 +170,9 @@ int hit_the_wall(double x,double y,t_data *data)
 
     px = x / Tile_size;
     py = y / Tile_size;
-    if (px > (int)strlen(data->map[0]) || px < 0 || py < 0 || py > data->HEIGHTt)
+    if (px > (int)strlen(data->map[0]) || px < 0 || py < 0 || py > data->height)
         return (1);
-    if ((((int)py / Tile_size) > 0) && (int)strlen(data->map[0]) > 0 && (((int)py / Tile_size) < (data->HEIGHTt))  &&  (((int)py / Tile_size) < (int)strlen(data->map[0])) &&  data->map[(int)py / Tile_size][(int)px / Tile_size] != '1')
+    if ((((int)py / Tile_size) > 0) && (int)strlen(data->map[0]) > 0 && (((int)py / Tile_size) < (data->height))  &&  (((int)py / Tile_size) < (int)strlen(data->map[0])) &&  data->map[(int)py / Tile_size][(int)px / Tile_size] != '1')
         return (1);
     return (0);
 }
@@ -169,7 +188,7 @@ void ft_renderplayer1(t_data *data)
     px = data->player->px + cos(data->player->rotationAngle + M_PI_2)  * mv;
     py = data->player->py + sin(data->player->rotationAngle + M_PI_2) * mv;
 
-   if ((((int)py / Tile_size) > 0) && (int)strlen(data->map[0]) > 0 && ((((int)py / Tile_size) < (data->HEIGHTt))  ||  (((int)py / Tile_size) < (int)data->width)) &&  data->map[(int)py / Tile_size][(int)px / Tile_size] != '1')
+   if ((((int)py / Tile_size) > 0) && (int)strlen(data->map[0]) > 0 && ((((int)py / Tile_size) < (data->height))  ||  (((int)py / Tile_size) < (int)data->width)) &&  data->map[(int)py / Tile_size][(int)px / Tile_size] != '1')
     {
             data->player->px = px;
             data->player->py = py;
@@ -187,7 +206,7 @@ void ft_renderplayer(t_data *data)
    px = data->player->px + cos(data->player->rotationAngle)  * mv;
     py =data->player->py + sin(data->player->rotationAngle ) * mv;
 
-    if ((((int)py / Tile_size) > 0) && (int)strlen(data->map[0]) > 0 && ((((int)py / Tile_size) < (data->HEIGHTt))  ||  (((int)py / Tile_size) < (int)data->width) )&&  data->map[(int)py / Tile_size][(int)px / Tile_size] != '1')
+    if ((((int)py / Tile_size) > 0) && (int)strlen(data->map[0]) > 0 && ((((int)py / Tile_size) < (data->height))  ||  (((int)py / Tile_size) < (int)data->width) )&&  data->map[(int)py / Tile_size][(int)px / Tile_size] != '1')
     {
             data->player->px = px;
             data->player->py = py;
@@ -277,9 +296,9 @@ void fill_window(t_data *data)
         while (j < WIDTH)
         {
             if (i > HEIGHT / 2)
-                 mlx_put_pixel(data->image_win, j, i, ft_pixel(121, 75, 38,255));
+                mlx_put_pixel(data->image_win, j, i, ft_pixel(121, 75, 38,255));
             else
-                 mlx_put_pixel(data->image_win, j, i, ft_pixel(101,134,155,255));
+                mlx_put_pixel(data->image_win, j, i, ft_pixel(101,134,155,255));
                  j++;
         }
         i++;
@@ -331,8 +350,8 @@ void init(t_data *data)
 		puts(mlx_strerror(mlx_errno));
 		return((void)EXIT_FAILURE);
 	}
-    mlx_set_cursor_mode(data->mlx,MLX_MOUSE_HIDDEN);
     get_player_pos(data);
+    mlx_set_cursor_mode(data->mlx,MLX_MOUSE_HIDDEN);
     mlx_image_to_window(data->mlx, data->image_win, 0, 0);
     mlx_key_hook(data->mlx,ft_keyfunc_pressed,data);
     mlx_loop_hook(data->mlx,ft_hook,data);

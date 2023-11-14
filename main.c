@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 01:33:47 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/13 04:01:42 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/13 04:16:30 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int main(int ac, char **av)
         return (1);
     if (parsing(ac, av, data))
 		return (1);
-    data->HEIGHTt = get_HEIGHTt(data->map);
+    data->height = get_HEIGHTt(data->map);
     data->width = width_size(data->map);
     player->rotationAngle = PI / 2;
     player->side_direction = 0;

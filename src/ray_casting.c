@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 21:47:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/13 04:02:01 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/14 02:48:21 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,10 @@ int	wall_hit(double px, double py, t_data *data)
 
 	x = (px / Tile_size);
 	y = (py / Tile_size);
-	if (x > data->width || x < 0 || y < 0 || y > data->HEIGHTt)
+	if (x > data->width || x < 0 || y < 0 || y > data->height)
 		return (1);
 	if (x < data->width && x >= 0
-		&& y >= 0 && y < data->HEIGHTt && data->map[y][x] == '1')
+		&& y >= 0 && y < data->height && data->map[y][x] == '1')
 		return (1);
 	else
 		return (0);
@@ -106,7 +106,7 @@ int	wall_hit(double px, double py, t_data *data)
 void castrayhorz(t_data *data, t_ray *ray,double ax, double ay,double dx,double dy, double angle)
 {
 	double y;
-	while (ax >= 0 && ay >= 0 && ax <= ((data->width) * Tile_size) && ay <= (data->HEIGHTt) * Tile_size)
+	while (ax >= 0 && ay >= 0 && ax <= ((data->width) * Tile_size) && ay <= (data->height) * Tile_size)
 	{
 		if (!angle_up_or_down(angle))
 			y = ay - 1;
@@ -149,7 +149,7 @@ void horizontal(t_data *data, t_ray *ray, double angle)
 void castrayvert(t_data *data, t_ray *ray,double ax, double ay,double dx,double dy,double angle)
 {
 	double x;
-	while (ax >= 0 && ay >= 0 && ax <= ((data->width) * Tile_size) && ay <= (data->HEIGHTt) * Tile_size)
+	while (ax >= 0 && ay >= 0 && ax <= ((data->width) * Tile_size) && ay <= (data->height) * Tile_size)
 	{
 		if (!angle_left_or_right(angle))
 			x = ax - 1;
@@ -230,10 +230,12 @@ void castallrays(t_data *data)
 		if ((ray->distanceh < ray->distancev ) && ray->horzhit)
 		{
 			player_ray_dist = ray->distanceh * cos(data->player->rotationAngle - ray_start);
+			//offsetx
 			// dda(data,data->player->px,data->player->py,ray->hax,ray->hay,ft_pixel(0,255,0,255));
 		}
 		else
 		{
+			//offsetx
 			player_ray_dist = ray->distancev * cos(data->player->rotationAngle - ray_start);
 			// dda(data,data->player->px,data->player->py,ray->vax,ray->vay,ft_pixel(255,0,0,255));
 		}
@@ -246,10 +248,16 @@ void castallrays(t_data *data)
 		if (ystart < 0)
 			ystart = 0;
 		// dda(data, colum, ystart, colum, yend, ft_pixel(0xfffffff,0xfffffff,0xfffffff,255));
+		// int i = ysart;
+		//int offsety
 		while (ystart < yend && ystart < HEIGHT)
 		{
+			//offsety = (ys - i) * (ht / hwall);
+
+			// int color = arr[offsety * ht + offsetx];
 				mlx_put_pixel(data->image_win,colum,ystart,ft_pixel(255,255,255,255));
 			ystart++;
+			//i++;
 		}
 		ray_start += ray_inc;
 		colum++;

@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 22:54:35 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/13 04:05:48 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/13 04:15:41 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ typedef struct s_player
 	double	px;
 	double	py;
 	double	width;
-	double	HEIGHTt;
+	double	height;
 	int		walkDirection;
 	int		turnDirection; // 	-1 for left and +1 to right 
 	double	rotationAngle;
@@ -71,7 +71,7 @@ typedef struct	s_data
 	mlx_image_t		*image_win;
 	mlx_image_t		*minimap_win;
 	int				width;
-	int				HEIGHTt;
+	int				height;
 	t_player		*player;
 	char			**map;
 }	t_data;
