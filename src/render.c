@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 20:55:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/13 04:16:31 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/14 04:28:56 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -319,6 +319,22 @@ void ft_hook(void *param)
     castallrays(data);
     renderminimap(data);
 }
+int init_textures(t_data **data)
+{
+    (*data)->north = mlx_load_png((*data)->infos->north);
+    if (!(*data)->north)
+        return (printf("failed to load north texture"));
+    (*data)->south = mlx_load_png((*data)->infos->south);
+    if (!(*data)->south)
+        return (printf("failed to load south texture"));
+    (*data)->west = mlx_load_png((*data)->infos->west);
+    if (!(*data)->west)
+        return (printf("failed to load west texture"));
+    (*data)->east = mlx_load_png((*data)->infos->east);
+    if (!(*data)->east)
+        return (printf("failed to load east texture"));
+    return 0;
+}
 void init(t_data *data)
 {
     mlx_set_setting(MLX_STRETCH_IMAGE, true);
@@ -331,6 +347,8 @@ void init(t_data *data)
 		puts(mlx_strerror(mlx_errno));
 		return((void)EXIT_FAILURE);
 	}
+    if (init_textures(&data))
+        exit (1);
     mlx_set_cursor_mode(data->mlx,MLX_MOUSE_HIDDEN);
     get_player_pos(data);
     mlx_image_to_window(data->mlx, data->image_win, 0, 0);

@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 21:43:51 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/14 00:32:39 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/14 00:34:27 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,7 @@ int check_valid_chars(t_data **data)
                 return (1);
             if ((*data)->map[i][j] == 'N' || (*data)->map[i][j] == 'E' \
                 || (*data)->map[i][j] == 'W' || (*data)->map[i][j] == 'S')
-			{
-				(*data)->plyr = (*data)->map[i][j];
-                count++;
-			}
+				((*data)->plyr = (*data)->map[i][j], count++);
             j++;
         }
         i++;
@@ -153,8 +150,6 @@ int check_map_valid(t_data **data)
     if (check_valid_chars(data))
         return (1);
     if (check_wall_around_chars(data))
-    {
         return (1);
-    }
     return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 21:47:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/13 04:16:39 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/14 00:43:47 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,7 +248,7 @@ void castallrays(t_data *data)
 		// dda(data, colum, ystart, colum, yend, ft_pixel(0xfffffff,0xfffffff,0xfffffff,255));
 		while (ystart < yend && ystart < HEIGHT)
 		{
-				mlx_put_pixel(data->image_win,colum,ystart,ft_pixel(255,255,255,255));
+			mlx_put_pixel(data->image_win,colum,ystart,ft_pixel(255,255,255,255));
 			ystart++;
 		}
 		ray_start += ray_inc;

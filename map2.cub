@@ -1,9 +1,9 @@
 						
 						
-						NO ./path_to_the_north_texture
-			SO ./path_to_the_south_texture
-			WE ./path_to_the_west_texture
-			EA ./path_to_the_east_texture
+						NO ./north_t.png
+			SO ./north_t.png
+			WE ./north_t.png
+			EA ./north_t.png
 		
 		C 225,30,0
 		F 166,77,3
@@ -31,4 +31,6 @@
      101100000000001100000000001101
      101100000000001100000000001101
      100000000000001100000000000001
+     100011111111111111111111110001
+     100000000000011111000000000001
      111111111111111111111111111111

@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 22:54:35 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/14 00:06:53 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/14 04:08:44 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,10 @@ typedef struct	s_data
 	int			height;
 	t_player	*player;
 	char		**map;
+	mlx_texture_t *north;
+	mlx_texture_t *south;
+	mlx_texture_t *east;
+	mlx_texture_t *west;
 }	t_data;
 
 void	init(t_data *data);
