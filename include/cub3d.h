@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 22:54:35 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/14 04:08:44 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/14 05:04:34 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@
 #define FOV (60 * (M_PI / 180))
 #define wallAngle 90
 #define HEIGHT 720
-#define WIDTH 1027
+#define WIDTH 1024
 #define Tile_size 64
-#define MINI_MAP_SCALE 1.0
+#define MINI_MAP_SCALE 0.2
 #define TOW_PI 6.28318530
 #define BUFFER_SIZE 1
 
@@ -62,6 +62,7 @@ typedef struct s_ceiling
 }	t_ceiling;
 
 
+
 typedef struct s_ray
 {
 	double	ray_angal;
@@ -73,6 +74,8 @@ typedef struct s_ray
 	bool	verthit;
 	double	distancev;
 	double	distanceh;
+	int ray_face_up;
+	int ray_face_right;
 }	t_ray; 
 typedef struct s_player
 {

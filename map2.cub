@@ -5,8 +5,8 @@
 			WE ./north_t.png
 			EA ./north_t.png
 		
-		C 225,30,0
-		F 166,77,3
+		C 52,52,52
+		F 196,196,196
 
 
 
