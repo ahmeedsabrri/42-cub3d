@@ -1,12 +1,12 @@
 						
 						
-						NO ./north_t.png
+						NO ./n.png
 			SO ./north_t.png
 			WE ./north_t.png
 			EA ./north_t.png
 		
 		C 14,12,46
-		F 125,89,20
+		F 95,95,95
 
 
 

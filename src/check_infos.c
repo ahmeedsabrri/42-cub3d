@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 23:49:40 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/14 04:44:33 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/15 09:37:06 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void    free_struct_infos(t_infos **infos)
     free(*infos);
 }
 
-int store_valid_infos(char **str)
+int store_valid_infos(char **str, int flag)
 {
     char *tmp;
 
@@ -37,7 +37,10 @@ int store_valid_infos(char **str)
         (*str)++;
     if (**str == '\n')
         return (1);
-    tmp = ft_strdup_n(*str);
+    if (!flag)
+        tmp = ft_strdup_n(*str);
+    else
+        tmp = ft_strdup(*str);
     if (tmp == NULL)
         return (1);
     *str = tmp;
@@ -154,9 +157,9 @@ int	check_infos(t_infos **infos, t_data **data)
     t_ceiling *ceiling;
 	
     (floor = NULL, ceiling = NULL);
-    if (store_valid_infos(&(*infos)->north) || store_valid_infos(&(*infos)->south) \
-        || store_valid_infos(&(*infos)->east) || store_valid_infos(&(*infos)->west) \
-        || store_valid_infos(&(*infos)->floor) || store_valid_infos(&(*infos)->ceiling) \
+    if (store_valid_infos(&(*infos)->north, 0) || store_valid_infos(&(*infos)->south, 0) \
+        || store_valid_infos(&(*infos)->east, 0) || store_valid_infos(&(*infos)->west, 0) \
+        || store_valid_infos(&(*infos)->floor, 1) || store_valid_infos(&(*infos)->ceiling, 1) \
         || check_colors_valid((*infos)->floor) || check_colors_valid((*infos)->ceiling))
         return (free_struct_infos(infos), 1);
     if (fill_rgb_colors(&floor, &ceiling, (*infos)->floor, (*infos)->ceiling))

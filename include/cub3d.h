@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 22:54:35 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/14 04:55:03 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/15 06:11:07 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,13 @@ typedef struct s_ceiling
 	int	b;
 }	t_ceiling;
 
-
+typedef enum s_dir
+{
+	NORTH,
+	SOUTH,
+	WEST,
+	EAST
+}t_dir;
 
 typedef struct s_ray
 {
@@ -76,6 +82,8 @@ typedef struct s_ray
 	double	distanceh;
 	int ray_face_up;
 	int ray_face_right;
+	t_dir wall_deriction;
+	double project_plan;
 }	t_ray; 
 typedef struct s_player
 {
@@ -108,8 +116,18 @@ typedef struct	s_data
 	mlx_texture_t *south;
 	mlx_texture_t *east;
 	mlx_texture_t *west;
+	uint32_t	**no;
 }	t_data;
-
+typedef struct s_colors
+{
+	uint8_t		r;
+	uint8_t		g;
+	uint8_t		b;
+	uint8_t		a;
+	uint32_t	i;
+	uint32_t	j;
+	int			count;
+}				t_colors;
 void	init(t_data *data);
 void	dda(t_data *data,double xstart, double ystart,double xend, double yend,int color);
 int32_t	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
