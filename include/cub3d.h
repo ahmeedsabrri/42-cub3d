@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 22:54:35 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/15 06:11:07 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/17 09:21:13 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,9 @@ typedef struct	s_data
 	mlx_texture_t *east;
 	mlx_texture_t *west;
 	uint32_t	**no;
+	uint32_t	**so;
+	uint32_t	**we;
+	uint32_t	**ea;
 }	t_data;
 typedef struct s_colors
 {
@@ -135,7 +138,7 @@ void	castallrays(t_data *data);
 int		get_height(char **str);
 int		width_size(char **str);
 int		wall_hit(double px, double py, t_data *data);
-
+u_int32_t	**img_to_double_pointer(mlx_texture_t *img);
 //-------------parsing------------//
 
 
