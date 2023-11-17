@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 21:47:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/17 12:42:46 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/17 14:41:06 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,48 +198,29 @@ void norm_angle(double *angle)
 
 void ray_hit_deriction(t_data *data,t_ray *ray, double *xoffset, double angle)
 {
-	if (ray->horzhit && angle_up_or_down(angle))
+	if (angle_up_or_down(angle))
 	{
 		ray->wall_deriction = SOUTH;
 		*xoffset = (fmod(ray->hax ,Tile_size) * data->south->width) / Tile_size;
 	}
-	else if (ray->horzhit && !angle_up_or_down(angle))
+	else
 	{
 			ray->wall_deriction = NORTH;
 			*xoffset = (fmod(ray->hax ,Tile_size) * data->north->width) / Tile_size;
 	}
-	else if (ray->verthit && angle_left_or_right(angle))
-	{
-		ray->wall_deriction = WEST;
-		*xoffset = (fmod(ray->hax ,Tile_size) * data->west->width) / Tile_size;
-	}
-	else if (ray->verthit && !angle_left_or_right(angle))
-	{
-		ray->wall_deriction = EAST;
-		*xoffset = (fmod(ray->hax ,Tile_size) * data->east->width) / Tile_size;
-	}
 }
 void ray_hit_deriction1(t_data *data,t_ray *ray, double *xoffset, double angle)
 {
-	if (ray->horzhit && angle_up_or_down(angle))
-	{
-		ray->wall_deriction = SOUTH;
-		*xoffset = (fmod(ray->vay ,Tile_size) * data->south->width) / Tile_size;
+	
+	if (angle_left_or_right(angle))
+	{	
+		ray->wall_deriction = EAST;
+		*xoffset = (fmod(ray->vay ,Tile_size) * data->east->width) / Tile_size;
 	}
-	else if (ray->horzhit && !angle_up_or_down(angle))
-	{
-			ray->wall_deriction = NORTH;
-			*xoffset = (fmod(ray->vay ,Tile_size) * data->north->width) / Tile_size;
-	}
-	else if (ray->verthit && angle_left_or_right(angle))
+	else
 	{
 		ray->wall_deriction = WEST;
 		*xoffset = (fmod(ray->vay ,Tile_size) * data->west->width) / Tile_size;
-	}
-	else if (ray->verthit && !angle_left_or_right(angle))
-	{
-		ray->wall_deriction = EAST;
-		*xoffset = (fmod(ray->vay ,Tile_size) * data->east->width) / Tile_size;
 	}
 }
 
@@ -283,14 +264,14 @@ void castallrays(t_data *data)
 {
 	int colum;
 	t_ray *ray;
-	// double project_dist;
-	// double ystart;
-	// double yend;
+	double project_dist;
+	double ystart;
+	double yend;
 	double ray_start;
-	// double player_ray_dist;
+	double player_ray_dist;
 	double ray_inc;
-	// double xoffset;
-	// double yoffset;
+	double xoffset;
+	double yoffset;
 
 	ray_inc = FOV / WIDTH;
 	ray_start = data->player->rotationAngle - (FOV / 2.0);
@@ -307,68 +288,50 @@ void castallrays(t_data *data)
 		norm_angle(&ray_start);
 		horizontal(data,ray,ray_start);
 		vertical(data,ray,ray_start);
-		if(ray->horzhit)
-		{
-			ray->distanceh = sqrt(pow((ray->hax - data->player->px),2) + pow((ray->hay - data->player->py), 2));
-			// ray_hit_deriction(data,ray, &xoffset,ray_start);
-		}
-		if(ray->verthit)
-		{
-			ray->distancev = sqrt(pow((ray->vax -data->player->px),2) + pow((ray->vay - data->player->py), 2));
-			// ray_hit_deriction1(data,ray, &xoffset,ray_start);
-		}
-		if(ray->horzhit)
-			dda(data,data->player->px,data->player->py,ray->hax,ray->hay,ft_pixel(0,255,0,255));
+		ray->distanceh = sqrt(pow((ray->hax - data->player->px),2) + pow((ray->hay - data->player->py), 2));
+		ray->distancev = sqrt(pow((ray->vax -data->player->px),2) + pow((ray->vay - data->player->py), 2));
+		if((ray->distanceh < ray->distancev) && ray->horzhit)
+			ray_hit_deriction(data,ray, &xoffset,ray_start);
 		else
-			dda(data,data->player->px,data->player->py,ray->vax,ray->vay,ft_pixel(0,255,0,255));
-		// if(ray->horzhit)
-		// {
-		// 	ray->distanceh = sqrt(pow((ray->hax - data->player->px),2) + pow((ray->hay - data->player->py), 2));
-		// 	ray_hit_deriction(data,ray, &xoffset,ray_start);
-		// }
-		// if(ray->verthit)
-		// {
-		// 	ray->distancev = sqrt(pow((ray->vax -data->player->px),2) + pow((ray->vay - data->player->py), 2));
-		// 	ray_hit_deriction1(data,ray, &xoffset,ray_start);
-		// }
-		// if ((ray->distanceh < ray->distancev ) && ray->horzhit)
-		// 	player_ray_dist = ray->distanceh * cos(data->player->rotationAngle - ray_start);
-		// else
-		// 	player_ray_dist = ray->distancev * cos(data->player->rotationAngle - ray_start);
-		// project_dist = (WIDTH / 2)/tan(FOV / 2);
-		// ray->project_plan = (project_dist / player_ray_dist) * Tile_size;
-		// ystart = (HEIGHT / 2) - (ray->project_plan / 2);
-		// yend = (HEIGHT / 2) + (ray->project_plan / 2);
-		// if (ystart < 0)
-		// 	ystart = 0;
-		// while (ystart < yend && ystart < HEIGHT)
-		// {
-			// if (ray->wall_deriction == NORTH)
-			// {
-			// 	yoffset = ((ystart - ((HEIGHT / 2.0) - (ray->project_plan / 2.0))) \
-			// 			* data->north->height) / ray->project_plan;
-			// 	mlx_put_pixel(data->image_win ,colum ,ystart, data->no[(int)yoffset][(int)xoffset]);
-			// }
-			// if (ray->wall_deriction == SOUTH)
-			// {
-			// 	yoffset = ((ystart - ((HEIGHT / 2.0) - (ray->project_plan / 2.0))) \
-			// 			* data->south->height) / ray->project_plan;
-			// 	mlx_put_pixel(data->image_win ,colum ,ystart, data->so[(int)yoffset][(int)(data->south->width - 1) - ((int)xoffset)]);
-			// }
-			// if (ray->wall_deriction == WEST)
-			// {
-			// 	yoffset = ((ystart - ((HEIGHT / 2.0) - (ray->project_plan / 2.0))) \
-			// 			* data->west->height) / ray->project_plan;
-			// 	mlx_put_pixel(data->image_win ,colum ,ystart, data->we[(int)yoffset][(int)(data->west->width - 1) - ((int)xoffset)]);
-			// }
-			// if (ray->wall_deriction == EAST)
-			// {
-			// 	yoffset = ((ystart - ((HEIGHT / 2.0) - (ray->project_plan / 2.0))) \
-			// 			* data->east->height) / ray->project_plan;
-			// 	mlx_put_pixel(data->image_win ,colum ,ystart, data->ea[(int)yoffset][(int)xoffset]);
-			// }
-			// ystart++;
-		// }
+			ray_hit_deriction1(data,ray, &xoffset,ray_start);
+		if ((ray->distanceh < ray->distancev ) && ray->horzhit)
+			player_ray_dist = ray->distanceh * cos(data->player->rotationAngle - ray_start);
+		else
+			player_ray_dist = ray->distancev * cos(data->player->rotationAngle - ray_start);
+		project_dist = (WIDTH / 2)/tan(FOV / 2);
+		ray->project_plan = (project_dist / player_ray_dist) * Tile_size;
+		ystart = (HEIGHT / 2) - (ray->project_plan / 2);
+		yend = (HEIGHT / 2) + (ray->project_plan / 2);
+		if (ystart < 0)
+			ystart = 0;
+		while (ystart < yend && ystart < HEIGHT)
+		{
+			if (ray->wall_deriction == NORTH)
+			{
+				yoffset = ((ystart - ((HEIGHT / 2.0) - (ray->project_plan / 2.0))) \
+						* data->north->height) / ray->project_plan;
+				mlx_put_pixel(data->image_win ,colum ,ystart, data->no[(int)yoffset][(int)xoffset]);
+			}
+			if (ray->wall_deriction == SOUTH)
+			{
+				yoffset = ((ystart - ((HEIGHT / 2.0) - (ray->project_plan / 2.0))) \
+						* data->south->height) / ray->project_plan;
+				mlx_put_pixel(data->image_win ,colum ,ystart, data->so[(int)yoffset][(int)(data->south->width - 1) - ((int)xoffset)]);
+			}
+			if (ray->wall_deriction == WEST)
+			{
+				yoffset = ((ystart - ((HEIGHT / 2.0) - (ray->project_plan / 2.0))) \
+						* data->west->height) / ray->project_plan;
+				mlx_put_pixel(data->image_win ,colum ,ystart, data->we[(int)yoffset][(int)(data->west->width - 1) - ((int)xoffset)]);
+			}
+			if (ray->wall_deriction == EAST)
+			{
+				yoffset = ((ystart - ((HEIGHT / 2.0) - (ray->project_plan / 2.0))) \
+						* data->east->height) / ray->project_plan;
+				mlx_put_pixel(data->image_win ,colum ,ystart, data->ea[(int)yoffset][(int)xoffset]);
+			}
+			ystart++;
+		}
 		ray_start += ray_inc;
 		colum++;
 	}
