@@ -6,16 +6,17 @@
 #    By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/16 20:35:38 by asabri            #+#    #+#              #
-#    Updated: 2023/11/14 05:06:25 by abberkac         ###   ########.fr        #
+#    Updated: 2023/11/18 16:36:44 by abberkac         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 NAME = cub3d
 CC   = gcc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror 
 RM   = rm -f
-SRCS = main.c src/render.c src/ray_casting.c src/parsing.c src/utils.c src/get_next_line.c src/get_next_line_utils.c src/check_infos.c src/check_map.c
+SRCS = main.c src/render.c src/ray_casting.c src/parsing.c src/utils.c src/get_next_line.c src/get_next_line_utils.c \
+		src/check_infos.c src/check_map.c src/parse_util.c src/utils_2.c src/utils_3.c src/utils_4.c
 OBJ  = $(SRCS:.c=.o)
 INC  = include/cub3d.h
 

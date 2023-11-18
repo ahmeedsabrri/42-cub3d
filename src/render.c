@@ -6,11 +6,12 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 20:55:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/15 02:55:52 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/18 16:40:37 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
+
 
 // void dda(t_data *data, double x1, double y1, double x2, double y2, int color)
 // {
@@ -43,6 +44,44 @@
 // }
 void init(t_data *data);
 //(255,255,0)yellow color
+// void draw_player(t_data *data, uint32_t color)
+// {
+//     (void)color;
+//     for (int i = 0; i < 360; i++)
+//         dda(data,data->player->px ,data->player->py ,data->player->px + (cos(i * PI/180) * 10),data->player->py + (sin(i * PI/180) * 10),ft_pixel(255,0,0,255));
+//     dda(data,data->player->px,data->player->py,data->player->px + (cos(data->player->rotationAngle) * 30),data->player->py + (sin(data->player->rotationAngle) * 30),ft_pixel(255,0,0,255));
+// }
+// void draw_square(t_data *data, int y,int x, uint32_t color)
+// {
+//     (void)color;
+//     for (int i = 0; i < Tile_size - 1; i++)
+//         for (int j = 0; j < Tile_size - 1; j++)
+//         {
+//             mlx_put_pixel(data->image_win, (x + i) * MINI_MAP_SCALE, (y + j) * MINI_MAP_SCALE, ft_pixel(color,color,color,color));
+//         }
+// }
+// void draw_map(t_data *data)
+// {
+//     int i;
+//     int j;
+
+//     i = -1;
+//     data->width = 0;
+//     data->height = 0;
+//     while (data->map[++i])
+//     {
+//         j = -1;
+//         while (data->map[i][++j])
+//         {
+//             if (data->map[i][j] == '1')
+//                 draw_square(data,i * Tile_size, j * Tile_size , 0x5a5a5a);
+//             else 
+//                 draw_square(data,i * 64, j * 64, 0x808080);
+//             data->width++;
+//         }
+//         data->height++;
+//     }
+// }
 int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
 {
     return (r << 24 | g << 16 | b << 8 | a);
@@ -65,9 +104,9 @@ void draw_minimap(t_data *data, double xstart,double ystart,int i,int j,double d
     }
    
     if (wall_hit(xstart * Tile_size,ystart* Tile_size,data))
-        mlx_put_pixel(data->image_win,j  ,i ,ft_pixel(28,59,14,200));
+        mlx_put_pixel(data->image_win,j  ,i ,ft_pixel(106,50,159,255));
     else
-        mlx_put_pixel(data->image_win,j ,i,ft_pixel(0,0,0,255));
+        mlx_put_pixel(data->image_win,j ,i,ft_pixel(68,68,68,255));
     if (distance > 95)
         mlx_put_pixel(data->image_win,j  ,i ,ft_pixel(120,120,120,255));
 }
@@ -204,8 +243,6 @@ void    get_player_pos(t_data *data)
             }
         }
     }
-    // printf("%f\n",data->player->px);
-    // printf("%f\n",data->player->py);
 }
 
 void ft_keyfunc_relesed(mlx_key_data_t keypress, t_data *data)
@@ -257,9 +294,9 @@ void fill_window(t_data *data)
         while (j < WIDTH)
         {
             if (i > HEIGHT / 2)
-                 mlx_put_pixel(data->image_win, j, i, ft_pixel(data->floor->r, data->floor->g, data->floor->b ,255));
+                 mlx_put_pixel(data->image_win, j, i, ft_pixel(data->floor->r, data->floor->g,data->floor->b,255));
             else
-                mlx_put_pixel(data->image_win, j, i, ft_pixel(data->ceiling->r,data->ceiling->g, data->ceiling->b, 255));
+                mlx_put_pixel(data->image_win, j, i, ft_pixel(data->ceiling->r,data->ceiling->g,data->ceiling->b,200));
                  j++;
         }
         i++;
@@ -331,6 +368,10 @@ void init(t_data *data)
         exit (1);
     mlx_set_cursor_mode(data->mlx,MLX_MOUSE_HIDDEN);
     get_player_pos(data);
+    data->no = img_to_double_pointer(data->north);
+	data->so = img_to_double_pointer(data->south);
+    data->we = img_to_double_pointer(data->west);
+	data->ea = img_to_double_pointer(data->east);
     mlx_set_cursor_mode(data->mlx,MLX_MOUSE_HIDDEN);
     mlx_image_to_window(data->mlx, data->image_win, 0, 0);
     mlx_key_hook(data->mlx,ft_keyfunc_pressed,data);
