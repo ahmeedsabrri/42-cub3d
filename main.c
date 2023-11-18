@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 01:33:47 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/15 09:34:54 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/18 16:13:56 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int main(int ac, char **av)
     player->side_direction = 0;
     player->walkDirection = 0; // up or down
     player->turnDirection = 0; // angle rotation 
-    player->walkspeed = 4;
+    player->walkspeed = 10;
     player->turnspeed = 3.00 * (M_PI / 180.0);
     data->player = player;
     init(data);

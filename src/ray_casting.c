@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 21:47:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/17 14:41:06 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/18 16:22:19 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,8 @@ int	wall_hit(double px, double py, t_data *data)
 
 	x = (px / Tile_size);
 	y = (py / Tile_size);
-	if (x > data->width || x < 0 || y < 0 || y > data->height)
-		return (1);
+	if (x > (data->width) || x < 0 || y < 0 || y > (data->height))
+		return (0);
 	if (x < data->width && x >= 0
 		&& y >= 0 && y < data->height && data->map[y][x] == '1')
 		return (1);
@@ -134,13 +134,13 @@ void horizontal(t_data *data, t_ray *ray, double angle)
 	double dx;
 	double dy;
 	
-	dy = 64.0;
-	dx = 64.0 / tan(angle);
+	dy = Tile_size;
+	dx = Tile_size / tan(angle);
 	if(!angle_up_or_down(angle))
 		dy *=-1;
-	ay = floor(data->player->py / 64.0) * 64.0;
+	ay = floor(data->player->py / Tile_size) * Tile_size;
 	if (angle_up_or_down(angle) > 0)
-		ay += 64.0;
+		ay += Tile_size;
 	ax = data->player->px + ((ay - data->player->py) / tan(angle));
 	if ((!angle_left_or_right(angle) && dx > 0) || (angle_left_or_right(angle) && dx < 0))
 		dx *= -1.0;
@@ -176,10 +176,10 @@ void vertical(t_data *data, t_ray *ray, double angle)
 	double dx;
 	double dy;
 	
-	ax = floor(data->player->px / 64.0) * 64.0;
-	dx = 64.0;
+	ax = floor(data->player->px / Tile_size) * Tile_size;
+	dx = Tile_size;
 	if (angle_left_or_right(angle))
-		ax += 64.0;
+		ax += Tile_size;
 	ay = data->player->py + ((ax - data->player->px) * tan(angle));
 	if (!angle_left_or_right(angle))
 		dx *= -1;
@@ -275,22 +275,24 @@ void castallrays(t_data *data)
 
 	ray_inc = FOV / WIDTH;
 	ray_start = data->player->rotationAngle - (FOV / 2.0);
-	ray = malloc(sizeof(t_ray));
 	colum = 0;
 	
 	while (colum < WIDTH)
 	{
 		
+		ray = malloc(sizeof(t_ray));
+		memset(ray, 0, sizeof(t_ray));//ft_
+		
 		ray->horzhit = 0;
 		ray->verthit = 0;
-		ray->distanceh = INT_MAX;
-		ray->distancev = INT_MAX;
+		ray->distanceh = ULONG_MAX;
+		ray->distancev = ULONG_MAX;
 		norm_angle(&ray_start);
 		horizontal(data,ray,ray_start);
 		vertical(data,ray,ray_start);
 		ray->distanceh = sqrt(pow((ray->hax - data->player->px),2) + pow((ray->hay - data->player->py), 2));
 		ray->distancev = sqrt(pow((ray->vax -data->player->px),2) + pow((ray->vay - data->player->py), 2));
-		if((ray->distanceh < ray->distancev) && ray->horzhit)
+		if((ray->distanceh < ray->distancev))
 			ray_hit_deriction(data,ray, &xoffset,ray_start);
 		else
 			ray_hit_deriction1(data,ray, &xoffset,ray_start);
@@ -306,33 +308,40 @@ void castallrays(t_data *data)
 			ystart = 0;
 		while (ystart < yend && ystart < HEIGHT)
 		{
-			if (ray->wall_deriction == NORTH)
-			{
-				yoffset = ((ystart - ((HEIGHT / 2.0) - (ray->project_plan / 2.0))) \
-						* data->north->height) / ray->project_plan;
-				mlx_put_pixel(data->image_win ,colum ,ystart, data->no[(int)yoffset][(int)xoffset]);
-			}
-			if (ray->wall_deriction == SOUTH)
-			{
-				yoffset = ((ystart - ((HEIGHT / 2.0) - (ray->project_plan / 2.0))) \
-						* data->south->height) / ray->project_plan;
-				mlx_put_pixel(data->image_win ,colum ,ystart, data->so[(int)yoffset][(int)(data->south->width - 1) - ((int)xoffset)]);
-			}
-			if (ray->wall_deriction == WEST)
-			{
+			// if (ray->wall_deriction == NORTH)
+			// {
+			// 	yoffset = ((ystart - ((HEIGHT / 2.0) - (ray->project_plan / 2.0))) \
+			// 			* data->north->height) / ray->project_plan;
+			// 	mlx_put_pixel(data->image_win ,colum ,ystart, data->no[(int)yoffset][(int)xoffset]);
+			// 	// mlx_put_pixel(data->image_win ,colum ,ystart, ft_pixel(255,0,0,255));
+			// }
+			// if (ray->wall_deriction == SOUTH)
+			// {
+			// 	yoffset = ((ystart - ((HEIGHT / 2.0) - (ray->project_plan / 2.0))) \
+			// 			* data->south->height) / ray->project_plan;
+			// 	mlx_put_pixel(data->image_win ,colum ,ystart, data->so[(int)yoffset][(int)(data->south->width - 1) - ((int)xoffset)]);
+			// 	// mlx_put_pixel(data->image_win ,colum ,ystart, ft_pixel(255,255,0,255));
+			// }
+			// if (ray->wall_deriction == WEST)
+			// {
 				yoffset = ((ystart - ((HEIGHT / 2.0) - (ray->project_plan / 2.0))) \
 						* data->west->height) / ray->project_plan;
 				mlx_put_pixel(data->image_win ,colum ,ystart, data->we[(int)yoffset][(int)(data->west->width - 1) - ((int)xoffset)]);
-			}
-			if (ray->wall_deriction == EAST)
-			{
-				yoffset = ((ystart - ((HEIGHT / 2.0) - (ray->project_plan / 2.0))) \
-						* data->east->height) / ray->project_plan;
-				mlx_put_pixel(data->image_win ,colum ,ystart, data->ea[(int)yoffset][(int)xoffset]);
-			}
+				// mlx_put_pixel(data->image_win ,colum ,ystart, ft_pixel(0,0,255,255));
+			// }
+			// if (ray->wall_deriction == EAST)
+			// {
+				// yoffset = ((ystart - ((HEIGHT / 2.0) - (ray->project_plan / 2.0))) \
+						// * data->east->height) / ray->project_plan;
+				// mlx_put_pixel(data->image_win ,colum ,ystart, data->ea[(int)yoffset][(int)xoffset]);
+				// mlx_put_pixel(data->image_win ,colum ,ystart, ft_pixel(0,255,255,255));
+			// }
+			
 			ystart++;
+			
 		}
 		ray_start += ray_inc;
 		colum++;
+		free(ray);
 	}
 }

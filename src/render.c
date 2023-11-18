@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 20:55:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/17 14:38:44 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/18 16:13:26 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,6 +239,7 @@ void    get_player_pos(t_data *data)
                 data->player->px = ((x * Tile_size) + (Tile_size /2));
                 data->player->py = ((y * Tile_size) + (Tile_size / 2));
                 data->player->rotationAngle = check_angle(data->map[y][x]);
+                data->map[y][x] = '0';
             }
         }
     }
