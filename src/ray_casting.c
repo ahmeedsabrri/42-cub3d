@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 21:47:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/19 10:47:14 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/19 11:48:20 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,28 +49,6 @@ void dda(t_data *data, double x1, double y1, double x2, double y2, int color)
         i++;
     }
 }
-
-// void dda(t_data *data,double xstart, double ystart,double xend, double yend,int color)
-// {
-//  double  dx;
-//  double  dy;
-//  double  xinc;
-//  double  yinc;
-//  int     step;
-
-//  dx = xstart - xend;
-//  dy = ystart - yend;
-//  step = ft_fabs(dx, dy);
-//  xinc = dx / step;
-//  yinc = dy / step;
-//  while (step--)
-//  {
-//      if(xstart >=0 && xstart < WIDTH && ystart >=0 && ystart < HEIGHT)
-//          mlx_put_pixel(data->image_win, xstart, ystart,color);
-//      xstart = xstart + xinc;
-//      ystart = ystart + yinc;
-//  }
-// }
 
 int angle_left_or_right(double angle) 
 {
@@ -189,86 +167,42 @@ void vertical(t_data *data, t_ray *ray, double angle)
     castrayvert(data,ray,ax,ay,dx,dy,angle);
 }
 
-void norm_angle(double *angle, t_ray *ray)
+
+void norm_angle(double *ray_start)
 {
-    *angle = remainder(*angle, 2.0 * M_PI);
-    if (*angle < 0)
-        *angle = (2.0 * M_PI) + *angle;
-    if (*angle > 0 && *angle < M_PI)
-        ray->ray_face_up = 0;
-    else
-        ray->ray_face_up= 1;
-    if (*angle < (0.5 * M_PI) || *angle > (1.5 * M_PI))
-        ray->ray_face_right = 1;
-    else
-        ray->ray_face_right = 0;
+    *ray_start = remainder(*ray_start, 2.0 * M_PI);
+    if (*ray_start < 0)
+        *ray_start = (2.0 * M_PI) + *ray_start;
 }
 
-void ray_hit_deriction(t_data *data,t_ray *ray, double *xoffset, double angle)
+void ray_hit_deriction(t_data *data,t_ray *ray,double angle)
 {
 	if (angle_up_or_down(angle))
 	{
 		ray->wall_deriction = SOUTH;
-		*xoffset = (fmod(ray->hax ,Tile_size) * data->south->width) / Tile_size;
+		ray->xoffset = (fmod(ray->hax ,Tile_size) * data->south->width) / Tile_size;
 	}
 	else
 	{
 			ray->wall_deriction = NORTH;
-			*xoffset = (fmod(ray->hax ,Tile_size) * data->north->width) / Tile_size;
+			ray->xoffset = (fmod(ray->hax ,Tile_size) * data->north->width) / Tile_size;
 	}
 }
-void ray_hit_deriction1(t_data *data,t_ray *ray, double *xoffset, double angle)
+void ray_hit_deriction1(t_data *data,t_ray *ray,double angle)
 {
 	
 	if (angle_left_or_right(angle))
 	{
 		ray->wall_deriction = WEST;
-		*xoffset = (fmod(ray->vay ,Tile_size) * data->west->width) / Tile_size;
+		ray->xoffset = (fmod(ray->vay ,Tile_size) * data->west->width) / Tile_size;
 	}
 	else
 	{
 		ray->wall_deriction = EAST;
-		*xoffset = (fmod(ray->vay ,Tile_size) * data->east->width) / Tile_size;
+		ray->xoffset = (fmod(ray->vay ,Tile_size) * data->east->width) / Tile_size;
 	}
 }
-unsigned int    *set_texture_colors(mlx_texture_t *png_strct)
-{
-    unsigned int    i;
-    unsigned int    j;
-    unsigned int *texture;
 
-    i = 0;
-    j = 0;
-    texture = malloc(sizeof(unsigned int *) * (64 * 64));
-    while (png_strct->pixels[i] && (j < png_strct->width * png_strct->height))
-    {
-        texture[j] = ft_pixel(png_strct->pixels[i],
-                png_strct->pixels[i + 1],
-                png_strct->pixels[i + 2],
-                255);
-        j++;
-        i += png_strct->bytes_per_pixel;
-    }
-    return (texture);
-}
-
-uint32_t get_color(t_ray *ray,mlx_texture_t *texture,unsigned int yoffset,unsigned int xoffset)
-{
-    uint8_t *pixel;
-    int pxl_loction;
-    double height_divd;
-    int height;
-    
-    if (ray->project_plan > HEIGHT)
-        yoffset += (ray->project_plan - HEIGHT) / 2;
-    height_divd = texture->height / ray->project_plan;
-    height = floor((height_divd * yoffset)) * texture->width;
-    pxl_loction = height;
-    pxl_loction += xoffset;
-    pxl_loction *= texture->bytes_per_pixel;
-    pixel =&texture->pixels[pxl_loction];
-    return (pixel[0] << 24 | pixel[1] << 16 | pixel[2] << 8 | pixel[3]);
-}
 void    set_color(t_colors *colors, mlx_texture_t *img, uint32_t    **pixels)
 {
     colors->r = img->pixels[colors->count];
@@ -304,92 +238,86 @@ u_int32_t   **img_to_double_pointer(mlx_texture_t *img)
     }
     return (pixels);
 }
-
-void castallrays(t_data *data)
+void calcu_yoffset(t_data *data,t_ray *ray)
 {
-    int colum;
-    t_ray *ray;
-    double project_dist;
-    double ystart;
-    double yend;
-    double ray_start;
-    double player_ray_dist;
-    double ray_inc;
-    double xoffset;
-    double yoffset;
-    unsigned int *texture;
-    uint32_t color;
+	if (ray->wall_deriction == NORTH)
+		ray->yoffset = ((ray->ystart - ((HEIGHT / 2.0) - (ray->project_plan / 2.0))) \
+				* data->north->height) / ray->project_plan;
+	if (ray->wall_deriction == SOUTH)
+		ray->yoffset = ((ray->ystart - ((HEIGHT / 2.0) - (ray->project_plan / 2.0))) \
+				* data->south->height) / ray->project_plan;
+	if (ray->wall_deriction == WEST)
+		ray->yoffset = ((ray->ystart - ((HEIGHT / 2.0) - (ray->project_plan / 2.0))) \
+				* data->west->height) / ray->project_plan;
+	if (ray->wall_deriction == EAST)
+		ray->yoffset = ((ray->ystart - ((HEIGHT / 2.0) - (ray->project_plan / 2.0))) \
+			* data->east->height) / ray->project_plan;
+}
+void draw_wall(t_data *data,t_ray *ray, int colum)
+{
+	while (ray->ystart < ray->yend && ray->ystart < HEIGHT)
+    {
+		calcu_yoffset(data,ray);
+		if (ray->wall_deriction == NORTH)
+			mlx_put_pixel(data->image_win ,colum ,ray->ystart, data->no[(int)ray->yoffset][(int)ray->xoffset]);
+		if (ray->wall_deriction == SOUTH)
+			mlx_put_pixel(data->image_win ,colum ,ray->ystart, data->so[(int)ray->yoffset][(int)(data->south->width - 1) - ((int)ray->xoffset)]);
+		if (ray->wall_deriction == WEST)
+			mlx_put_pixel(data->image_win ,colum ,ray->ystart, data->we[(int)ray->yoffset][(int)(data->west->width - 1) - ((int)ray->xoffset)]);
+		if (ray->wall_deriction == EAST)
+			mlx_put_pixel(data->image_win ,colum ,ray->ystart, data->ea[(int)ray->yoffset][(int)ray->xoffset]);
+        ray->ystart++;
+    }
+}
 
-    color = 0;
-    ray_inc = FOV / WIDTH;
-    ray_start = data->player->rotationAngle - (FOV / 2.0);
-    colum = 0;
-    texture = malloc(sizeof(unsigned int *)*(64 * 64));
-    data->no = img_to_double_pointer(data->north);
+void calculate_distence(t_ray *ray, t_data *data, double ray_start)
+{
+	if(ray->horzhit)
+        ray->distanceh = sqrt(pow((ray->hax - data->player->px), 2) + pow((ray->hay - data->player->py), 2));
+    if(ray->verthit)
+        ray->distancev = sqrt(pow((ray->vax -data->player->px), 2) + pow((ray->vay - data->player->py), 2));
+    if ((ray->distanceh < ray->distancev ) && ray->horzhit)
+    {
+        ray->player_ray_dist = ray->distanceh * cos(data->player->rotationAngle - ray_start);
+        ray_hit_deriction(data,ray,ray_start);
+        ray->horzhit = 1;
+        ray->verthit = 0;
+    }
+    else
+    {
+        ray->player_ray_dist = ray->distancev * cos(data->player->rotationAngle - ray_start);
+        ray_hit_deriction1(data,ray,ray_start);
+        ray->horzhit = 0;
+        ray->verthit = 1;
+    }
+    ray->project_dist = (WIDTH / 2)/tan(FOV / 2);
+    ray->project_plan = (ray->project_dist / ray->player_ray_dist) * Tile_size;
+    ray->ystart = (HEIGHT / 2) - (ray->project_plan / 2);
+    ray->yend = (HEIGHT / 2) + (ray->project_plan / 2);
+	 if (ray->ystart < 0)
+            ray->ystart = 0;
+}
+void wall_projection(t_data *data)
+{
+    t_ray *ray;int colum;double ray_start;
+    double ray_inc;	
+	
+	ray_inc = FOV / WIDTH;
+	ray_start = data->player->rotationAngle - (FOV / 2.0);
+	colum = 0;
     while (colum < WIDTH)
     {
-        
         ray = malloc(sizeof(t_ray));
         memset(ray, 0, sizeof(t_ray));
         ray->horzhit = 0;
         ray->verthit = 0;
         ray->distanceh = INT_MAX;
         ray->distancev = INT_MAX;
-        norm_angle(&ray_start, ray);
+        norm_angle(&ray_start);
         horizontal(data,ray,ray_start);
         vertical(data,ray,ray_start);
-        if(ray->horzhit)
-            ray->distanceh = sqrt(pow((ray->hax - data->player->px), 2) + pow((ray->hay - data->player->py), 2));
-        if(ray->verthit)
-            ray->distancev = sqrt(pow((ray->vax -data->player->px), 2) + pow((ray->vay - data->player->py), 2));
-        if ((ray->distanceh < ray->distancev ) && ray->horzhit)
-        {
-            player_ray_dist = ray->distanceh * cos(data->player->rotationAngle - ray_start);
-            ray_hit_deriction(data,ray, &xoffset,ray_start);
-            ray->horzhit = 1;
-            ray->verthit = 0;
-        }
-        else
-        {
-            player_ray_dist = ray->distancev * cos(data->player->rotationAngle - ray_start);
-            ray_hit_deriction1(data,ray, &xoffset,ray_start);
-            ray->horzhit = 0;
-            ray->verthit = 1;
-        }
-        project_dist = (WIDTH / 2)/tan(FOV / 2);
-        ray->project_plan = (project_dist / player_ray_dist) * Tile_size;
-        ystart = (HEIGHT / 2) - (ray->project_plan / 2);
-        yend = (HEIGHT / 2) + (ray->project_plan / 2);
-        if (ystart < 0)
-            ystart = 0;
-        while (ystart < yend && ystart < HEIGHT)
-        {
-			if (ray->wall_deriction == NORTH)
-			{
-				yoffset = ((ystart - ((HEIGHT / 2.0) - (ray->project_plan / 2.0))) \
-						* data->north->height) / ray->project_plan;
-				mlx_put_pixel(data->image_win ,colum ,ystart, data->no[(int)yoffset][(int)xoffset]);
-			}
-			if (ray->wall_deriction == SOUTH)
-			{
-				yoffset = ((ystart - ((HEIGHT / 2.0) - (ray->project_plan / 2.0))) \
-						* data->south->height) / ray->project_plan;
-				mlx_put_pixel(data->image_win ,colum ,ystart, data->so[(int)yoffset][(int)(data->south->width - 1) - ((int)xoffset)]);
-			}
-			if (ray->wall_deriction == WEST)
-			{
-				yoffset = ((ystart - ((HEIGHT / 2.0) - (ray->project_plan / 2.0))) \
-						* data->west->height) / ray->project_plan;
-				mlx_put_pixel(data->image_win ,colum ,ystart, data->we[(int)yoffset][(int)(data->west->width - 1) - ((int)xoffset)]);
-			}
-			if (ray->wall_deriction == EAST)
-			{
-				yoffset = ((ystart - ((HEIGHT / 2.0) - (ray->project_plan / 2.0))) \
-						* data->east->height) / ray->project_plan;
-				mlx_put_pixel(data->image_win ,colum ,ystart, data->ea[(int)yoffset][(int)xoffset]);
-			}
-            ystart++;
-        }
+        calculate_distence(ray,data,ray_start);
+        draw_wall(data,ray,colum);
         free(ray);
         ray_start += ray_inc;
         colum++;

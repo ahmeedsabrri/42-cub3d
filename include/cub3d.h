@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 22:54:35 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/17 09:21:13 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/19 11:13:17 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,12 @@ typedef struct s_ray
 	int ray_face_right;
 	t_dir wall_deriction;
 	double project_plan;
+    double project_dist;
+    double ystart;
+    double yend;
+    double player_ray_dist;
+    double xoffset;
+    double yoffset;
 }	t_ray; 
 typedef struct s_player
 {
@@ -134,7 +140,7 @@ typedef struct s_colors
 void	init(t_data *data);
 void	dda(t_data *data,double xstart, double ystart,double xend, double yend,int color);
 int32_t	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
-void	castallrays(t_data *data);
+void wall_projection(t_data *data);
 int		get_height(char **str);
 int		width_size(char **str);
 int		wall_hit(double px, double py, t_data *data);

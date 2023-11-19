@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 20:55:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/19 10:48:29 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/19 11:43:54 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void renderminimap(t_data *data)
 {
     double xstart;
     double ystart;
+    double distance;
     int i;
     int j;
 
@@ -54,14 +55,12 @@ void renderminimap(t_data *data)
     {
         xstart = (data->player->px) - ((200)  / 2.0);
         j = 0;
-        double d = 0;
+        distance = 0;
         while (j <((200)))
         {
-            d = sqrt(pow(j - 100, 2) +  pow(i - 100,2));
-            if (d < 100)
-            {
-                draw_minimap(data,xstart,ystart,i,j,d);
-            }
+            distance = sqrt(pow(j - 100, 2) +  pow(i - 100,2));
+            if (distance < 100)
+                draw_minimap(data,xstart,ystart,i,j,distance);
             j++;
             xstart++;
         }
@@ -93,19 +92,6 @@ int get_height(char **str)
     while(str[++i]);
     return (i);    
 }
-int hit_the_wall(double x,double y,t_data *data)
-{
-    int px;
-    int py;
-
-    px = x / Tile_size;
-    py = y / Tile_size;
-    if (px > (int)strlen(data->map[0]) || px < 0 || py < 0 || py > data->height)
-        return (1);
-    if ((((int)py / Tile_size) > 0) && (int)strlen(data->map[0]) > 0 && (((int)py / Tile_size) < (data->height))  &&  (((int)py / Tile_size) < (int)strlen(data->map[0])) &&  data->map[(int)py / Tile_size][(int)px / Tile_size] != '1')
-        return (1);
-    return (0);
-}
 
 void ft_renderplayer1(t_data *data)
 {
@@ -117,11 +103,10 @@ void ft_renderplayer1(t_data *data)
     data->player->rotationAngle += data->player->turnDirection * data->player->turnspeed;
     px = data->player->px + cos(data->player->rotationAngle + M_PI_2)  * mv;
     py = data->player->py + sin(data->player->rotationAngle + M_PI_2) * mv;
-
-   if ((((int)py / Tile_size) > 0) && (int)strlen(data->map[0]) > 0 && ((((int)py / Tile_size) < (data->height))  ||  (((int)py / Tile_size) < (int)data->width)) &&  data->map[(int)py / Tile_size][(int)px / Tile_size] != '1')
+    if (!wall_hit(px,py,data))
     {
-            data->player->px = px;
-            data->player->py = py;
+        data->player->px = px;
+        data->player->py = py;
     }
 }
 void ft_renderplayer(t_data *data)
@@ -130,16 +115,14 @@ void ft_renderplayer(t_data *data)
     double px;
     double py;
 
-
     mv = data->player->walkDirection * data->player->walkspeed;
     data->player->rotationAngle += data->player->turnDirection * data->player->turnspeed;
-   px = data->player->px + cos(data->player->rotationAngle)  * mv;
+    px = data->player->px + cos(data->player->rotationAngle)  * mv;
     py =data->player->py + sin(data->player->rotationAngle ) * mv;
-
-    if ((((int)py / Tile_size) > 0) && (int)strlen(data->map[0]) > 0 && ((((int)py / Tile_size) < (data->height))  ||  (((int)py / Tile_size) < (int)data->width) )&&  data->map[(int)py / Tile_size][(int)px / Tile_size] != '1')
+    if (!wall_hit(px,py,data))
     {
-            data->player->px = px;
-            data->player->py = py;
+        data->player->px = px;
+        data->player->py = py;
     }
 }
 double check_angle(char c)
@@ -173,8 +156,6 @@ void    get_player_pos(t_data *data)
             }
         }
     }
-    // printf("%f\n",data->player->px);
-    // printf("%f\n",data->player->py);
 }
 
 void ft_keyfunc_relesed(mlx_key_data_t keypress, t_data *data)
@@ -265,7 +246,7 @@ void ft_hook(void *param)
     mlx_image_to_window(data->mlx, data->image_win, 0, 0);
     fill_window(data);
     mouse_move(data);
-    castallrays(data);
+    wall_projection(data);
     renderminimap(data);
 }
 int init_textures(t_data **data)
@@ -282,7 +263,7 @@ int init_textures(t_data **data)
     (*data)->east = mlx_load_png((*data)->infos->east);
     if (!(*data)->east)
         return (printf("failed to load east texture"));
-    return 0;
+    return (0);
 }
 void init(t_data *data)
 {
@@ -299,7 +280,6 @@ void init(t_data *data)
     if (init_textures(&data))
         exit (1);
     mlx_set_cursor_mode(data->mlx,MLX_MOUSE_HIDDEN);
-
     data->no = img_to_double_pointer(data->north);
 	data->so = img_to_double_pointer(data->south);
     data->we = img_to_double_pointer(data->west);
