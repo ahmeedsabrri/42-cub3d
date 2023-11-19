@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 22:54:35 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/18 15:35:49 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/19 14:29:50 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,13 @@ typedef struct s_ray
 	int ray_face_right;
 	t_dir wall_deriction;
 	double project_plan;
+    double project_dist;
+    double ystart;
+    double yend;
+    double player_ray_dist;
+    double xoffset;
+    double yoffset;
 }	t_ray; 
-
 typedef struct s_player
 {
 	double	px;
@@ -132,7 +137,6 @@ typedef struct	s_data
 	uint32_t	**we;
 	uint32_t	**ea;
 }	t_data;
-
 typedef struct s_colors
 {
 	uint8_t		r;
@@ -143,16 +147,32 @@ typedef struct s_colors
 	uint32_t	j;
 	int			count;
 }				t_colors;
-
 void	init(t_data *data);
 void	dda(t_data *data,double xstart, double ystart,double xend, double yend,int color);
 int32_t	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
-void	castallrays(t_data *data);
+void wall_projection(t_data *data);
 int		get_height(char **str);
 int		width_size(char **str);
 int		wall_hit(double px, double py, t_data *data);
-u_int32_t	**img_to_double_pointer(mlx_texture_t *img);
-
+void calculate_distence(t_ray *ray, t_data *data, double ray_start);
+void draw_wall(t_data *data,t_ray *ray, int colum);
+void calcu_yoffset(t_data *data,t_ray *ray);
+void vertical(t_data *data, t_ray *ray, double angle);
+double  ft_fabs(double dx, double dy);
+int angle_left_or_right(double angle);
+int angle_up_or_down(double angle) ;
+int wall_hit(double px, double py, t_data *data);
+unsigned int   **png_to_dpointer(mlx_texture_t *img);
+void    set_color(t_colors *colors, mlx_texture_t *img, unsigned int **pixels);
+void ray_hit_deriction1(t_data *data,t_ray *ray,double angle);
+void ray_hit_deriction(t_data *data,t_ray *ray,double angle);
+void norm_angle(double *ray_start);
+void	ft_renderplayer1(t_data *data);
+void	ft_renderplayer(t_data *data);
+void	get_player_pos(t_data *data);
+void	ft_keyfunc_pressed(mlx_key_data_t keypress, void *param);
+void	ft_hook(void *param);
+void	renderminimap(t_data *data);
 //-------------parsing------------//
 
 

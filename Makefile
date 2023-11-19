@@ -6,7 +6,7 @@
 #    By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/16 20:35:38 by asabri            #+#    #+#              #
-#    Updated: 2023/11/18 10:18:38 by abberkac         ###   ########.fr        #
+#    Updated: 2023/11/19 14:21:23 by abberkac         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,8 @@ NAME = cub3d
 CC   = gcc
 CFLAGS = -Wall -Wextra -Werror 
 RM   = rm -f
-SRCS = main.c src/render.c src/ray_casting.c src/parsing.c src/utils.c src/get_next_line.c src/get_next_line_utils.c \
+SRCS = main.c src/ray_casting.c src/ray_casting_utils.c src/ray_casting_utils1.c src/ray_casting_utils2.c \
+		src/render.c src/render_utils.c src/render_utils1.c src/render_utils2.c src/parsing.c src/utils.c src/get_next_line.c src/get_next_line_utils.c \
 		src/check_infos.c src/check_map.c src/parse_util.c src/utils_2.c src/utils_3.c src/utils_4.c
 OBJ  = $(SRCS:.c=.o)
 INC  = include/cub3d.h
