@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 01:33:47 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/19 18:09:51 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/19 22:31:04 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	parsing(char **av, t_data *data)
 	check_extension(av);
 	fd = open(av[1], O_RDONLY);
 	if (fd < 0)
-		return (1);
+		return (ft_error("Can't Opening The Map File\n"), 1);
 	info_line = get_next_line(fd);
 	infos = malloc(sizeof(t_infos));
 	if (!infos)

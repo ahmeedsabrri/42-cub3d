@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 13:30:03 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/19 18:09:51 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/19 22:12:16 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	calcu_yoffset(t_data *data, t_ray *ray)
 {
 	if (ray->wall_deriction == NORTH)
 		ray->yoffset = ((ray->ystart - ((HEIGHT / 2.0) - (ray->project_plan \
-							/ 2.0))) * data->north->height) / ray->project_plan;
+		/ 2.0))) * data->north->height) / ray->project_plan;
 	if (ray->wall_deriction == SOUTH)
 		ray->yoffset = ((ray->ystart - ((HEIGHT / 2.0) - (ray->project_plan \
 		/ 2.0))) * data->south->height) / ray->project_plan;
@@ -51,6 +51,16 @@ void	draw_wall(t_data *data, t_ray *ray, int colum)
 	}
 }
 
+void	projection_calcul(t_ray *ray)
+{
+	ray->project_dist = (WIDTH / 2) / tan(FOV / 2);
+	ray->project_plan = (ray->project_dist / ray->player_ray_dist) * TILE_SIZE;
+	ray->ystart = (HEIGHT / 2) - (ray->project_plan / 2);
+	ray->yend = (HEIGHT / 2) + (ray->project_plan / 2);
+	if (ray->ystart < 0)
+		ray->ystart = 0;
+}
+
 void	calculate_distence(t_ray *ray, t_data *data, double ray_start)
 {
 	if (ray->horzhit)
@@ -75,10 +85,5 @@ void	calculate_distence(t_ray *ray, t_data *data, double ray_start)
 		ray->horzhit = 0;
 		ray->verthit = 1;
 	}
-	ray->project_dist = (WIDTH / 2) / tan(FOV / 2);
-	ray->project_plan = (ray->project_dist / ray->player_ray_dist) * TILE_SIZE;
-	ray->ystart = (HEIGHT / 2) - (ray->project_plan / 2);
-	ray->yend = (HEIGHT / 2) + (ray->project_plan / 2);
-	if (ray->ystart < 0)
-		ray->ystart = 0;
+	projection_calcul(ray);
 }

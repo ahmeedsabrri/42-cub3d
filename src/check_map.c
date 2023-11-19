@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 21:43:51 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/18 10:06:33 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/19 22:20:17 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,8 @@ int	check_wall_around_chars(t_data **data)
 
 int	check_map_valid(t_data **data)
 {
+	if (!(*(*data)->map))
+		return (1);
 	if (check_walls(data))
 		return (1);
 	if (check_valid_chars(data))
