@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 22:54:35 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/19 11:13:17 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/19 13:34:49 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,19 @@ int		get_height(char **str);
 int		width_size(char **str);
 int		wall_hit(double px, double py, t_data *data);
 u_int32_t	**img_to_double_pointer(mlx_texture_t *img);
+void calculate_distence(t_ray *ray, t_data *data, double ray_start);
+void draw_wall(t_data *data,t_ray *ray, int colum);
+void calcu_yoffset(t_data *data,t_ray *ray);
+void vertical(t_data *data, t_ray *ray, double angle);
+double  ft_fabs(double dx, double dy);
+int angle_left_or_right(double angle);
+int angle_up_or_down(double angle) ;
+int wall_hit(double px, double py, t_data *data);
+unsigned int   **img_to_double_pointer(mlx_texture_t *img);
+void    set_color(t_colors *colors, mlx_texture_t *img, unsigned int **pixels);
+void ray_hit_deriction1(t_data *data,t_ray *ray,double angle);
+void ray_hit_deriction(t_data *data,t_ray *ray,double angle);
+void norm_angle(double *ray_start);
 //-------------parsing------------//
 
 
