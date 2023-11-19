@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 13:30:03 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/19 17:45:32 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/19 18:09:51 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	calculate_distence(t_ray *ray, t_data *data, double ray_start)
 		+ pow((ray->vay - data->player->py), 2));
 	if ((ray->distanceh < ray->distancev) && ray->horzhit)
 	{
-		ray->player_ray_dist = ray->distanceh * cos(data->player->rotationAngle \
+		ray->player_ray_dist = ray->distanceh * cos(data->player->rotat_angle \
 		- ray_start);
 		ray_hit_deriction(data, ray, ray_start);
 		ray->horzhit = 1;
@@ -69,14 +69,14 @@ void	calculate_distence(t_ray *ray, t_data *data, double ray_start)
 	}
 	else
 	{
-		ray->player_ray_dist = ray->distancev * cos(data->player->rotationAngle \
+		ray->player_ray_dist = ray->distancev * cos(data->player->rotat_angle \
 			- ray_start);
 		ray_hit_deriction1(data, ray, ray_start);
 		ray->horzhit = 0;
 		ray->verthit = 1;
 	}
 	ray->project_dist = (WIDTH / 2) / tan(FOV / 2);
-	ray->project_plan = (ray->project_dist / ray->player_ray_dist) * Tile_size;
+	ray->project_plan = (ray->project_dist / ray->player_ray_dist) * TILE_SIZE;
 	ray->ystart = (HEIGHT / 2) - (ray->project_plan / 2);
 	ray->yend = (HEIGHT / 2) + (ray->project_plan / 2);
 	if (ray->ystart < 0)

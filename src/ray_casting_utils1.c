@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 13:28:21 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/19 17:42:38 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/19 18:02:33 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@ void	ray_hit_deriction(t_data *data, t_ray *ray, double angle)
 	if (angle_up_or_down(angle))
 	{
 		ray->wall_deriction = SOUTH;
-		ray->xoffset = (fmod(ray->hax, Tile_size) * data->south->width) \
-			/ Tile_size;
+		ray->xoffset = (fmod(ray->hax, TILE_SIZE) * data->south->width) \
+			/ TILE_SIZE;
 	}
 	else
 	{
 		ray->wall_deriction = NORTH;
-		ray->xoffset = (fmod(ray->hax, Tile_size) * data->north->width) \
-			/ Tile_size;
+		ray->xoffset = (fmod(ray->hax, TILE_SIZE) * data->north->width) \
+			/ TILE_SIZE;
 	}
 }
 
@@ -40,14 +40,14 @@ void	ray_hit_deriction1(t_data *data, t_ray *ray, double angle)
 	if (angle_left_or_right(angle))
 	{
 		ray->wall_deriction = WEST;
-		ray->xoffset = (fmod(ray->vay, Tile_size) * data->west->width) \
-			/ Tile_size;
+		ray->xoffset = (fmod(ray->vay, TILE_SIZE) * data->west->width) \
+			/ TILE_SIZE;
 	}
 	else
 	{
 		ray->wall_deriction = EAST;
-		ray->xoffset = (fmod(ray->vay, Tile_size) * data->east->width) \
-			/ Tile_size;
+		ray->xoffset = (fmod(ray->vay, TILE_SIZE) * data->east->width) \
+			/ TILE_SIZE;
 	}
 }
 

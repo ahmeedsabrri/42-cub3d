@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 21:47:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/19 17:37:04 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/19 18:09:51 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	castrayhorz(t_data *data, t_ray *ray, t_horz horz, double angle)
 	double	y;
 
 	while (horz.ax >= 0 && horz.ay >= 0 && horz.ax \
-		<= ((data->width) * Tile_size) \
-		&& horz.ay <= (data->height) * Tile_size)
+		<= ((data->width) * TILE_SIZE) \
+		&& horz.ay <= (data->height) * TILE_SIZE)
 	{
 		if (!angle_up_or_down(angle))
 			y = horz.ay - 1;
@@ -63,8 +63,8 @@ void	castrayvert(t_data *data, t_ray *ray, t_horz vert, double angle)
 	double	x;
 
 	while (vert.ax >= 0 && vert.ay >= 0 && vert.ax \
-		<= ((data->width) * Tile_size) \
-		&& vert.ay <= (data->height) * Tile_size)
+		<= ((data->width) * TILE_SIZE) \
+		&& vert.ay <= (data->height) * TILE_SIZE)
 	{
 		if (!angle_left_or_right(angle))
 			x = vert.ax - 1;
@@ -96,7 +96,7 @@ void	vertical(t_data *data, t_ray *ray, double angle)
 	vert.ay = data->player->py + ((vert.ax - data->player->px) * tan(angle));
 	if (!angle_left_or_right(angle))
 		vert.dx *= -1;
-	vert.dy = Tile_size * tan(angle);
+	vert.dy = TILE_SIZE * tan(angle);
 	if ((!angle_up_or_down(angle) && vert.dy > 0) || (angle_up_or_down(angle) \
 		&& vert.dy < 0))
 		vert.dy *= -1;
@@ -111,7 +111,7 @@ void	wall_projection(t_data *data)
 	double	ray_inc;
 
 	ray_inc = FOV / WIDTH;
-	ray_start = data->player->rotationAngle - (FOV / 2.0);
+	ray_start = data->player->rotat_angle - (FOV / 2.0);
 	colum = 0;
 	while (colum < WIDTH)
 	{

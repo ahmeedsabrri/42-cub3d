@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:15:32 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/19 14:28:16 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/19 18:09:51 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ void	ft_renderplayer1(t_data *data)
 	double	py;
 
 	mv = data->player->side_direction * data->player->walkspeed;
-	data->player->rotationAngle += data->player->turnDirection
+	data->player->rotat_angle += data->player->turn_direct
 		* data->player->turnspeed;
-	px = data->player->px + cos(data->player->rotationAngle + M_PI_2) * mv;
-	py = data->player->py + sin(data->player->rotationAngle + M_PI_2) * mv;
+	px = data->player->px + cos(data->player->rotat_angle + M_PI_2) * mv;
+	py = data->player->py + sin(data->player->rotat_angle + M_PI_2) * mv;
 	if (!wall_hit(px, py, data))
 	{
 		data->player->px = px;
@@ -46,11 +46,11 @@ void	ft_renderplayer(t_data *data)
 	double	px;
 	double	py;
 
-	mv = data->player->walkDirection * data->player->walkspeed;
-	data->player->rotationAngle += data->player->turnDirection
+	mv = data->player->walk_direct * data->player->walkspeed;
+	data->player->rotat_angle += data->player->turn_direct
 		* data->player->turnspeed;
-	px = data->player->px + cos(data->player->rotationAngle) * mv;
-	py = data->player->py + sin(data->player->rotationAngle) * mv;
+	px = data->player->px + cos(data->player->rotat_angle) * mv;
+	py = data->player->py + sin(data->player->rotat_angle) * mv;
 	if (!wall_hit(px, py, data))
 	{
 		data->player->px = px;
@@ -84,9 +84,9 @@ void	get_player_pos(t_data *data)
 		{
 			if (strchr("NEWS", data->map[y][x]))
 			{
-				data->player->px = ((x * Tile_size) + (Tile_size / 2));
-				data->player->py = ((y * Tile_size) + (Tile_size / 2));
-				data->player->rotationAngle = check_angle(data->map[y][x]);
+				data->player->px = ((x * TILE_SIZE) + (TILE_SIZE / 2));
+				data->player->py = ((y * TILE_SIZE) + (TILE_SIZE / 2));
+				data->player->rotat_angle = check_angle(data->map[y][x]);
 			}
 		}
 	}

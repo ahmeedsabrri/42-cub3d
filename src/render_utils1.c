@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:17:47 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/19 14:27:36 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/19 18:09:51 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,17 @@
 void	ft_keyfunc_relesed(mlx_key_data_t keypress, t_data *data)
 {
 	if (keypress.key == MLX_KEY_W && keypress.action == MLX_RELEASE)
-		data->player->walkDirection = 0;
+		data->player->walk_direct = 0;
 	if (keypress.key == MLX_KEY_S && keypress.action == MLX_RELEASE)
-		data->player->walkDirection = 0;
+		data->player->walk_direct = 0;
 	if (keypress.key == MLX_KEY_A && keypress.action == MLX_RELEASE)
 		data->player->side_direction = 0;
 	if (keypress.key == MLX_KEY_D && keypress.action == MLX_RELEASE)
 		data->player->side_direction = 0;
 	if (keypress.key == MLX_KEY_LEFT && keypress.action == MLX_RELEASE)
-		data->player->turnDirection = 0;
+		data->player->turn_direct = 0;
 	if (keypress.key == MLX_KEY_RIGHT && keypress.action == MLX_RELEASE)
-		data->player->turnDirection = 0;
+		data->player->turn_direct = 0;
 }
 
 void	ft_keyfunc_pressed(mlx_key_data_t keypress, void *param)
@@ -36,17 +36,17 @@ void	ft_keyfunc_pressed(mlx_key_data_t keypress, void *param)
 	if (keypress.key == MLX_KEY_ESCAPE && keypress.action == MLX_PRESS)
 		exit(0);
 	if (keypress.key == MLX_KEY_W && keypress.action == MLX_PRESS)
-		data->player->walkDirection = 1;
+		data->player->walk_direct = 1;
 	if (keypress.key == MLX_KEY_S && keypress.action == MLX_PRESS)
-		data->player->walkDirection = -1;
+		data->player->walk_direct = -1;
 	if (keypress.key == MLX_KEY_A && keypress.action == MLX_PRESS)
 		data->player->side_direction = -1;
 	if (keypress.key == MLX_KEY_D && keypress.action == MLX_PRESS)
 		data->player->side_direction = 1;
 	if (keypress.key == MLX_KEY_LEFT && keypress.action == MLX_PRESS)
-		data->player->turnDirection = -1;
+		data->player->turn_direct = -1;
 	if (keypress.key == MLX_KEY_RIGHT && keypress.action == MLX_PRESS)
-		data->player->turnDirection = 1;
+		data->player->turn_direct = 1;
 	ft_keyfunc_relesed(keypress, data);
 }
 
@@ -81,9 +81,9 @@ void	mouse_move(t_data *data)
 	mlx_get_mouse_pos(data->mlx, &x, &y);
 	mlx_set_mouse_pos(data->mlx, WIDTH / 2, HEIGHT / 2);
 	if (x > WIDTH / 2)
-		data->player->rotationAngle += 0.03;
+		data->player->rotat_angle += 0.03;
 	if (x < WIDTH / 2)
-		data->player->rotationAngle -= 0.03;
+		data->player->rotat_angle -= 0.03;
 }
 
 void	ft_hook(void *param)
@@ -91,7 +91,7 @@ void	ft_hook(void *param)
 	t_data	*data;
 
 	data = param;
-	if (data->player->walkDirection != 0 || data->player->turnDirection != 0)
+	if (data->player->walk_direct != 0 || data->player->turn_direct != 0)
 		ft_renderplayer(data);
 	if (data->player->side_direction != 0)
 		ft_renderplayer1(data);

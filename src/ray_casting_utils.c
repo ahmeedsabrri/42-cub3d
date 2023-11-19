@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 13:26:48 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/19 17:39:07 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/19 18:11:43 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,15 @@ void	dda(t_data *data, double x1, double y1, double x2, double y2, int color)
 		mlx_put_pixel(data->image_win, round(x1), round(y1), color);
 		return ;
 	}
-	dda.xIncrement = dda.dx / dda.steps;
-	dda.yIncrement = dda.dy / dda.steps;
+	dda.x_increment = dda.dx / dda.steps;
+	dda.y_increment = dda.dy / dda.steps;
 	while (dda.i <= dda.steps)
 	{
 		if ((x1) > WIDTH || (x1) < 0 || (y1) < 0 || (y1) > HEIGHT)
 			return ;
 		mlx_put_pixel(data->image_win, round(x1), round(y1), color);
-		x1 += dda.xIncrement;
-		y1 += dda.yIncrement;
+		x1 += dda.x_increment;
+		y1 += dda.y_increment;
 		dda.i++;
 	}
 }
@@ -65,8 +65,8 @@ int	wall_hit(double px, double py, t_data *data)
 	int	x;
 	int	y;
 
-	x = (px / Tile_size);
-	y = (py / Tile_size);
+	x = (px / TILE_SIZE);
+	y = (py / TILE_SIZE);
 	if (x > data->width || x < 0 || y < 0 || y > data->height)
 		return (1);
 	if (x < data->width && x >= 0 && y >= 0 && y < data->height \

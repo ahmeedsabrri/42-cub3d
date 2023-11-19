@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 20:55:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/19 17:12:36 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/19 18:09:51 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ void	draw_player(t_data *data)
 			(200 / 2) + (sin(i * PI / 180) * 10), ft_pixel(1, 85, 172, 200));
 	}
 	dda(data, (200 / 2), (200 / 2), (200 / 2) \
-		+ (cos(data->player->rotationAngle) * 30), (200 / 2) \
-		+ (sin(data->player->rotationAngle) * 30), ft_pixel(1, 85, 172, 200));
+		+ (cos(data->player->rotat_angle) * 30), (200 / 2) \
+		+ (sin(data->player->rotat_angle) * 30), ft_pixel(1, 85, 172, 200));
 }
 
 void	draw_minimap(t_data *data, t_m_map m_map)
 {
-	m_map.xstart = (int)(m_map.xstart / Tile_size);
-	m_map.ystart = (int)(m_map.ystart / Tile_size);
+	m_map.xstart = (int)(m_map.xstart / TILE_SIZE);
+	m_map.ystart = (int)(m_map.ystart / TILE_SIZE);
 	if (m_map.ystart < 0 || m_map.xstart < 0 || m_map.ystart > 200 \
 		|| m_map.xstart > 200)
 	{
@@ -43,7 +43,7 @@ void	draw_minimap(t_data *data, t_m_map m_map)
 		ft_pixel(0, 0, 0, 255));
 		return ;
 	}
-	if (wall_hit(m_map.xstart * Tile_size, m_map.ystart * Tile_size, data))
+	if (wall_hit(m_map.xstart * TILE_SIZE, m_map.ystart * TILE_SIZE, data))
 		mlx_put_pixel(data->image_win, m_map.j, m_map.i, \
 		ft_pixel(106, 50, 159, 255));
 	else
