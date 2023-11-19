@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 22:54:35 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/19 14:29:50 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/19 17:26:22 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,36 @@ typedef struct s_player
 	double	side_direction;
 	
 }	t_player;
+
+
+typedef struct s_m_map
+{
+	double	xstart;
+	double	ystart;
+	double	distance;
+	int		i;
+	int		j;
+}	t_m_map;
+
+
+typedef struct s_dda
+{
+	int		i;
+	double	steps;
+	double	dx;
+	double	dy;
+	double xIncrement;
+	double yIncrement;
+}	t_dda;
+
+
+typedef struct s_horiz
+{
+	double	ax;
+	double	ay;
+	double	dx;
+	double	dy;
+}	t_horz;
 
 typedef struct	s_data
 {

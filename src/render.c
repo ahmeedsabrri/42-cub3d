@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 20:55:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/19 14:21:10 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/19 17:12:36 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,48 +32,49 @@ void	draw_player(t_data *data)
 		+ (sin(data->player->rotationAngle) * 30), ft_pixel(1, 85, 172, 200));
 }
 
-void	draw_minimap(t_data *data, double xstart, double ystart, int i, int j,
-		double distance)
+void	draw_minimap(t_data *data, t_m_map m_map)
 {
-	xstart = (int)(xstart / Tile_size);
-	ystart = (int)(ystart / Tile_size);
-	if (ystart < 0 || xstart < 0 || ystart > 200 || xstart > 200)
+	m_map.xstart = (int)(m_map.xstart / Tile_size);
+	m_map.ystart = (int)(m_map.ystart / Tile_size);
+	if (m_map.ystart < 0 || m_map.xstart < 0 || m_map.ystart > 200 \
+		|| m_map.xstart > 200)
 	{
-		mlx_put_pixel(data->image_win, i, j, ft_pixel(0, 0, 0, 255));
+		mlx_put_pixel(data->image_win, m_map.i, m_map.j, \
+		ft_pixel(0, 0, 0, 255));
 		return ;
 	}
-	if (wall_hit(xstart * Tile_size, ystart * Tile_size, data))
-		mlx_put_pixel(data->image_win, j, i, ft_pixel(106, 50, 159, 255));
+	if (wall_hit(m_map.xstart * Tile_size, m_map.ystart * Tile_size, data))
+		mlx_put_pixel(data->image_win, m_map.j, m_map.i, \
+		ft_pixel(106, 50, 159, 255));
 	else
-		mlx_put_pixel(data->image_win, j, i, ft_pixel(68, 68, 68, 255));
-	if (distance > 95)
-		mlx_put_pixel(data->image_win, j, i, ft_pixel(120, 120, 120, 255));
+		mlx_put_pixel(data->image_win, m_map.j, m_map.i, \
+		ft_pixel(68, 68, 68, 255));
+	if (m_map.distance > 95)
+		mlx_put_pixel(data->image_win, m_map.j, m_map.i, \
+		ft_pixel(120, 120, 120, 255));
 }
 
 void	renderminimap(t_data *data)
 {
-	double	xstart;
-	double	ystart;
-	double	distance;
-	int		i;
-	int		j;
+	t_m_map	m_map;
 
-	xstart = (data->player->px) - ((200) / 2.0);
-	ystart = (data->player->py) - ((200) / 2.0);
-	i = -1;
-	while (++i < ((200)))
+	m_map.xstart = (data->player->px) - ((200) / 2.0);
+	m_map.ystart = (data->player->py) - ((200) / 2.0);
+	m_map.i = -1;
+	while (++m_map.i < ((200)))
 	{
-		xstart = (data->player->px) - ((200) / 2.0);
-		j = -1;
-		distance = 0;
-		while (++j < ((200)))
+		m_map.xstart = (data->player->px) - ((200) / 2.0);
+		m_map.j = -1;
+		m_map.distance = 0;
+		while (++m_map.j < ((200)))
 		{
-			distance = sqrt(pow(j - 100, 2) + pow(i - 100, 2));
-			if (distance < 100)
-				draw_minimap(data, xstart, ystart, i, j, distance);
-			xstart++;
+			m_map.distance = sqrt(pow(m_map.j - 100, 2) \
+			+ pow(m_map.i - 100, 2));
+			if (m_map.distance < 100)
+				draw_minimap(data, m_map);
+			m_map.xstart++;
 		}
-		ystart++;
+		m_map.ystart++;
 	}
 	draw_player(data);
 }
