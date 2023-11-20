@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_casting_utils1.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 13:28:21 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/20 10:40:50 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/20 19:34:02 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ray_hit_deriction(t_data *data, t_ray *ray, double angle)
 
 void	ray_hit_deriction1(t_data *data, t_ray *ray, double angle)
 {
-	if (angle_left_or_right(angle))
+	if (!angle_left_or_right(angle))
 	{
 		ray->wall_deriction = WEST;
 		ray->xoffset = (fmod(ray->vay, TILE_SIZE) * data->west->width) \

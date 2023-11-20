@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_casting_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 13:26:48 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/20 10:31:15 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/20 19:23:44 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ int	wall_hit(double px, double py, t_data *data)
 	if (x > data->width || x < 0 || y < 0 || y > data->height)
 		return (1);
 	if (x < data->width && x >= 0 && y >= 0 && y < data->height \
-		&& data->map[y][x] == '1')
+		&& (data->map[y][x] == '1' || data->map[y][x] == ' ' \
+		|| !data->map[y][x]))
 		return (1);
 	else
 		return (0);

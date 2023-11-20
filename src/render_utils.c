@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:15:32 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/19 18:09:51 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/20 19:22:51 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,9 @@ void	ft_renderplayer1(t_data *data)
 		* data->player->turnspeed;
 	px = data->player->px + cos(data->player->rotat_angle + M_PI_2) * mv;
 	py = data->player->py + sin(data->player->rotat_angle + M_PI_2) * mv;
-	if (!wall_hit(px, py, data))
+	if (!wall_hit(px, py, data) && !wall_hit(px + 1, py, data) \
+		&& !wall_hit(px - 1, py, data) && !wall_hit(px, py + 1, data) \
+		&& !wall_hit(px, py - 1, data))
 	{
 		data->player->px = px;
 		data->player->py = py;
@@ -51,7 +53,9 @@ void	ft_renderplayer(t_data *data)
 		* data->player->turnspeed;
 	px = data->player->px + cos(data->player->rotat_angle) * mv;
 	py = data->player->py + sin(data->player->rotat_angle) * mv;
-	if (!wall_hit(px, py, data))
+	if (!wall_hit(px, py, data) && !wall_hit(px + 1, py, data) \
+		&& !wall_hit(px - 1, py, data) && !wall_hit(px, py + 1, data) \
+		&& !wall_hit(px, py - 1, data))
 	{
 		data->player->px = px;
 		data->player->py = py;

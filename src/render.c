@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 20:55:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/20 12:42:12 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/20 19:26:31 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void	draw_player(t_data *data)
 	point.py1 = (200 / 2);
 	while (++i < 360)
 	{
-		point.px2 = point.px1 + (cos(i * PI / 180) * 10);
-		point.py2 = point.px1 + (sin(i * PI / 180) * 10);
+		point.px2 = point.px1 + (cos(i * PI / 180) * 7);
+		point.py2 = point.px1 + (sin(i * PI / 180) * 7);
 		dda(data, point, ft_pixel(255, 255, 200, 200));
 	}
 	point.px2 = point.px1 + (cos(data->player->rotat_angle) * 30);
