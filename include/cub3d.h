@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 22:54:35 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/20 12:16:02 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/20 12:53:00 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 
 # define PI 3.14159265 
 # define FOV 1.0472
-// # define wallAngle 90
 # define HEIGHT 720
 # define WIDTH 1024
 # define TILE_SIZE 64
@@ -180,7 +179,7 @@ typedef struct s_colors
 	int			count;
 }				t_colors;
 
-//--------------- Ray Casting & Textures -----------------------//
+//--------------- Ray Casting & Textures --------
 
 void			dda(t_data *data, t_point point, int color);
 void			set_color(t_colors *colors, mlx_texture_t *img, \

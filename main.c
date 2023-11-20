@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 01:33:47 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/20 12:34:45 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/20 12:49:31 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,11 +116,17 @@ int	parsing(char **av, t_data *data)
 	return (0);
 }
 
+void	ff()
+{
+	system("leaks cub3D");
+}
+
 int	main(int ac, char **av)
 {
+	// atexit(ff);
 	t_data		*data;
 	t_player	*player;
-
+	
 	if (ac != 2)
 		ft_error("Error: Should be one argument\n");
 	data = (t_data *)ft_malloc(sizeof(t_data), 1);
