@@ -1,9 +1,9 @@
 						
 						
-NO ./north.png
-SO ./south.png
-WE ./west.png
-EA ./east.png
+NO ./north_t.png
+SO ./south_t.png
+WE ./west_t.png
+EA ./east_t.png
 C 14,11,246
 F 95,95,95
 
