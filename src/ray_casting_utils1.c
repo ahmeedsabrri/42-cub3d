@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_casting_utils1.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 13:28:21 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/20 19:34:02 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/20 21:07:15 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	norm_angle(double *ray_start)
 {
-	*ray_start = remainder(*ray_start, 2.0 * M_PI);
+	*ray_start = remainder(*ray_start, TOW_PI);
 	if (*ray_start < 0)
-		*ray_start = (2.0 * M_PI) + *ray_start;
+		*ray_start = (TOW_PI) + *ray_start;
 }
 
 void	ray_hit_deriction(t_data *data, t_ray *ray, double angle)
