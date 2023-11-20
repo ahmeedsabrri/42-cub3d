@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 13:28:21 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/19 15:02:04 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/19 18:02:33 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@ void	ray_hit_deriction(t_data *data, t_ray *ray, double angle)
 	if (angle_up_or_down(angle))
 	{
 		ray->wall_deriction = SOUTH;
-		ray->xoffset = (fmod(ray->hax, Tile_size) \
-			* data->south->width) / Tile_size;
+		ray->xoffset = (fmod(ray->hax, TILE_SIZE) * data->south->width) \
+			/ TILE_SIZE;
 	}
 	else
 	{
 		ray->wall_deriction = NORTH;
-		ray->xoffset = (fmod(ray->hax, Tile_size) \
-			* data->north->width) / Tile_size;
+		ray->xoffset = (fmod(ray->hax, TILE_SIZE) * data->north->width) \
+			/ TILE_SIZE;
 	}
 }
 
@@ -40,26 +40,25 @@ void	ray_hit_deriction1(t_data *data, t_ray *ray, double angle)
 	if (angle_left_or_right(angle))
 	{
 		ray->wall_deriction = WEST;
-		ray->xoffset = (fmod(ray->vay, Tile_size) \
-			* data->west->width) / Tile_size;
+		ray->xoffset = (fmod(ray->vay, TILE_SIZE) * data->west->width) \
+			/ TILE_SIZE;
 	}
 	else
 	{
 		ray->wall_deriction = EAST;
-		ray->xoffset = (fmod(ray->vay, Tile_size) \
-			* data->east->width) / Tile_size;
+		ray->xoffset = (fmod(ray->vay, TILE_SIZE) * data->east->width) \
+			/ TILE_SIZE;
 	}
 }
 
-void	set_color(t_colors *colors, mlx_texture_t *img, 
-	unsigned int **pixels)
+void	set_color(t_colors *colors, mlx_texture_t *img, unsigned int **pixels)
 {
 	colors->r = img->pixels[colors->count];
 	colors->g = img->pixels[colors->count + 1];
 	colors->b = img->pixels[colors->count + 2];
 	colors->a = img->pixels[colors->count + 3];
-	pixels[colors->i][colors->j] = ft_pixel(colors->r,
-			colors->g, colors->b, colors->a);
+	pixels[colors->i][colors->j] = \
+	ft_pixel(colors->r, colors->g, colors->b, colors->a);
 }
 
 unsigned int	**png_to_dpointer(mlx_texture_t *img)

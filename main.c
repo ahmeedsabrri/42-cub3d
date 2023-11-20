@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 01:33:47 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/19 14:42:27 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/19 22:31:04 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	parsing(char **av, t_data *data)
 	check_extension(av);
 	fd = open(av[1], O_RDONLY);
 	if (fd < 0)
-		return (1);
+		return (ft_error("Can't Opening The Map File\n"), 1);
 	info_line = get_next_line(fd);
 	infos = malloc(sizeof(t_infos));
 	if (!infos)
@@ -132,11 +132,11 @@ int	main(int ac, char **av)
 		return (1);
 	data->width = width_size(data->map);
 	data->height = get_height(data->map);
-	player->rotationAngle = PI / 2;
+	player->rotat_angle = PI / 2;
 	player->side_direction = 0;
-	player->walkDirection = 0;
-	player->turnDirection = 0;
-	player->walkspeed = 5;
+	player->walk_direct = 0;
+	player->turn_direct = 0;
+	player->walkspeed = 4;
 	player->turnspeed = 3.00 * (M_PI / 180.0);
 	data->player = player;
 	init(data);
