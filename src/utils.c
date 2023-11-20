@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 16:42:41 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/18 10:17:07 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/20 10:41:44 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*ft_strndup(char *str, size_t n)
 	length = 0;
 	while (length < n && str[length] != '\0')
 		length++;
-	new_str = (char *)malloc(length + 1);
+	new_str = (char *)ft_malloc(length + 1, 1);
 	if (new_str)
 	{
 		ft_strncpy(new_str, str, length);
@@ -55,7 +55,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	if (!s2)
 		return ((char *)s1);
 	len = ft_strlen(s1) + ft_strlen(s2);
-	new = (char *)malloc(sizeof(char) * (len + 1));
+	new = (char *)ft_malloc(sizeof(char) * (len + 1), 1);
 	if (!new)
 		return (NULL);
 	i = 0;

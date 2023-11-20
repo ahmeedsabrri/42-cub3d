@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 13:28:21 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/19 18:02:33 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/20 10:40:50 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,13 @@ unsigned int	**png_to_dpointer(mlx_texture_t *img)
 
 	colors.i = 0;
 	colors.count = 0;
-	pixels = malloc(sizeof(unsigned int *) * img->height);
+	pixels = ft_malloc(sizeof(unsigned int *) * img->height, 1);
 	if (!pixels)
 		return (NULL);
 	while (colors.i < img->height)
 	{
 		colors.j = 0;
-		pixels[colors.i] = malloc(sizeof(unsigned int) * img->width);
+		pixels[colors.i] = ft_malloc(sizeof(unsigned int) * img->width, 1);
 		if (!pixels[colors.i])
 			return (NULL);
 		while (colors.j < img->width)

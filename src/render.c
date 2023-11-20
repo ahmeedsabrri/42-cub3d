@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 20:55:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/19 18:09:51 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/20 10:35:08 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,21 @@ int32_t	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
 
 void	draw_player(t_data *data)
 {
-	int	i;
+	int		i;
+	t_point	point;
 
 	i = -1;
+	point.px1 = (200 / 2);
+	point.py1 = (200 / 2);
 	while (++i < 360)
 	{
-		dda(data, (200 / 2), (200 / 2), (200 / 2) + (cos(i * PI / 180) * 10), \
-			(200 / 2) + (sin(i * PI / 180) * 10), ft_pixel(1, 85, 172, 200));
+		point.px2 = point.px1 + (cos(i * PI / 180) * 10);
+		point.py2 = point.px1 + (sin(i * PI / 180) * 10);
+		dda(data, point, ft_pixel(1, 85, 172, 200));
 	}
-	dda(data, (200 / 2), (200 / 2), (200 / 2) \
-		+ (cos(data->player->rotat_angle) * 30), (200 / 2) \
-		+ (sin(data->player->rotat_angle) * 30), ft_pixel(1, 85, 172, 200));
+	point.px2 = point.px1 + (cos(data->player->rotat_angle) * 30);
+	point.py2 = point.px1 + (sin(data->player->rotat_angle) * 30);
+	dda(data, point, ft_pixel(1, 85, 172, 200));
 }
 
 void	draw_minimap(t_data *data, t_m_map m_map)

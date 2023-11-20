@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 01:33:47 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/19 22:31:04 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/20 10:52:08 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	parsing(char **av, t_data *data)
 	if (fd < 0)
 		return (ft_error("Can't Opening The Map File\n"), 1);
 	info_line = get_next_line(fd);
-	infos = malloc(sizeof(t_infos));
+	infos = ft_malloc(sizeof(t_infos), 1);
 	if (!infos)
 		return (1);
 	init_infos(infos);
@@ -122,10 +122,10 @@ int	main(int ac, char **av)
 
 	if (ac != 2)
 		ft_error("Error: Should be one argument\n");
-	data = (t_data *)malloc(sizeof(t_data));
+	data = (t_data *)ft_malloc(sizeof(t_data), 1);
 	if (!data)
 		return (1);
-	player = (t_player *)malloc(sizeof(t_player));
+	player = (t_player *)ft_malloc(sizeof(t_player), 1);
 	if (!player)
 		return (1);
 	if (parsing(av, data))
@@ -140,5 +140,6 @@ int	main(int ac, char **av)
 	player->turnspeed = 3.00 * (M_PI / 180.0);
 	data->player = player;
 	init(data);
+	ft_malloc(0, 2);
 	return (0);
 }

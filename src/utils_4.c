@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_4.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/18 10:16:27 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/18 10:17:10 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/20 10:41:31 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_strdup(const char *s1)
 	int		i;
 
 	i = 0;
-	new = (char *)malloc(sizeof(char) * ft_strlen(s1) + 1);
+	new = (char *)ft_malloc(sizeof(char) * ft_strlen(s1) + 1, 1);
 	if (!new)
 		return (NULL);
 	while (*s1)
@@ -33,7 +33,7 @@ char	*ft_strdup_n(const char *s1)
 	int		i;
 
 	i = 0;
-	new = (char *)malloc(sizeof(char) * ft_strlen(s1) + 1);
+	new = (char *)ft_malloc(sizeof(char) * ft_strlen(s1) + 1, 1);
 	if (!new)
 		return (NULL);
 	while (*s1 != '\0' && *s1 != '\n')
@@ -73,7 +73,7 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 	if (len > s_len)
 		len = s_len - start;
 	i = -1;
-	sub = malloc(sizeof(char) * (len + 1));
+	sub = ft_malloc(sizeof(char) * (len + 1), 1);
 	if (!sub)
 		return (NULL);
 	while (++i < len)

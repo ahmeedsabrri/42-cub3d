@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 18:01:44 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/10 01:48:50 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/20 10:39:50 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ char	*strjoin(char *s1, char *s2)
 
 	if (!s1)
 	{
-		s1 = (char *)malloc(1 * sizeof(char));
+		s1 = (char *)ft_malloc(1 * sizeof(char), 1);
 		if (!s1)
 			return (NULL);
 		s1[0] = '\0';
 	}
-	result = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	result = ft_malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1), 1);
 	if (!result || !s2)
-		return (free(s1), NULL);
+		return (NULL);
 	i = -1;
 	while (s1[++i])
 		result[i] = s1[i];
@@ -35,7 +35,7 @@ char	*strjoin(char *s1, char *s2)
 	while (s2[j])
 		result[i++] = s2[j++];
 	result[ft_strlen(s1) + ft_strlen(s2)] = '\0';
-	return (free(s1), result);
+	return (result);
 }
 
 char	*ft_strchr(const char *s, int c)

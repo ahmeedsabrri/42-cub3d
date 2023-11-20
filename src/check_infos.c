@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 23:49:40 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/19 14:36:20 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/20 10:39:18 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int	check_colors_valid(char *color)
 
 int	fill_rgb_colors(t_floor **floor, t_ceiling **ceiling, char *fl, char *cl)
 {
-	*floor = malloc(sizeof(t_floor));
+	*floor = ft_malloc(sizeof(t_floor), 1);
 	if (!*floor)
 		return (1);
 	(*floor)->r = 0;
@@ -123,7 +123,7 @@ int	fill_rgb_colors(t_floor **floor, t_ceiling **ceiling, char *fl, char *cl)
 	(*floor)->b = 0;
 	if (extract_rgb_floor(floor, fl))
 		return (1);
-	*ceiling = malloc(sizeof(t_ceiling));
+	*ceiling = ft_malloc(sizeof(t_ceiling), 1);
 	if (!*ceiling)
 		return (1);
 	(*ceiling)->r = 0;

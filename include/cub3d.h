@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 22:54:35 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/19 19:15:50 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/20 10:42:26 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include <limits.h>
 
 # define PI 3.14159265 
-# define FOV (60 * (M_PI / 180))
+# define FOV 1.0472
 // # define wallAngle 90
 # define HEIGHT 720
 # define WIDTH 1024
@@ -76,6 +76,13 @@ typedef enum s_dir
 	EAST
 }t_dir;
 
+typedef struct s_point
+{
+	double	px1;
+	double	py1;
+	double	px2;
+	double	py2;
+}t_point;
 typedef struct s_ray
 {
 	double	ray_angal;
@@ -173,8 +180,7 @@ typedef struct s_colors
 	int			count;
 }				t_colors;
 
-void			dda(t_data *data, double x1, double y1, double x2, double y2, \
-				int color);
+void			dda(t_data *data, t_point point, int color);
 void			set_color(t_colors *colors, mlx_texture_t *img, \
 				unsigned int **pixels);
 void			calculate_distence(t_ray *ray, t_data *data, double ray_start);

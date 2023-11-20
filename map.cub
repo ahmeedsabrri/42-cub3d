@@ -3,7 +3,7 @@
 NO ./north.png
 SO ./south.png
 WE ./west.png
-EA ./east
+EA ./east.png
 C 14,12,46
 F 95,95,95
 

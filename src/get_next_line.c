@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 17:57:51 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/09 00:16:10 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/20 10:40:16 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*read_line(int fd, char *result)
 	char	*buffer;
 	int		byte_readed;
 
-	buffer = malloc(BUFFER_SIZE + 1 * sizeof(char));
+	buffer = ft_malloc(BUFFER_SIZE + 1 * sizeof(char), 1);
 	if (!buffer)
 		return (NULL);
 	byte_readed = 1;
@@ -48,7 +48,7 @@ char	*ft_get_line(char *buffer)
 		return (NULL);
 	while (buffer[i] && buffer[i] != '\n')
 		i++;
-	line = malloc((i + 2) * sizeof(char));
+	line = ft_malloc((i + 2) * sizeof(char), 1);
 	if (!line)
 		return (NULL);
 	j = 0;
@@ -80,7 +80,7 @@ char	*ft_get_next(char *buffer)
 		free(buffer);
 		return (NULL);
 	}
-	rest = malloc((ft_strlen(buffer) - i + 1) * sizeof(char));
+	rest = ft_malloc((ft_strlen(buffer) - i + 1) * sizeof(char), 1);
 	if (!rest)
 		return (NULL);
 	i++;

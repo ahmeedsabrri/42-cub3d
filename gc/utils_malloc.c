@@ -6,11 +6,11 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 21:54:09 by asabri            #+#    #+#             */
-/*   Updated: 2023/05/08 18:54:06 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/20 10:53:42 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"ft_malloc.h"
+#include "ft_malloc.h"
 
 t_malloc	*newmalloc(void *data)
 {
