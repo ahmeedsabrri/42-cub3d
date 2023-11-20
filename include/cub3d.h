@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 22:54:35 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/19 15:16:37 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/20 09:58:20 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,39 +168,37 @@ void			get_player_pos(t_data *data);
 void			ft_keyfunc_pressed(mlx_key_data_t keypress, void *param);
 void			ft_hook(void *param);
 void			renderminimap(t_data *data);
-//-------------parsing------------//
-char	*ft_strrchr(const char *s, int c);
-size_t	ft_strlen(const char *s);
-int		ft_strcmp(const char *s1, const char *s2);
-void	ft_error(char *str);
-void	check_extension(char **av);
-char	*strjoin(char *s1, char *s2);
-char	*ft_strchr(const char *s, int c);
-char	*ft_substr(char *s, unsigned int start, size_t len);
-char	*ft_strdup(const char *s1);
-char	*ft_strndup(char *str, size_t n);
-char	*ft_strdup_n(const char *s1);
-int		is_space(char c);
-int    	ft_isdigit(int c);
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
-char	*get_next_line(int fd);
-int		check_infos(t_infos **infos, t_data **data);
-int    	ft_atoi(const char *str);
-int		check_map_valid(t_data **data);
-int		resize_to_same_width(t_data **data);
-int		store_map(int fd, t_data **data, int count, char *line);
-int		store_valid_infos(char **str, int flag);
-int		check_colors_valid(char *color);
-int		fill_rgb_colors(t_floor **floor, t_ceiling **ceiling, char *fl, char *cl);
-int		get_textures(t_infos **infos, char *line);
-int		dup_check_infos(char **str, char *line);
-void	init_infos(t_infos *infos);
-void	init_vars(t_varaible *var, int flag);
-int		check_zeros_and_player(char **map, char plyr, int *i);
-int		condition(char c);
-int		existence_condition(t_infos *infos);
-int		parsing(char **av, t_data *data);
-
+char			*ft_strrchr(const char *s, int c);
+size_t			ft_strlen(const char *s);
+int				ft_strcmp(const char *s1, const char *s2);
+void			ft_error(char *str);
+void			check_extension(char **av);
+char			*strjoin(char *s1, char *s2);
+char			*ft_strchr(const char *s, int c);
+char			*ft_substr(char *s, unsigned int start, size_t len);
+char			*ft_strdup(const char *s1);
+char			*ft_strndup(char *str, size_t n);
+char			*ft_strdup_n(const char *s1);
+int				is_space(char c);
+int    			ft_isdigit(int c);
+int				ft_strncmp(const char *s1, const char *s2, size_t n);
+char			*get_next_line(int fd);
+int				check_infos(t_infos **infos, t_data **data);
+int    			ft_atoi(const char *str);
+int				check_map_valid(t_data **data);
+int				resize_to_same_width(t_data **data);
+int				store_map(int fd, t_data **data, int count, char *line);
+int				store_valid_infos(char **str, int flag);
+int				check_colors_valid(char *color);
+int				fill_rgb_colors(t_floor **floor, t_ceiling **ceiling, char *fl, char *cl);
+int				get_textures(t_infos **infos, char *line);
+int				dup_check_infos(char **str, char *line);
+void			init_infos(t_infos *infos);
+void			init_vars(t_varaible *var, int flag);
+int				check_zeros_and_player(char **map, char plyr, int *i);
+int				condition(char c);
+int				existence_condition(t_infos *infos);
+int				parsing(char **av, t_data *data);
 //************linked_list***************//
 
 // t_map	*ft_new_lst(char *line, t_type type);
