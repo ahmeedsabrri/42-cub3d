@@ -4,7 +4,7 @@ NO ./north.png
 SO ./south.png
 WE ./west.png
 EA ./east.png
-C 14,12,46
+C 14,012,46
 F 95,95,95
 
               11111111                        11111111

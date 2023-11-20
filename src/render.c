@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 20:55:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/20 10:35:08 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/20 11:49:10 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ void	draw_player(t_data *data)
 	{
 		point.px2 = point.px1 + (cos(i * PI / 180) * 10);
 		point.py2 = point.px1 + (sin(i * PI / 180) * 10);
-		dda(data, point, ft_pixel(1, 85, 172, 200));
+		dda(data, point, ft_pixel(255, 255, 200, 200));
 	}
 	point.px2 = point.px1 + (cos(data->player->rotat_angle) * 30);
 	point.py2 = point.px1 + (sin(data->player->rotat_angle) * 30);
-	dda(data, point, ft_pixel(1, 85, 172, 200));
+	dda(data, point, ft_pixel(255, 255, 200, 200));
 }
 
 void	draw_minimap(t_data *data, t_m_map m_map)

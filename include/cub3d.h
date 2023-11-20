@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 22:54:35 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/20 10:42:26 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/20 12:16:02 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,8 @@ typedef struct s_colors
 	int			count;
 }				t_colors;
 
+//--------------- Ray Casting & Textures -----------------------//
+
 void			dda(t_data *data, t_point point, int color);
 void			set_color(t_colors *colors, mlx_texture_t *img, \
 				unsigned int **pixels);
@@ -229,6 +231,7 @@ char			*ft_strchr(const char *s, int c);
 char			*ft_strndup(char *str, size_t n);
 int				parsing(char **av, t_data *data);
 int				check_colors_valid(char *color);
+void			checking_condition(char line);
 int				check_map_valid(t_data **data);
 char			*strjoin(char *s1, char *s2);
 char			*ft_strdup_n(const char *s1);

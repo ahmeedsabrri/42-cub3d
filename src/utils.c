@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 16:42:41 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/20 10:41:44 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/20 12:18:24 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,11 @@ int	ft_atoi(const char *str)
 	if (result > 255)
 		return (-1);
 	return (result);
+}
+
+void	checking_condition(char line)
+{
+	if (line != 'F' && line != 'C' && line != 'N' && line != 'S' \
+		&& line != 'E' && line != 'W' && line != '\n')
+		return (ft_error("Head Infos Not Exist\n"));
 }

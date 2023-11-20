@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 01:33:47 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/20 10:52:08 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/20 12:34:45 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int	get_infos(char **line, t_infos **infos, int fd)
 		}
 		else if (existence_condition(*infos))
 			break ;
+		checking_condition(**line);
 		*line = get_next_line(fd);
 	}
 	return (0);
@@ -103,7 +104,7 @@ int	parsing(char **av, t_data *data)
 	init_infos(infos);
 	if (get_infos(&info_line, &infos, fd))
 		return (ft_error("Informations Error\n"), 1);
-	(data->infos = infos);
+	data->infos = infos;
 	if (check_infos(&infos, &data))
 		return (ft_error("Head Infos Error\n"), 1);
 	if (check_store_map(av, info_line, fd, &data))
@@ -129,7 +130,7 @@ int	main(int ac, char **av)
 	if (!player)
 		return (1);
 	if (parsing(av, data))
-		return (1);
+		return (ft_malloc(0, 2), 1);
 	data->width = width_size(data->map);
 	data->height = get_height(data->map);
 	player->rotat_angle = PI / 2;
