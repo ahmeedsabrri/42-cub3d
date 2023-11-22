@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   store_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 16:36:30 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/22 14:33:23 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/22 17:00:09 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ int	store_map(int fd, t_data **data, int count, char *line)
 	int	i;
 
 	(*data)->map = (char **)ft_malloc(sizeof(char *) * (count + 1), 1);
-	if (!(*data)->map)
-		return (ft_error("malloc error\n"), 1);
 	while (line)
 	{
 		i = 0;
@@ -94,8 +92,6 @@ int	resize_to_same_width(t_data **data)
 	i = 0;
 	width = width_size((*data)->map);
 	tmp = ft_malloc(sizeof(char) * width + 1, 1);
-	if (!tmp)
-		return (1);
 	ft_memset(tmp, '1', width);
 	tmp[width] = '\0';
 	while ((*data)->map[i])

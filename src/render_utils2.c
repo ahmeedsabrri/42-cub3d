@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:20:43 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/19 14:21:31 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/22 16:40:29 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,5 @@ void	init(t_data *data)
 	mlx_loop_hook(data->mlx, ft_hook, data);
 	mlx_loop(data->mlx);
 	mlx_terminate(data->mlx);
+	//TODO::destroy and free the textures and the structs 
 }

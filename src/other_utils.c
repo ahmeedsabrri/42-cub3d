@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   other_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 16:42:41 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/20 12:18:24 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/22 16:58:26 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		return ((char *)s1);
 	len = ft_strlen(s1) + ft_strlen(s2);
 	new = (char *)ft_malloc(sizeof(char) * (len + 1), 1);
-	if (!new)
-		return (NULL);
 	i = 0;
 	while (*s1)
 		new[i++] = *s1++;

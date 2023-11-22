@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 13:28:21 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/20 19:34:02 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/22 16:59:38 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	norm_angle(double *ray_start)
 {
-	*ray_start = remainder(*ray_start, 2.0 * M_PI);
+	*ray_start = remainder(*ray_start, TOW_PI);
 	if (*ray_start < 0)
-		*ray_start = (2.0 * M_PI) + *ray_start;
+		*ray_start = (TOW_PI) + *ray_start;
 }
 
 void	ray_hit_deriction(t_data *data, t_ray *ray, double angle)
@@ -69,14 +69,10 @@ unsigned int	**png_to_dpointer(mlx_texture_t *img)
 	colors.i = 0;
 	colors.count = 0;
 	pixels = ft_malloc(sizeof(unsigned int *) * img->height, 1);
-	if (!pixels)
-		return (NULL);
 	while (colors.i < img->height)
 	{
 		colors.j = 0;
 		pixels[colors.i] = ft_malloc(sizeof(unsigned int) * img->width, 1);
-		if (!pixels[colors.i])
-			return (NULL);
 		while (colors.j < img->width)
 		{
 			set_color(&colors, img, pixels);
