@@ -6,7 +6,7 @@
 #    By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/16 20:35:38 by asabri            #+#    #+#              #
-#    Updated: 2023/11/20 12:56:14 by abberkac         ###   ########.fr        #
+#    Updated: 2023/11/22 14:34:57 by abberkac         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,8 @@ CC   = cc
 CFLAGS = -Wall -Wextra -Werror
 RM   = rm -f
 SRCS = main.c src/ray_casting.c src/ray_casting_utils.c src/ray_casting_utils1.c src/ray_casting_utils2.c \
-		src/render.c src/render_utils.c src/render_utils1.c src/render_utils2.c src/parsing.c src/utils.c src/get_next_line.c src/get_next_line_utils.c \
-		src/check_infos.c src/check_map.c src/parse_util.c src/utils_2.c src/utils_3.c src/utils_4.c gc/ft_malloc.c gc/utils_malloc.c
+		src/render.c src/render_utils.c src/render_utils1.c src/render_utils2.c src/store_map.c src/other_utils.c src/get_next_line.c src/get_next_line_utils.c \
+		src/check_infos.c src/check_map.c src/parse_util.c src/parse_utils_2.c src/parse_utils_3.c src/parse_utils_4.c gc/ft_malloc.c gc/utils_malloc.c
 OBJ  = $(SRCS:.c=.o)
 INC  = include/cub3d.h gc/ft_malloc.h
 

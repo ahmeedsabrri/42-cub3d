@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 01:33:47 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/20 18:57:42 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/22 14:36:16 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,12 +123,12 @@ int	main(int ac, char **av)
 
 	if (ac != 2)
 		ft_error("Error: Should be one argument\n");
-	data = (t_data *)ft_malloc(sizeof(t_data), 1);
+	data = (t_data *)malloc(sizeof(t_data));
 	if (!data)
 		return (1);
 	player = (t_player *)ft_malloc(sizeof(t_player), 1);
 	if (!player)
-		return (1);
+		return (free(data), 1);
 	if (parsing(av, data))
 		return (ft_malloc(0, 2), 1);
 	data->width = width_size(data->map);
