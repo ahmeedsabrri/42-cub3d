@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 22:54:35 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/22 16:40:34 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/23 15:08:34 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,8 @@ typedef struct s_ray
 	t_dir	wall_deriction;
 	double	project_plan;
 	double	project_dist;
-	double	ystart;
-	double	yend;
+	int		ystart;
+	int		yend;
 	double	player_ray_dist;
 	double	xoffset;
 	double	yoffset;
@@ -230,15 +230,16 @@ char			*ft_strchr(const char *s, int c);
 char			*ft_strndup(char *str, size_t n);
 int				parsing(char **av, t_data *data);
 int				check_colors_valid(char *color);
-void			checking_condition(char line);
+int				checking_condition(char line);
 int				check_map_valid(t_data **data);
 char			*strjoin(char *s1, char *s2);
 char			*ft_strdup_n(const char *s1);
-void			check_extension(char **av);
+int				check_extension(char **av);
 char			*ft_strdup(const char *s1);
 void			init_infos(t_infos *infos);
 int				ft_atoi(const char *str);
 size_t			ft_strlen(const char *s);
+void			skip_space(char **line);
 char			*get_next_line(int fd);
 void			ft_error(char *str);
 int				ft_isdigit(int c);

@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:17:47 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/22 14:45:23 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/23 14:02:28 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,16 +75,15 @@ void	fill_window(t_data *data)
 
 void	mouse_move(t_data *data)
 {
-	// int	x;
-	// int	y;
-	(void) data;
-	return ;
-	// mlx_get_mouse_pos(data->mlx, &x, &y);
-	// mlx_set_mouse_pos(data->mlx, WIDTH / 2, HEIGHT / 2);
-	// if (x > WIDTH / 2)
-	// 	data->player->rotat_angle += 0.03;
-	// if (x < WIDTH / 2)
-	// 	data->player->rotat_angle -= 0.03;
+	int	x;
+	int	y;
+
+	mlx_get_mouse_pos(data->mlx, &x, &y);
+	mlx_set_mouse_pos(data->mlx, WIDTH / 2, HEIGHT / 2);
+	if (x > WIDTH / 2)
+		data->player->rotat_angle += 0.03;
+	if (x < WIDTH / 2)
+		data->player->rotat_angle -= 0.03;
 }
 
 void	ft_hook(void *param)

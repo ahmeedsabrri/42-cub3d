@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/18 10:12:37 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/22 15:29:15 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/23 13:26:08 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	init_vars(t_varaible *var, int flag)
 	}
 	else if (flag == 1)
 	{
-		// free(var->tmp); TODO:: suspected abort
 		var->count = 0;
 		var->idx = var->i + 1;
 		var->c++;

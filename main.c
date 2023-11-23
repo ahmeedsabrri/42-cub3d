@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 01:33:47 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/22 20:50:11 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/23 15:25:28 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,20 +121,23 @@ int	main(int ac, char **av)
 
 	if (ac != 2)
 		ft_error("Error: Should be one argument\n");
-	data = (t_data *)ft_malloc(sizeof(t_data), 1);
-	player = (t_player *)ft_malloc(sizeof(t_player), 1);
+	data = (t_data *)malloc(sizeof(t_data));
+	if (!data)
+		return (free(data), 1);
+	player = (t_player *)malloc(sizeof(t_player));
+	if (!player)
+		return (free(player), 1);
 	if (parsing(av, data))
-		return (ft_malloc(0, 0), 2);
+		return (ft_malloc(0, 2), 1);
 	data->width = width_size(data->map);
 	data->height = get_height(data->map);
 	player->rotat_angle = PI / 2;
 	player->side_direction = 0;
 	player->walk_direct = 0;
 	player->turn_direct = 0;
-	player->walkspeed = 4;
-	player->turnspeed = 2.00 * (M_PI / 180.0);
+	player->walkspeed = 8;
+	player->turnspeed = 3.00 * (M_PI / 180.0);
 	data->player = player;
 	init(data);
-	ft_malloc(0, 2);
 	return (0);
 }

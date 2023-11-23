@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 21:49:58 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/20 10:53:11 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/22 16:39:18 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,19 @@ typedef struct s_malloc
 	struct s_malloc	*next;
 
 }t_malloc;
+typedef struct s_data1
+{
+	void			*data;
+	struct s_data1	*next;
+
+}t_data1;
 
 t_malloc	*newmalloc(void *data);
+t_data1		*newmalloc2(void *data);
 void		addfront(t_malloc **head, t_malloc *new);
 void		listclear(t_malloc **head);
 void		*ft_malloc(size_t size, int mode);
+void		*ft_malloc2(size_t size, int mode);
+void		listclear2(t_data1 **head);
+void		addfront2(t_data1 **head, t_data1 *new);
 #endif

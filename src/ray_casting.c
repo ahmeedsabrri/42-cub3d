@@ -6,7 +6,7 @@
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 21:47:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/22 17:03:06 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/23 13:26:47 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ void	wall_projection(t_data *data)
 	colum = 0;
 	while (colum < WIDTH)
 	{
-		ray = ft_malloc(sizeof(t_ray), 1);
+		ray = ft_malloc2(sizeof(t_ray), 1);
 		ray->horzhit = 0;
 		ray->verthit = 0;
 		ray->distanceh = INT_MAX;
