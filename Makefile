@@ -6,7 +6,7 @@
 #    By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/16 20:35:38 by asabri            #+#    #+#              #
-#    Updated: 2023/11/23 15:08:56 by abberkac         ###   ########.fr        #
+#    Updated: 2023/11/23 15:34:13 by abberkac         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,8 +20,8 @@ SRCS = main.c src/ray_casting.c src/ray_casting_utils.c src/ray_casting_utils1.c
 OBJ  = $(SRCS:.c=.o)
 INC  = include/cub3d.h gc/ft_malloc.h
 
-LIBMLX = ../libmlx42.a
-LIBMLX_INC = -I ../MLX42/include/MLX42 -I ./include/
+LIBMLX = /Users/$(USER)/Desktop/libmlx42.a
+LIBMLX_INC = -I /Users/$(USER)/Desktop/MLX42/include/MLX42 -I ./include/
 MLXFLG = -Iinclude -lglfw $(GFLW) -framework Cocoa -framework OpenGL -framework IOKit
 
 all: $(NAME)

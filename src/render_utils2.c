@@ -3,20 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   render_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:20:43 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/23 15:08:13 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/23 13:20:15 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
-
-void	skip_space(char **line)
-{
-	while (is_space(**line))
-		(*line)++;
-}
 
 void	png_delete(t_data *data)
 {
@@ -65,7 +59,7 @@ void	init(t_data *data)
 		return ((void)EXIT_FAILURE);
 	}
 	if (init_textures(&data))
-		return (ft_malloc2(0, 0), exit(1));
+		exit(1);
 	init_textures2(data);
 	mlx_set_cursor_mode(data->mlx, MLX_MOUSE_HIDDEN);
 	get_player_pos(data);

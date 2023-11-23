@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_3.c                                          :+:      :+:    :+:   */
+/*   parse_utils_3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/18 10:13:59 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/18 10:15:37 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/23 15:40:43 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*ft_strrchr(const char *s, int c)
 void	ft_error(char *str)
 {
 	write(2, str, ft_strlen(str));
-	exit(1);
+	return (ft_malloc(0, 1), exit(1));
 }
 
 size_t	ft_strlen(const char *s)

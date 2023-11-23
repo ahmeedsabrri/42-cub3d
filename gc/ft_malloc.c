@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_malloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 21:48:47 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/23 13:56:55 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/23 11:20:16 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	*ft_malloc(size_t size, int mode)
 	{
 		data = malloc(size);
 		if (!data)
-			return (exit(1), NULL);
+			return (exit(1), data);
 		addfront(&head, newmalloc(data));
 		return (data);
 	}

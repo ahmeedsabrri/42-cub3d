@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_malloc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 21:54:09 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/23 15:09:47 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/22 16:42:24 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,14 @@ void	listclear(t_malloc **head)
 	t_malloc	*tmp;
 	t_malloc	*ptr;
 
-	if (!head || !*head)
+	if (!head)
 		return ;
 	tmp = *head;
 	while (tmp)
 	{
 		ptr = tmp;
 		tmp = tmp->next;
-		if (ptr->data)
-			free(ptr->data);
+		free(ptr->data);
 		free(ptr);
 	}
 	*head = NULL;

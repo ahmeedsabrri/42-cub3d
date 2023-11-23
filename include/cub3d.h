@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 22:54:35 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/23 15:08:34 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/23 11:44:40 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,16 +230,15 @@ char			*ft_strchr(const char *s, int c);
 char			*ft_strndup(char *str, size_t n);
 int				parsing(char **av, t_data *data);
 int				check_colors_valid(char *color);
-int				checking_condition(char line);
+void			checking_condition(char line);
 int				check_map_valid(t_data **data);
 char			*strjoin(char *s1, char *s2);
 char			*ft_strdup_n(const char *s1);
-int				check_extension(char **av);
+void			check_extension(char **av);
 char			*ft_strdup(const char *s1);
 void			init_infos(t_infos *infos);
 int				ft_atoi(const char *str);
 size_t			ft_strlen(const char *s);
-void			skip_space(char **line);
 char			*get_next_line(int fd);
 void			ft_error(char *str);
 int				ft_isdigit(int c);
