@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 20:55:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/20 19:26:31 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/23 16:12:58 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,9 @@ void	draw_minimap(t_data *data, t_m_map m_map)
 {
 	m_map.xstart = (int)(m_map.xstart / TILE_SIZE);
 	m_map.ystart = (int)(m_map.ystart / TILE_SIZE);
-	if (m_map.ystart < 0 || m_map.xstart < 0 || m_map.ystart > 200 \
-		|| m_map.xstart > 200)
+	if (m_map.ystart < 0 || m_map.xstart < 0 
+		|| m_map.ystart > data->height * TILE_SIZE \
+		|| m_map.xstart > data->width * TILE_SIZE)
 	{
 		mlx_put_pixel(data->image_win, m_map.i, m_map.j, \
 		ft_pixel(0, 0, 0, 255));
