@@ -4,7 +4,7 @@ NO ./textures/north_t.png
 SO ./textures/south_t.png
 WE ./textures/west_t.png
 EA ./textures/east_t.png
-C 14,11,246
+C 0,0,50
 F 95,95,95
 
               11111111                        11111111
