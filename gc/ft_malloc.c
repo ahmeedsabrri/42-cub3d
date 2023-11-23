@@ -6,11 +6,37 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 21:48:47 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/20 10:52:24 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/23 11:20:16 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_malloc.h"
+
+t_data1	*newmalloc2(void *data)
+{
+	t_data1	*n;
+
+	n = malloc(sizeof(t_data1));
+	return (n->data = data, n->next = NULL, n);
+}
+
+void	*ft_malloc2(size_t size, int mode)
+{
+	static t_data1	*head;
+	void			*data;
+
+	if (mode == 1)
+	{
+		data = malloc(size);
+		if (!data)
+			return (exit(1), data);
+		addfront2(&head, newmalloc2(data));
+		return (data);
+	}
+	if (!mode)
+		return (listclear2(&head), exit(0), NULL);
+	return (NULL);
+}
 
 void	*ft_malloc(size_t size, int mode)
 {

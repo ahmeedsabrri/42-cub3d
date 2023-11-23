@@ -6,11 +6,36 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 21:54:09 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/20 10:53:42 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/22 16:42:24 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_malloc.h"
+
+void	addfront2(t_data1 **head, t_data1 *new)
+{
+	if (*head)
+		new->next = *head;
+	*head = new;
+}
+
+void	listclear2(t_data1 **head)
+{
+	t_data1	*tmp;
+	t_data1	*ptr;
+
+	if (!head)
+		return ;
+	tmp = *head;
+	while (tmp)
+	{
+		ptr = tmp;
+		tmp = tmp->next;
+		free(ptr->data);
+		free(ptr);
+	}
+	*head = NULL;
+}
 
 t_malloc	*newmalloc(void *data)
 {

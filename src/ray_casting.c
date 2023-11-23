@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 21:47:33 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/20 10:40:57 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/23 11:20:48 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,7 @@ void	wall_projection(t_data *data)
 	colum = 0;
 	while (colum < WIDTH)
 	{
-		ray = malloc(sizeof(t_ray));
-		memset(ray, 0, sizeof(t_ray));
+		ray = ft_malloc2(sizeof(t_ray), 1);
 		ray->horzhit = 0;
 		ray->verthit = 0;
 		ray->distanceh = INT_MAX;
@@ -126,7 +125,6 @@ void	wall_projection(t_data *data)
 		vertical(data, ray, ray_start);
 		calculate_distence(ray, data, ray_start);
 		draw_wall(data, ray, colum);
-		free(ray);
 		ray_start += ray_inc;
 		colum++;
 	}

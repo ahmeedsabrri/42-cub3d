@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_casting_utils2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 13:30:03 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/19 22:12:16 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/23 11:34:38 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ void	projection_calcul(t_ray *ray)
 {
 	ray->project_dist = (WIDTH / 2) / tan(FOV / 2);
 	ray->project_plan = (ray->project_dist / ray->player_ray_dist) * TILE_SIZE;
-	ray->ystart = (HEIGHT / 2) - (ray->project_plan / 2);
-	ray->yend = (HEIGHT / 2) + (ray->project_plan / 2);
+	ray->ystart = (HEIGHT / 2) - ((int)ray->project_plan / 2);
+	ray->yend = (HEIGHT / 2) + ((int)ray->project_plan / 2);
 	if (ray->ystart < 0)
 		ray->ystart = 0;
 }

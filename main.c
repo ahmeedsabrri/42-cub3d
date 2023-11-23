@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 01:33:47 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/22 14:41:29 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/23 13:14:45 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,6 @@ int	parsing(char **av, t_data *data)
 		return (ft_error("Can't Opening The Map File\n"), 1);
 	info_line = get_next_line(fd);
 	infos = ft_malloc(sizeof(t_infos), 1);
-	if (!infos)
-		return (1);
 	init_infos(infos);
 	if (get_infos(&info_line, &infos, fd))
 		return (ft_error("Informations Error\n"), 1);
@@ -123,23 +121,20 @@ int	main(int ac, char **av)
 
 	if (ac != 2)
 		ft_error("Error: Should be one argument\n");
-	data = (t_data *)malloc(sizeof(t_data));
-	if (!data)
-		return (free(data), 1);
-	player = (t_player *)malloc(sizeof(t_player));
-	if (!player)
-		return (free(player), 1);
-	if (parsing(av, data))
-		return (ft_malloc(0, 2), 1);
+	data = (t_data *)ft_malloc(sizeof(t_data), 1);
+	player = (t_player *)ft_malloc(sizeof(t_player), 1);
+	if (!data || parsing(av, data))
+		return (ft_malloc(0, 0), 2);
 	data->width = width_size(data->map);
 	data->height = get_height(data->map);
 	player->rotat_angle = PI / 2;
 	player->side_direction = 0;
 	player->walk_direct = 0;
 	player->turn_direct = 0;
-	player->walkspeed = 8;
+	player->walkspeed = 6;
 	player->turnspeed = 3.00 * (M_PI / 180.0);
 	data->player = player;
 	init(data);
+	ft_malloc2(0, 0);
 	return (0);
 }

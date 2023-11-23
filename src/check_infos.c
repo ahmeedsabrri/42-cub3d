@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_infos.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 23:49:40 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/20 10:39:18 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/22 16:56:57 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,16 +116,12 @@ int	check_colors_valid(char *color)
 int	fill_rgb_colors(t_floor **floor, t_ceiling **ceiling, char *fl, char *cl)
 {
 	*floor = ft_malloc(sizeof(t_floor), 1);
-	if (!*floor)
-		return (1);
 	(*floor)->r = 0;
 	(*floor)->g = 0;
 	(*floor)->b = 0;
 	if (extract_rgb_floor(floor, fl))
 		return (1);
 	*ceiling = ft_malloc(sizeof(t_ceiling), 1);
-	if (!*ceiling)
-		return (1);
 	(*ceiling)->r = 0;
 	(*ceiling)->g = 0;
 	(*ceiling)->b = 0;

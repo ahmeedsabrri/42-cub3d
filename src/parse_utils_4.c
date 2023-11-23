@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_4.c                                          :+:      :+:    :+:   */
+/*   parse_utils_4.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/18 10:16:27 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/20 10:41:31 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/22 16:59:08 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ char	*ft_strdup(const char *s1)
 
 	i = 0;
 	new = (char *)ft_malloc(sizeof(char) * ft_strlen(s1) + 1, 1);
-	if (!new)
-		return (NULL);
 	while (*s1)
 		new[i++] = *s1++;
 	new[i] = '\0';
@@ -34,8 +32,6 @@ char	*ft_strdup_n(const char *s1)
 
 	i = 0;
 	new = (char *)ft_malloc(sizeof(char) * ft_strlen(s1) + 1, 1);
-	if (!new)
-		return (NULL);
 	while (*s1 != '\0' && *s1 != '\n')
 		new[i++] = *s1++;
 	new[i] = '\0';
@@ -74,8 +70,6 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 		len = s_len - start;
 	i = -1;
 	sub = ft_malloc(sizeof(char) * (len + 1), 1);
-	if (!sub)
-		return (NULL);
 	while (++i < len)
 		sub[i] = s[start + i];
 	sub[i] = '\0';

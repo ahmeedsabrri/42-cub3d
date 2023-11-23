@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 22:54:35 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/20 12:53:00 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/23 11:44:40 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,8 @@ typedef struct s_ray
 	t_dir	wall_deriction;
 	double	project_plan;
 	double	project_dist;
-	double	ystart;
-	double	yend;
+	int		ystart;
+	int		yend;
 	double	player_ray_dist;
 	double	xoffset;
 	double	yoffset;

@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   render_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:20:43 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/19 14:21:31 by abberkac         ###   ########.fr       */
+/*   Updated: 2023/11/23 13:20:15 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
+
+void	png_delete(t_data *data)
+{
+	mlx_delete_texture(data->north);
+	mlx_delete_texture(data->south);
+	mlx_delete_texture(data->west);
+	mlx_delete_texture(data->east);
+}
+
+void	init_textures2(t_data *data)
+{
+	data->no = png_to_dpointer(data->north);
+	data->so = png_to_dpointer(data->south);
+	data->we = png_to_dpointer(data->west);
+	data->ea = png_to_dpointer(data->east);
+}
 
 int	init_textures(t_data **data)
 {
@@ -44,11 +60,8 @@ void	init(t_data *data)
 	}
 	if (init_textures(&data))
 		exit(1);
+	init_textures2(data);
 	mlx_set_cursor_mode(data->mlx, MLX_MOUSE_HIDDEN);
-	data->no = png_to_dpointer(data->north);
-	data->so = png_to_dpointer(data->south);
-	data->we = png_to_dpointer(data->west);
-	data->ea = png_to_dpointer(data->east);
 	get_player_pos(data);
 	mlx_set_cursor_mode(data->mlx, MLX_MOUSE_HIDDEN);
 	mlx_image_to_window(data->mlx, data->image_win, 0, 0);
@@ -56,4 +69,5 @@ void	init(t_data *data)
 	mlx_loop_hook(data->mlx, ft_hook, data);
 	mlx_loop(data->mlx);
 	mlx_terminate(data->mlx);
+	png_delete(data);
 }

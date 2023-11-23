@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_casting_utils1.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 13:28:21 by asabri            #+#    #+#             */
-/*   Updated: 2023/11/20 21:07:15 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/22 16:59:38 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,10 @@ unsigned int	**png_to_dpointer(mlx_texture_t *img)
 	colors.i = 0;
 	colors.count = 0;
 	pixels = ft_malloc(sizeof(unsigned int *) * img->height, 1);
-	if (!pixels)
-		return (NULL);
 	while (colors.i < img->height)
 	{
 		colors.j = 0;
 		pixels[colors.i] = ft_malloc(sizeof(unsigned int) * img->width, 1);
-		if (!pixels[colors.i])
-			return (NULL);
 		while (colors.j < img->width)
 		{
 			set_color(&colors, img, pixels);
