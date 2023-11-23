@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abberkac <abberkac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:20:43 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/23 13:20:15 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/23 17:11:33 by abberkac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,6 @@ void	init(t_data *data)
 	mlx_key_hook(data->mlx, ft_keyfunc_pressed, data);
 	mlx_loop_hook(data->mlx, ft_hook, data);
 	mlx_loop(data->mlx);
-	mlx_terminate(data->mlx);
 	png_delete(data);
+	mlx_terminate(data->mlx);
 }
