@@ -6,6 +6,7 @@
         "string_view": "c",
         "vector": "c",
         "sstream": "c",
-        "cub3d.h": "c"
+        "cub3d.h": "c",
+        "ft_malloc.h": "c"
     }
 }

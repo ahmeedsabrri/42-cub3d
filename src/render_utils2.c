@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:20:43 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/23 13:26:42 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/24 14:34:20 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	init(t_data *data)
 	if (!(data->image_win))
 	{
 		mlx_close_window(data->mlx);
-		puts(mlx_strerror(mlx_errno));
 		return ((void)EXIT_FAILURE);
 	}
 	if (init_textures(&data))

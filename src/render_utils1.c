@@ -6,7 +6,7 @@
 /*   By: asabri <asabri@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 14:17:47 by abberkac          #+#    #+#             */
-/*   Updated: 2023/11/23 13:14:23 by asabri           ###   ########.fr       */
+/*   Updated: 2023/11/24 14:34:31 by asabri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ void	ft_hook(void *param)
 	if (!(data->image_win))
 	{
 		mlx_close_window(data->mlx);
-		puts(mlx_strerror(mlx_errno));
 		return ((void)EXIT_FAILURE);
 	}
 	mlx_image_to_window(data->mlx, data->image_win, 0, 0);
